@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="timer_information_lateral_width">64dp</dimen>
+    <dimen name="timer_information_height">48dp</dimen>
+    <dimen name="timer_information_textsize">24sp</dimen>
+</resources>
