@@ -1,0 +1,72 @@
+package bdisfer1410.gymapp.exercise.timer.view;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+
+import bdisfer1410.gymapp.R;
+
+public class TimerFragment extends Fragment {
+    //region Views
+    private CircularProgressIndicator exerciseProgress;
+    private ImageView exerciseIcon;
+    private TextView exerciseCounter, exerciseName, setCounter;
+    //endregion
+
+    public TimerFragment() {
+        super();
+    }
+
+    //region Initialization
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_timer, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        exerciseProgress = view.findViewById(R.id.exerciseProgress);
+        exerciseIcon = view.findViewById(R.id.exerciseIcon);
+        exerciseCounter = view.findViewById(R.id.exerciseCounter);
+        exerciseName = view.findViewById(R.id.exerciseName);
+        setCounter = view.findViewById(R.id.setCounter);
+
+        View containerView = view.findViewById(R.id.timerFragmentContainer);
+
+        // Ajustar tamaño dinámicamente cuando la vista esté lista
+        containerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                containerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                int size = Math.min(containerView.getWidth(), containerView.getHeight());
+                exerciseProgress.setIndicatorSize(size);
+            }
+        });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+    //endregion
+}
