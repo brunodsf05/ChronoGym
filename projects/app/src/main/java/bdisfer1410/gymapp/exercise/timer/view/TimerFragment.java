@@ -80,4 +80,42 @@ public class TimerFragment extends Fragment {
         }
     }
     //endregion
+
+    //region API: Basic
+    public void setExerciseProgressMax(int max) {
+        exerciseProgress.setMax(max);
+    }
+
+    public void setExerciseProgressValue(int value) {
+        exerciseProgress.setProgress(value);
+    }
+
+    public void setExerciseIconImage(int resId) {
+        exerciseIcon.setImageResource(resId);
+    }
+
+    public void setExerciseCounterText(String text) {
+        exerciseCounter.setText(text);
+    }
+
+    public void setExerciseCounterText(int resId) {
+        exerciseCounter.setText(resId);
+    }
+
+    public void setExerciseNameText(String text) {
+        exerciseName.setText(text);
+    }
+
+    public void setExerciseNameText(int resId) {
+        exerciseName.setText(resId);
+    }
+
+    public void setSetCounterText(String text) {
+        setCounter.setText(text);
+    }
+
+    public void setSetCounterText(int resId) {
+        setCounter.setText(resId);
+    }
+    //endregion
 }
