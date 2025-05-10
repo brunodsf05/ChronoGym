@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.util.OnFragmentReadyListener;
 
 public class TimerFragment extends Fragment {
     //region Views
@@ -23,6 +24,8 @@ public class TimerFragment extends Fragment {
     private ImageView exerciseIcon;
     private TextView exerciseCounter, exerciseName, setCounter;
     //endregion
+
+    private OnFragmentReadyListener listener;
 
     public TimerFragment() {
         super();
@@ -47,7 +50,7 @@ public class TimerFragment extends Fragment {
 
         View containerView = view.findViewById(R.id.timerFragmentContainer);
 
-        // Ajustar tamaño dinámicamente cuando la vista esté lista
+        // Adjust the size dynamically when this view is ready
         containerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -62,11 +65,19 @@ public class TimerFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        if (context instanceof OnFragmentReadyListener) {
+            listener = (OnFragmentReadyListener) context;
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        if (listener != null) {
+            listener.onFragmentReady();
+        }
     }
     //endregion
 }
