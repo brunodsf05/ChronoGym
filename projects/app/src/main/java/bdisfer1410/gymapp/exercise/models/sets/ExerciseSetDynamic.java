@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 
@@ -36,6 +37,13 @@ public class ExerciseSetDynamic extends ExerciseSet {
         timer.setExerciseProgressMax(msDuration);
         timer.setExerciseNameText(name);
         timer.setExerciseCounterText("0");
+
+        boolean doesFirstPoseHasNotIcon = numberOfPoses > 0 && transitions.get(0).getPose().getIcon() == null;
+
+        if (doesFirstPoseHasNotIcon) {
+            timer.setExerciseIconImage(R.drawable.ic_exercise_default);
+        }
+
         return msDuration;
     }
 
