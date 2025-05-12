@@ -55,9 +55,16 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
     @Override
     public void onFragmentReady() {
         Log.d("ExerciseActivity", "TimerFragment is ready to be used");
-        Log.d("ExerciseActivity", String.format(
-                "Starting an TimerAnimationQueue that lasts %dms", ExerciseMock.CALISTHENICS.calculateTotalDuration()
+        Log.d("ExerciseActivity", "Starting a TimerAnimationQueue");
+        Log.d("TimerAnimationQueue", String.format(
+                "TimerAnimationQueue lasts %dms", ExerciseMock.CALISTHENICS.calculateTotalDuration()
         ));
+
+        ExerciseMock.CALISTHENICS.animationCounter.forEach(
+                (timerAnimation, counter) -> Log.d("TimerAnimationQueue", String.format(
+                        "TimerAnimationQueue has: %s - %s", counter, timerAnimation
+                ))
+        );
         animationPlayer.start(ExerciseMock.CALISTHENICS);
     }
 }
