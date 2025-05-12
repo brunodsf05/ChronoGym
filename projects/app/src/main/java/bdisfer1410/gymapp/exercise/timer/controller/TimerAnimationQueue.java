@@ -13,16 +13,16 @@ import bdisfer1410.gymapp.util.Counter;
  * milliseconds.
  */
 public class TimerAnimationQueue implements Iterable<TimerAnimation> {
-    public List<TimerAnimation> animationQueue;
+    public List<TimerAnimation> queue;
     /**
      * Links any reference of {@link TimerAnimation} once to an integer.
      * Because this is a {@link HashMap}, the repeated {@link TimerAnimation} in the
-     * {@link TimerAnimationQueue#animationQueue} will be merged into the same counter.
+     * {@link TimerAnimationQueue#queue} will be merged into the same counter.
      */
-    public HashMap<TimerAnimation, Counter> animationCounter;
+    public HashMap<TimerAnimation, Counter> counter;
 
     public TimerAnimationQueue(List<TimerAnimation> animationList) {
-        this.animationQueue = animationList;
+        this.queue = animationList;
         initializeAnimationCounter();
     }
 
@@ -32,7 +32,7 @@ public class TimerAnimationQueue implements Iterable<TimerAnimation> {
      * @return The time in milliseconds.
      */
     public int calculateTotalDuration() {
-        return animationQueue.stream()
+        return queue.stream()
                 .mapToInt(TimerAnimation::calculateDuration)
                 .sum();
     }
@@ -40,17 +40,17 @@ public class TimerAnimationQueue implements Iterable<TimerAnimation> {
 
     //region: Counter
     /**
-     * Restarts the {@link TimerAnimationQueue#animationCounter}, setting every value to zero.
+     * Restarts the {@link TimerAnimationQueue#counter}, setting every value to zero.
      */
     public void initializeAnimationCounter() {
-        animationCounter = new HashMap<>();
+        counter = new HashMap<>();
 
-        animationQueue.forEach(
+        queue.forEach(
                 timerAnimation -> {
-                    Counter counter = animationCounter.getOrDefault(timerAnimation, new Counter(0));
+                    Counter counter = this.counter.getOrDefault(timerAnimation, new Counter(0));
                     if (counter == null) return;
                     counter.max += 1;
-                    animationCounter.put(timerAnimation, counter);
+                    this.counter.put(timerAnimation, counter);
                 }
         );
     }
@@ -59,6 +59,6 @@ public class TimerAnimationQueue implements Iterable<TimerAnimation> {
     @NonNull
     @Override
     public Iterator<TimerAnimation> iterator() {
-        return animationQueue.iterator();
+        return queue.iterator();
     }
 }

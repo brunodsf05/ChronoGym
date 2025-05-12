@@ -35,12 +35,12 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
                 @Override
                 public void onAnimationStart(TimerAnimation animation) {
                     Log.d("TimerAnimationPlayerListener", "onAnimationStart() was called!");
-                    Counter animationCounter = animationQueue.animationCounter.get(animation);
+                    Counter animationCounter = animationQueue.counter.get(animation);
                     if (animationCounter == null) return;
 
                     animationCounter.value += 1;
                     timerFragment.setSetCounterText(
-                            String.valueOf(animationQueue.animationCounter.get(animation))
+                            String.valueOf(animationQueue.counter.get(animation))
                     );
                 }
 
@@ -74,7 +74,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
                 "TimerAnimationQueue lasts %dms", animationQueue.calculateTotalDuration()
         ));
 
-        animationQueue.animationCounter.forEach(
+        animationQueue.counter.forEach(
                 (timerAnimation, counter) -> Log.d("TimerAnimationQueue", String.format(
                         "TimerAnimationQueue has: %s - %s", counter, timerAnimation
                 ))
