@@ -44,6 +44,9 @@ public class ExerciseSetDynamic extends ExerciseSet {
             timer.setExerciseIconImage(R.drawable.ic_exercise_default);
         }
 
+        poseIndex = 0;
+        repsDone = 0;
+
         return msDuration;
     }
 
