@@ -79,5 +79,10 @@ public class ExerciseSetDynamic extends ExerciseSet {
 
         return repsDone >= reps ? 0 : transition.getMsToNext();
     }
+
+    @Override
+    public int calculateDuration() {
+        return msDuration;
+    }
     //endregion
 }
