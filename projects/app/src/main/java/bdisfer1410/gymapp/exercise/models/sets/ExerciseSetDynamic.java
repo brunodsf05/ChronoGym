@@ -69,7 +69,7 @@ public class ExerciseSetDynamic extends ExerciseSet {
         // Update timer with current transition
         Integer icon = transition.getPose().getIcon();
         if (icon != null) timer.setExerciseIconImage(icon);
-        timer.setSetCounterText("");
+
         // Manage reps cycle
         if (++poseIndex >= numberOfPoses) {
             repsDone++;
