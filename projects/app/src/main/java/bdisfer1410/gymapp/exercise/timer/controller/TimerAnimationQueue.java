@@ -16,6 +16,16 @@ public class TimerAnimationQueue implements Iterable<TimerAnimation> {
         this.animationQueue = animationList;
     }
 
+    /**
+     * The sum of all {@link TimerAnimation} durations.
+     * @return The time in milliseconds.
+     */
+    public int calculateTotalDuration() {
+        return animationQueue.stream()
+                .mapToInt(TimerAnimation::calculateDuration)
+                .sum();
+    }
+
     @NonNull
     @Override
     public Iterator<TimerAnimation> iterator() {

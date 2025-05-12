@@ -46,4 +46,14 @@ public interface TimerAnimation {
      *         if it's zero or less then it's finished.
      */
     int onTick(@NonNull TimerFragment timer);
+
+    /**
+     * Calculates the total time that it takes to finish this animation.
+     * Keep in mind that this time is calculated and may not be accurate,
+     * especially since the duration of {@link TimerAnimation#onTick()} is not always a fixed time.
+     *
+     * @return The total time in milliseconds.
+     */
+    int calculateDuration();
+
 }
