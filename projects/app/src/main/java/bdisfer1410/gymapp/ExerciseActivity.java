@@ -17,6 +17,7 @@ import bdisfer1410.gymapp.util.OnFragmentReadyListener;
 
 public class ExerciseActivity extends AppCompatActivity implements OnFragmentReadyListener {
     private TimerAnimationQueue animationQueue;
+    private TimerFragment timerFragment;
     private TimerAnimationPlayer animationPlayer;
 
 
@@ -26,7 +27,8 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
         setContentView(R.layout.activity_exercise);
 
         if (savedInstanceState == null) {
-            loadTimerFragment(new TimerFragment());
+            timerFragment = new TimerFragment();
+            loadTimerFragment(timerFragment);
             animationQueue = ExerciseMock.CALISTHENICS;
             animationPlayer.setListener(new TimerAnimationPlayerListener() {
                 @Override
