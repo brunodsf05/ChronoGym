@@ -52,5 +52,10 @@ public class ExerciseRest implements TimerAnimation {
     public int onTick(@NonNull TimerFragment timer) {
         return 0;
     }
+
+    @Override
+    public int calculateDuration() {
+        return msDuration;
+    }
     //endregion
 }
