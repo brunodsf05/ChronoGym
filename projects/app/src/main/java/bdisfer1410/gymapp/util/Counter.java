@@ -1,5 +1,9 @@
 package bdisfer1410.gymapp.util;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 /**
  * Stores the pair: Value, Max.
  */
@@ -13,5 +17,12 @@ public class Counter {
 
     public void add(int addedToValue) {
         this.value += addedToValue;
+    }
+
+    @Override
+    @NonNull
+    @SuppressLint("DefaultLocale")
+    public String toString() {
+        return String.format("%d/%d", value, max);
     }
 }
