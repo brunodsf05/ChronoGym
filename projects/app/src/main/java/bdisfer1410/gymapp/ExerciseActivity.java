@@ -11,11 +11,14 @@ import bdisfer1410.gymapp.exercise.mock.ExerciseMock;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayer;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayerListener;
+import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationQueue;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.OnFragmentReadyListener;
 
 public class ExerciseActivity extends AppCompatActivity implements OnFragmentReadyListener {
+    private TimerAnimationQueue animationQueue;
     private TimerAnimationPlayer animationPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
 
         if (savedInstanceState == null) {
             loadTimerFragment(new TimerFragment());
+            animationQueue = ExerciseMock.CALISTHENICS;
             animationPlayer.setListener(new TimerAnimationPlayerListener() {
                 @Override
                 public void onAnimationStart(TimerAnimation animation) {
@@ -57,14 +61,15 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
         Log.d("ExerciseActivity", "TimerFragment is ready to be used");
         Log.d("ExerciseActivity", "Starting a TimerAnimationQueue");
         Log.d("TimerAnimationQueue", String.format(
-                "TimerAnimationQueue lasts %dms", ExerciseMock.CALISTHENICS.calculateTotalDuration()
+                "TimerAnimationQueue lasts %dms", animationQueue.calculateTotalDuration()
         ));
 
-        ExerciseMock.CALISTHENICS.animationCounter.forEach(
+        animationQueue.animationCounter.forEach(
                 (timerAnimation, counter) -> Log.d("TimerAnimationQueue", String.format(
                         "TimerAnimationQueue has: %s - %s", counter, timerAnimation
                 ))
         );
-        animationPlayer.start(ExerciseMock.CALISTHENICS);
+
+        animationPlayer.start(animationQueue);
     }
 }
