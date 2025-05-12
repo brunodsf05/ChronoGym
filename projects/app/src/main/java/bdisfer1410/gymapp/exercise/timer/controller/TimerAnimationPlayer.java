@@ -40,7 +40,7 @@ public class TimerAnimationPlayer {
     }
 
     //region Player
-    public void start(List<TimerAnimation> animationQueue) {
+    public void start(Iterable<TimerAnimation> animationQueue) {
         this.animationQueue = animationQueue.iterator();
         play();
     }
