@@ -8,9 +8,10 @@ import bdisfer1410.gymapp.exercise.models.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
+import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationQueue;
 
 public class ExerciseMock {
-    public static final List<TimerAnimation> CALISTHENICS;
+    public static final TimerAnimationQueue CALISTHENICS;
 
     static {
         ExerciseSetDynamic pushups = new ExerciseSetDynamic(
@@ -30,10 +31,10 @@ public class ExerciseMock {
 
         ExerciseRest rest = new ExerciseRest(6_000);
 
-        CALISTHENICS  = List.of(
+        CALISTHENICS = new TimerAnimationQueue(List.of(
                 pushups, rest, plank, rest,
                 pushups, rest, plank, rest,
                 pushups, rest, plank
-        );
+        ));
     }
 }
