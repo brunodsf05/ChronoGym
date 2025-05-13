@@ -10,19 +10,12 @@ import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.BeepGenerator;
 
 public class ExerciseRest implements TimerAnimation {
-    private int msDuration;
-    private int msBeforeBeepStart = 10_000;
-    private boolean hasToEmitBeep = false;
+    private final int msDuration;
+    private final int msBeforeBeepStart = 10_000;
+    private int msToEmitBeep;
+    private boolean hasToEmitBeep;
 
     public ExerciseRest(int msDuration) {
-        setMsDuration(msDuration);
-    }
-
-    public int getMsDuration() {
-        return msDuration;
-    }
-
-    public void setMsDuration(int msDuration) {
         this.msDuration = Math.max(msDuration, 0);
     }
 
@@ -33,7 +26,10 @@ public class ExerciseRest implements TimerAnimation {
         timer.setExerciseProgressMax(msDuration);
         timer.setExerciseIconImage(R.drawable.ic_exercise_rest);
 
-        if (msDuration < msBeforeBeepStart) msBeforeBeepStart = 0; // Cancel beep
+        hasToEmitBeep = false;
+        msToEmitBeep = (msDuration < msBeforeBeepStart)
+                ? 0
+                : msDuration - msBeforeBeepStart;
 
         return msDuration;
     }
@@ -62,7 +58,7 @@ public class ExerciseRest implements TimerAnimation {
         }
 
         hasToEmitBeep = true;
-        return msBeforeBeepStart;
+        return msToEmitBeep;
     }
 
     @Override
