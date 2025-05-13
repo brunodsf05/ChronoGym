@@ -11,11 +11,15 @@ import java.util.Map;
 public class BeepGenerator {
     public enum Type {
         NORMAL,
+        HIGH,
+        WARNING,
     }
 
     private static final ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     private static final Map<Type, Integer> tonesByType = Map.of(
-            Type.NORMAL, ToneGenerator.TONE_PROP_BEEP
+            Type.NORMAL, ToneGenerator.TONE_PROP_BEEP,
+            Type.HIGH, ToneGenerator.TONE_CDMA_PIP,
+            Type.WARNING, ToneGenerator.TONE_CDMA_ALERT_AUTOREDIAL_LITE
     );
 
     /**
