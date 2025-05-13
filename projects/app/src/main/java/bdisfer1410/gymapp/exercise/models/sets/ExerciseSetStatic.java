@@ -9,6 +9,7 @@ import java.util.Objects;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
+import bdisfer1410.gymapp.util.BeepGenerator;
 
 public class ExerciseSetStatic extends ExerciseSet {
     private final ExercisePose pose;
@@ -28,12 +29,13 @@ public class ExerciseSetStatic extends ExerciseSet {
         timer.setExerciseIconImage(
                 Objects.requireNonNullElse(pose.getIcon(), R.drawable.ic_exercise_default)
         );
+        BeepGenerator.emit(BeepGenerator.Type.NORMAL);
         return msDuration;
     }
 
     @Override
     public void onEnd(@NonNull TimerFragment timer) {
-
+        BeepGenerator.emit(BeepGenerator.Type.HIGH);
     }
 
     @Override

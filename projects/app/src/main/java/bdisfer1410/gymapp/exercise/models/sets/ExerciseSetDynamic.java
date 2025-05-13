@@ -10,6 +10,7 @@ import java.util.List;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
+import bdisfer1410.gymapp.util.BeepGenerator;
 
 public class ExerciseSetDynamic extends ExerciseSet {
     private final List<ExerciseTransition> transitions;
@@ -52,7 +53,7 @@ public class ExerciseSetDynamic extends ExerciseSet {
 
     @Override
     public void onEnd(@NonNull TimerFragment timer) {
-
+        BeepGenerator.emit(BeepGenerator.Type.HIGH);
     }
 
     @Override
@@ -77,7 +78,13 @@ public class ExerciseSetDynamic extends ExerciseSet {
             timer.setExerciseCounterText(String.valueOf(repsDone));
         }
 
-        return repsDone >= reps ? 0 : transition.getMsToNext();
+        // Manage onTick cycle
+        if (repsDone >= reps) {
+            return 0;
+        }
+
+        BeepGenerator.emit(BeepGenerator.Type.NORMAL);
+        return transition.getMsToNext();
     }
 
     @Override
