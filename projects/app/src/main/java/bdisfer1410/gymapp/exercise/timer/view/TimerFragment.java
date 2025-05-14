@@ -81,7 +81,7 @@ public class TimerFragment extends Fragment {
     }
     //endregion
 
-    //region API: Basic
+    //region Visual API: Getters
     public void setExerciseProgressMax(int max) {
         exerciseProgress.setMax(max);
     }
@@ -116,6 +116,12 @@ public class TimerFragment extends Fragment {
 
     public void setSetCounterText(int resId) {
         setCounter.setText(resId);
+    }
+    //endregion
+
+    //region Visual API: Getters
+    public String getExerciseNameText() {
+        return this.exerciseName.getText().toString();
     }
     //endregion
 }
