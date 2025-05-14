@@ -15,6 +15,7 @@ import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationQueue;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.Counter;
 import bdisfer1410.gymapp.util.OnFragmentReadyListener;
+import bdisfer1410.gymapp.util.Voice;
 
 public class ExerciseActivity extends AppCompatActivity implements OnFragmentReadyListener {
     private TimerAnimationQueue animationQueue;
@@ -35,6 +36,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
                 @Override
                 public void onAnimationStart(TimerAnimation animation) {
                     Log.d("TimerAnimationPlayerListener", "onAnimationStart() was called!");
+
+                    Voice.get().say(timerFragment.getExerciseNameText());
+
                     Counter animationCounter = animationQueue.counter.get(animation);
                     if (animationCounter == null) return;
 
