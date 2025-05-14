@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.exercise;
+package bdisfer1410.gymapp.activity;
 
 import android.os.Bundle;
 import android.util.Log;
