@@ -1,9 +1,16 @@
 package bdisfer1410.gymapp.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -28,6 +35,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         if (savedInstanceState == null) {
             timerFragment = new TimerFragment();
