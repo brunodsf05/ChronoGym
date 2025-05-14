@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp;
+package bdisfer1410.gymapp.exercise;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.mock.ExerciseMock;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayer;

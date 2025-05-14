@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp;
+package bdisfer1410.gymapp.exercise;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.util.Voice;
 
 /**
