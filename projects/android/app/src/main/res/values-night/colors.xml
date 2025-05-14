@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color  name="bgGradientStart">@color/material_dynamic_primary10</color >
+    <color  name="bgGradientEnd">@color/material_dynamic_primary0</color>
+</resources>
