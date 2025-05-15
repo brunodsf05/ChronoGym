@@ -37,10 +37,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
         setContentView(R.layout.activity_exercise);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        animationQueue = ExerciseMock.CALISTHENICS;
+
         if (savedInstanceState == null) {
             timerFragment = new TimerFragment();
             loadTimerFragment(timerFragment);
-            animationQueue = ExerciseMock.CALISTHENICS;
             animationPlayer.setListener(new TimerAnimationPlayerListener() {
                 @Override
                 public void onAnimationStart(TimerAnimation animation) {
@@ -81,6 +82,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
 
     @Override
     public void onFragmentReady() {
+        if (animationQueue == null || animationPlayer == null) {
+            Log.e("TODO", "On closing, save current info (index, post delayed remaining time, etc...) and restore it");
+            return;
+        }
+
         Log.d("ExerciseActivity", "TimerFragment is ready to be used");
         Log.d("ExerciseActivity", "Starting a TimerAnimationQueue");
         Log.d("TimerAnimationQueue", String.format(
