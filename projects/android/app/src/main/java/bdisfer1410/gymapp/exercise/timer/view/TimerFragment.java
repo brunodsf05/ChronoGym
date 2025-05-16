@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import bdisfer1410.gymapp.R;
-import bdisfer1410.gymapp.util.OnFragmentReadyListener;
 
 public class TimerFragment extends Fragment {
     //region Views
@@ -24,8 +23,6 @@ public class TimerFragment extends Fragment {
     private ImageView exerciseIcon;
     private TextView exerciseCounter, exerciseName, setCounter;
     //endregion
-
-    private OnFragmentReadyListener listener;
 
     public TimerFragment() {
         super();
@@ -60,24 +57,6 @@ public class TimerFragment extends Fragment {
                 exerciseProgress.setIndicatorSize(size);
             }
         });
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if (context instanceof OnFragmentReadyListener) {
-            listener = (OnFragmentReadyListener) context;
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        if (listener != null) {
-            listener.onFragmentReady();
-        }
     }
     //endregion
 

@@ -1,16 +1,10 @@
 package bdisfer1410.gymapp.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -22,10 +16,9 @@ import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayerListener
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationQueue;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.Counter;
-import bdisfer1410.gymapp.util.OnFragmentReadyListener;
 import bdisfer1410.gymapp.util.Voice;
 
-public class ExerciseActivity extends AppCompatActivity implements OnFragmentReadyListener {
+public class ExerciseActivity extends AppCompatActivity {
     private TimerAnimationQueue animationQueue;
     private TimerFragment timerFragment;
     private TimerAnimationPlayer animationPlayer;
@@ -71,17 +64,10 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
         }
     }
 
-    private void loadTimerFragment(TimerFragment timerFragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragmentContainer, timerFragment);
-        transaction.commit();
-
-        animationPlayer = new TimerAnimationPlayer(timerFragment);
-    }
-
     @Override
-    public void onFragmentReady() {
+    protected void onStart() {
+        super.onStart();
+
         if (animationQueue == null || animationPlayer == null) {
             Log.e("TODO", "On closing, save current info (index, post delayed remaining time, etc...) and restore it");
             return;
@@ -100,5 +86,14 @@ public class ExerciseActivity extends AppCompatActivity implements OnFragmentRea
         );
 
         animationPlayer.start(animationQueue);
+    }
+
+    private void loadTimerFragment(TimerFragment timerFragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragmentContainer, timerFragment);
+        transaction.commit();
+
+        animationPlayer = new TimerAnimationPlayer(timerFragment);
     }
 }
