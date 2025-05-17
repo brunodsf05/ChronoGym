@@ -6,21 +6,22 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.mock.ExerciseMock;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayer;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayerListener;
-import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
+import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationPlayerState;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.Counter;
 import bdisfer1410.gymapp.util.Voice;
 
 public class ExerciseActivity extends AppCompatActivity {
-    private TimerAnimationQueue queue;
     private TimerFragment timer;
     private TimerAnimationPlayer player;
+    private TimerAnimationPlayerState state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,37 +29,46 @@ public class ExerciseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-
-
-        queue = ExerciseMock.CALISTHENICS;
+        state = new ViewModelProvider(this).get(TimerAnimationPlayerState.class);
 
         if (savedInstanceState == null) {
-            initializeTimer();
+            state.animationQueue = ExerciseMock.CALISTHENICS;
         }
+
+        state.initialize();
+        initializeTimer();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (queue == null || player == null) {
-            Log.e("TODO", "On closing, save current info (index, post delayed remaining time, etc...) and restore it");
+        if (player == null) {
+            Log.e("ExerciseActivity", "onStart() didn't receive nonNull player, exiting...");
             return;
         }
 
         Log.d("ExerciseActivity", "TimerFragment is ready to be used");
         Log.d("ExerciseActivity", "Starting a TimerAnimationQueue");
         Log.d("TimerAnimationQueue", String.format(
-                "TimerAnimationQueue lasts %dms", queue.calculateTotalDuration()
+                "TimerAnimationQueue lasts %dms", state.animationQueue.calculateTotalDuration()
         ));
 
-        queue.counter.forEach(
+        state.animationQueue.counter.forEach(
                 (timerAnimation, counter) -> Log.d("TimerAnimationQueue", String.format(
                         "TimerAnimationQueue has: %s - %s", counter, timerAnimation
                 ))
         );
 
-        player.start(queue);
+        player.play();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (player != null)
+            player.stop();
     }
 
     private void initializeTimer() {
@@ -71,8 +81,12 @@ public class ExerciseActivity extends AppCompatActivity {
                 .replace(R.id.fragmentContainer, timer)
                 .commitNow();
 
+        // Cancel previous player processes
+        if (player != null)
+            player.stop();
+
         // Link animation player to timer
-        player = new TimerAnimationPlayer(timer);
+        player = new TimerAnimationPlayer(timer, state);
 
         player.setListener(new TimerAnimationPlayerListener() {
             @Override
@@ -81,12 +95,12 @@ public class ExerciseActivity extends AppCompatActivity {
 
                 Voice.get().say(timer.getExerciseNameText());
 
-                Counter animationCounter = queue.counter.get(animation);
+                Counter animationCounter = state.animationQueue.counter.get(animation);
                 if (animationCounter == null) return;
 
                 animationCounter.value += 1;
                 timer.setSetCounterText(
-                        String.valueOf(queue.counter.get(animation))
+                        String.valueOf(state.animationQueue.counter.get(animation))
                 );
             }
 

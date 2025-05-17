@@ -7,11 +7,15 @@ import bdisfer1410.gymapp.exercise.models.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.sets.ExerciseSetStatic;
-import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
-import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationQueue;
+import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 
 public class ExerciseMock {
     public static final TimerAnimationQueue CALISTHENICS;
+    public static final TimerAnimationQueue TIMERS = new TimerAnimationQueue(List.of(
+            new ExerciseSetStatic("Rojo", new ExercisePose("", null), 10_000),
+            new ExerciseSetStatic("Verde", new ExercisePose("", null), 10_000),
+            new ExerciseSetStatic("Azul", new ExercisePose("", null), 10_000)
+    ));
 
     static {
         ExerciseSetDynamic pushups = new ExerciseSetDynamic(
