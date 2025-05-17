@@ -33,34 +33,7 @@ public class ExerciseActivity extends AppCompatActivity {
         animationQueue = ExerciseMock.CALISTHENICS;
 
         if (savedInstanceState == null) {
-            timerFragment = new TimerFragment();
-            loadTimerFragment(timerFragment);
-            animationPlayer.setListener(new TimerAnimationPlayerListener() {
-                @Override
-                public void onAnimationStart(TimerAnimation animation) {
-                    Log.d("TimerAnimationPlayerListener", "onAnimationStart() was called!");
-
-                    Voice.get().say(timerFragment.getExerciseNameText());
-
-                    Counter animationCounter = animationQueue.counter.get(animation);
-                    if (animationCounter == null) return;
-
-                    animationCounter.value += 1;
-                    timerFragment.setSetCounterText(
-                            String.valueOf(animationQueue.counter.get(animation))
-                    );
-                }
-
-                @Override
-                public void onAnimationEnd(TimerAnimation animation) {
-                    Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
-                }
-
-                @Override
-                public void onQueueEnd() {
-                    Log.d("TimerAnimationPlayerListener", "onQueueEnd() was called!");
-                }
-            });
+            initializeTimer();
         }
     }
 
@@ -88,12 +61,44 @@ public class ExerciseActivity extends AppCompatActivity {
         animationPlayer.start(animationQueue);
     }
 
-    private void loadTimerFragment(TimerFragment timerFragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragmentContainer, timerFragment);
-        transaction.commit();
+    private void initializeTimer() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
 
+        // Add timer fragment
+        timerFragment = new TimerFragment();
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, timerFragment)
+                .commitNow();
+
+        // Link animation player to timer
         animationPlayer = new TimerAnimationPlayer(timerFragment);
+
+        animationPlayer.setListener(new TimerAnimationPlayerListener() {
+            @Override
+            public void onAnimationStart(TimerAnimation animation) {
+                Log.d("TimerAnimationPlayerListener", "onAnimationStart() was called!");
+
+                Voice.get().say(timerFragment.getExerciseNameText());
+
+                Counter animationCounter = animationQueue.counter.get(animation);
+                if (animationCounter == null) return;
+
+                animationCounter.value += 1;
+                timerFragment.setSetCounterText(
+                        String.valueOf(animationQueue.counter.get(animation))
+                );
+            }
+
+            @Override
+            public void onAnimationEnd(TimerAnimation animation) {
+                Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
+            }
+
+            @Override
+            public void onQueueEnd() {
+                Log.d("TimerAnimationPlayerListener", "onQueueEnd() was called!");
+            }
+        });
     }
 }
