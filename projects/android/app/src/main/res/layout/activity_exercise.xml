@@ -22,11 +22,13 @@
         tools:layout="@layout/fragment_timer" />
 
     <Button
-        android:id="@+id/buttonPause"
+        android:id="@+id/buttonToggleReproduction"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/timer_information_vertical_padding"
-        android:text="Button"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/activity_exercise_pause"
+        app:icon="@drawable/ic_pause"
         app:layout_constraintEnd_toEndOf="@+id/fragmentContainer"
         app:layout_constraintStart_toStartOf="@+id/fragmentContainer"
         app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />

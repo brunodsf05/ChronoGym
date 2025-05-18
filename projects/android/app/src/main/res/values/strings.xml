@@ -2,4 +2,7 @@
     <string name="app_name">ChronoGym</string>
 
     <string name="model_exercise_rest">Descanso</string>
+
+    <!-- UI: ExerciseActivity -->
+    <string name="activity_exercise_pause">Pausa</string>
 </resources>

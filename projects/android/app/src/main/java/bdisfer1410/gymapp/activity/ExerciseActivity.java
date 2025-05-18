@@ -3,6 +3,7 @@ package bdisfer1410.gymapp.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -19,9 +20,17 @@ import bdisfer1410.gymapp.util.Counter;
 import bdisfer1410.gymapp.util.Voice;
 
 public class ExerciseActivity extends AppCompatActivity {
+    //region Timer
     private TimerFragment timer;
     private TimerAnimationPlayer player;
     private TimerAnimationPlayerState state;
+    //endregion
+    //region UI
+    private Button buttonToggleReproduction;
+    //endregion
+    //region State
+    private boolean isPlaying = true;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +38,28 @@ public class ExerciseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        // State
         state = new ViewModelProvider(this).get(TimerAnimationPlayerState.class);
 
         if (savedInstanceState == null) {
             state.animationQueue = ExerciseMock.CALISTHENICS;
         }
 
+        // UI
+        buttonToggleReproduction = findViewById(R.id.buttonToggleReproduction);
+        buttonToggleReproduction.setOnClickListener(v -> {
+            if (isPlaying) {
+                player.stop();
+            }
+            else {
+                player.play();
+                buttonToggleReproduction.setEnabled(false); // TODO: Fix pausing logic & math
+            }
+
+            isPlaying = !isPlaying;
+        });
+
+        // Timer
         state.initialize();
         initializeTimer();
     }
@@ -107,6 +132,7 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(TimerAnimation animation) {
                 Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
+                buttonToggleReproduction.setEnabled(true); // TODO: Fix pausing logic & math
             }
 
             @Override
