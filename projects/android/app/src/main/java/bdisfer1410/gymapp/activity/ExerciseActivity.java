@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayer;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayerListener;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationPlayerState;
+import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.Counter;
 import bdisfer1410.gymapp.util.Voice;
@@ -45,7 +47,16 @@ public class ExerciseActivity extends AppCompatActivity {
         state = new ViewModelProvider(this).get(TimerAnimationPlayerState.class);
 
         if (savedInstanceState == null) {
-            state.animationQueue = ExerciseMock.CALISTHENICS;
+            Object obj = getIntent().getSerializableExtra("queue");
+
+            if (!(obj instanceof TimerAnimationQueue)){
+                Log.w("ExerciseActivity", "Didn't receive valid TimerAnimationQueue from Intent");
+                Toast.makeText(this, R.string.activity_exercise_error_invalid_intent, Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+
+            state.animationQueue = (TimerAnimationQueue) obj;
         }
 
         initializeGUI();

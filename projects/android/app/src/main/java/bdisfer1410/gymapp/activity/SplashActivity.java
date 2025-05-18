@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void goToNextActivity() {
-        Intent intent = new Intent(SplashActivity.this, ExerciseActivity.class);
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish(); // Close this activity
     }

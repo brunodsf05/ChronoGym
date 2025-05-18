@@ -5,4 +5,5 @@
 
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_pause">Pausa</string>
+    <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
 </resources>
