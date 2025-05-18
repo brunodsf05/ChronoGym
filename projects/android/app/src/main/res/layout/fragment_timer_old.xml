@@ -10,75 +10,74 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/exerciseProgress"
+
         style="@style/Widget.Material3.CircularProgressIndicator"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
         android:indeterminate="false"
         android:progress="50"
         app:indicatorSize="300dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:trackColor="?colorSurfaceContainer"
         app:trackCornerRadius="8dp"
-        app:trackThickness="@dimen/timer_track_thickness" />
+        app:trackThickness="24dp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/exerciseCounter"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/timer_information_padding"
-        android:layout_marginTop="@dimen/timer_information_padding"
-        android:layout_marginEnd="@dimen/timer_information_padding"
-        android:layout_marginBottom="@dimen/timer_information_padding"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeTextType="uniform"
+        android:ellipsize="none"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="64dp"
         android:gravity="center"
-        android:orientation="vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:requiresFadingEdge="horizontal"
+        android:singleLine="true"
+        android:text="0"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/exerciseProgress"
         app:layout_constraintEnd_toEndOf="@+id/exerciseProgress"
         app:layout_constraintStart_toStartOf="@+id/exerciseProgress"
-        app:layout_constraintTop_toTopOf="@+id/exerciseProgress">
+        app:layout_constraintTop_toTopOf="@+id/exerciseProgress"
+        tools:ignore="HardcodedText" />
 
-        <!-- Imagen centrada en su contenedor -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="@dimen/timer_information_height"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/exerciseProgress"
+        app:layout_constraintEnd_toEndOf="@+id/exerciseProgress"
+        app:layout_constraintStart_toStartOf="@+id/exerciseProgress">
+
         <ImageView
             android:id="@+id/exerciseIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.8"
-            android:adjustViewBounds="true"
-            android:alpha="0.7"
-            android:scaleType="fitXY"
+            android:layout_width="@dimen/timer_information_lateral_width"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:scaleType="fitStart"
             android:src="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/exerciseProgress"
+            app:layout_constraintTop_toTopOf="@+id/textView"
             app:tint="?attr/colorOnSurfaceVariant"
             tools:ignore="ContentDescription,ImageContrastCheck" />
 
-        <!-- Texto central con peso configurable desde dimens -->
-        <TextView
-            android:id="@+id/exerciseCounter"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="@dimen/timer_counter_weight"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="none"
-            android:fadingEdge="horizontal"
-            android:fadingEdgeLength="64dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:requiresFadingEdge="horizontal"
-            android:singleLine="true"
-            android:text="0"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
-
-        <!-- Estos dos juntos ocupan el mismo alto que la imagen -->
         <TextView
             android:id="@+id/exerciseName"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:alpha="0.7"
-            android:autoSizeTextType="uniform"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:ellipsize="none"
             android:fadingEdge="horizontal"
             android:fadingEdgeLength="64dp"
@@ -87,23 +86,29 @@
             android:requiresFadingEdge="horizontal"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="¿???"
+            android:text="\???"
             android:textSize="@dimen/timer_information_textsize"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/exerciseProgress"
+            app:layout_constraintEnd_toEndOf="@+id/exerciseProgress"
+            app:layout_constraintStart_toStartOf="@+id/exerciseProgress"
             tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/setCounter"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:alpha="0.7"
-            android:autoSizeTextType="uniform"
-            android:gravity="center"
+            android:layout_width="@dimen/timer_information_lateral_width"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center|right"
             android:singleLine="true"
             android:text="…/…"
             android:textSize="@dimen/timer_information_textsize"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/exerciseProgress"
+            app:layout_constraintEnd_toEndOf="@+id/exerciseProgress"
+            app:layout_constraintStart_toStartOf="@+id/exerciseProgress"
             tools:ignore="HardcodedText,RtlHardcoded,TextSizeCheck" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
