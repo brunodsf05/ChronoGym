@@ -165,7 +165,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
         buttonReturn = findViewById(R.id.buttonReturn);
         buttonReturn.setOnClickListener(v -> {
-
+            finish();
         });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
