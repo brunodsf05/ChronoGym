@@ -3,7 +3,10 @@ package bdisfer1410.gymapp.activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -12,8 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.List;
+
 import bdisfer1410.gymapp.R;
-import bdisfer1410.gymapp.exercise.mock.ExerciseMock;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayer;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayerListener;
@@ -30,7 +34,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private TimerAnimationPlayerState state;
     //endregion
     //region UI
-    private Button buttonToggleReproduction;
+    private Button buttonToggleReproduction, buttonReturn;
     //endregion
     //region State
     private boolean isPlaying = true;
@@ -140,6 +144,7 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onQueueEnd() {
                 Log.d("TimerAnimationPlayerListener", "onQueueEnd() was called!");
+                showFinalDialog();
             }
         });
     }
@@ -156,6 +161,11 @@ public class ExerciseActivity extends AppCompatActivity {
             }
 
             isPlaying = !isPlaying;
+        });
+
+        buttonReturn = findViewById(R.id.buttonReturn);
+        buttonReturn.setOnClickListener(v -> {
+
         });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -185,5 +195,50 @@ public class ExerciseActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showFinalDialog() {
+        View timerFragmentContainer = findViewById(R.id.fragmentContainer);
+        List<View> invisibleText = List.of(findViewById(R.id.textTitleFinished), findViewById(R.id.textMessageFinished));
+
+        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        Animation fadeIn1 = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation fadeIn2 = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                buttonToggleReproduction.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                timerFragmentContainer.setVisibility(View.GONE);
+                invisibleText.forEach(view -> view.setVisibility(View.VISIBLE));
+                invisibleText.forEach(view -> view.startAnimation(fadeIn1));
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+
+        fadeIn1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                buttonToggleReproduction.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                buttonReturn.setVisibility(View.VISIBLE);
+                buttonReturn.startAnimation(fadeIn2);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        timerFragmentContainer.startAnimation(fadeOut);
     }
 }

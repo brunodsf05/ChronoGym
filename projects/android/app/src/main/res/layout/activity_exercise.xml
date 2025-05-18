@@ -27,11 +27,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:contentDescription="@string/activity_exercise_pause"
+        android:contentDescription="@string/activity_exercise_button_pause"
         app:icon="@drawable/ic_pause"
         app:layout_constraintEnd_toEndOf="@+id/fragmentContainer"
         app:layout_constraintStart_toStartOf="@+id/fragmentContainer"
         app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />
+
+    <TextView
+        android:id="@+id/textTitleFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_exercise_prompt_title_finished"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.425" />
+
+    <TextView
+        android:id="@+id/textMessageFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/activity_exercise_prompt_message_finished"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/textTitleFinished"
+        app:layout_constraintStart_toStartOf="@+id/textTitleFinished"
+        app:layout_constraintTop_toBottomOf="@+id/textTitleFinished" />
+
+    <Button
+        android:id="@+id/buttonReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/activity_exercise_button_return"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/textTitleFinished"
+        app:layout_constraintStart_toStartOf="@+id/textTitleFinished"
+        app:layout_constraintTop_toBottomOf="@+id/textMessageFinished" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

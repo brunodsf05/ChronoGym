@@ -12,9 +12,12 @@ import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 public class ExerciseMock {
     public static final TimerAnimationQueue CALISTHENICS;
     public static final TimerAnimationQueue TIMERS = new TimerAnimationQueue(List.of(
+            /*
             new ExerciseSetStatic("Rojo", new ExercisePose("", null), 10_000),
             new ExerciseSetStatic("Verde", new ExercisePose("", null), 10_000),
-            new ExerciseSetStatic("Azul", new ExercisePose("", null), 10_000)
+            */
+
+            new ExerciseSetStatic("Azul", new ExercisePose("", null), 2_000)
     ));
 
     static {
