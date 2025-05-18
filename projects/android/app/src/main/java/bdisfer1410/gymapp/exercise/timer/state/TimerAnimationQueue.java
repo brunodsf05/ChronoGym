@@ -1,9 +1,7 @@
 package bdisfer1410.gymapp.exercise.timer.state;
 
-import androidx.annotation.NonNull;
-
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
@@ -13,7 +11,7 @@ import bdisfer1410.gymapp.util.Counter;
  * Stores a list of {@link TimerAnimation} and also provides useful information such as the total
  * milliseconds.
  */
-public class TimerAnimationQueue {
+public class TimerAnimationQueue implements Serializable {
     public List<TimerAnimation> list;
     /**
      * Links any reference of {@link TimerAnimation} once to an integer.

@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * Stores the pair: Value, Max.
  */
-public class Counter {
+public class Counter implements Serializable {
     public int value, max;
 
     public Counter(int max) {
