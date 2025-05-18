@@ -22,7 +22,7 @@ public class ExerciseRest implements TimerAnimation {
     //region TimerAnimation
     @Override
     public int onStart(@NonNull TimerFragment timer) {
-        timer.setExerciseNameText(R.string.exercise_timer_rest);
+        timer.setExerciseNameText(R.string.model_exercise_rest);
         timer.setExerciseProgressMax(msDuration);
         timer.setExerciseIconImage(R.drawable.ic_exercise_rest);
 

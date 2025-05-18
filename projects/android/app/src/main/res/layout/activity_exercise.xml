@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_timer" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/timer_information_vertical_padding"

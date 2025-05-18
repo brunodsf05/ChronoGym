@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">ChronoGym</string>
 
-    <string name="exercise_timer_rest">Descanso</string>
+    <string name="model_exercise_rest">Descanso</string>
 </resources>
