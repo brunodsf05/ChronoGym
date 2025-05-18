@@ -1,10 +1,12 @@
 package bdisfer1410.gymapp.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,6 +34,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private boolean isPlaying = true;
     //endregion
 
+    //region Android
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,21 +48,8 @@ public class ExerciseActivity extends AppCompatActivity {
             state.animationQueue = ExerciseMock.CALISTHENICS;
         }
 
-        // UI
-        buttonToggleReproduction = findViewById(R.id.buttonToggleReproduction);
-        buttonToggleReproduction.setOnClickListener(v -> {
-            if (isPlaying) {
-                player.stop();
-            }
-            else {
-                player.play();
-                buttonToggleReproduction.setEnabled(false); // TODO: Fix pausing logic & math
-            }
+        initializeGUI();
 
-            isPlaying = !isPlaying;
-        });
-
-        // Timer
         state.initialize();
         initializeTimer();
     }
@@ -95,6 +85,7 @@ public class ExerciseActivity extends AppCompatActivity {
         if (player != null)
             player.stop();
     }
+    //endregion
 
     private void initializeTimer() {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
@@ -140,5 +131,48 @@ public class ExerciseActivity extends AppCompatActivity {
                 Log.d("TimerAnimationPlayerListener", "onQueueEnd() was called!");
             }
         });
+    }
+
+    private void initializeGUI() {
+        buttonToggleReproduction = findViewById(R.id.buttonToggleReproduction);
+        buttonToggleReproduction.setOnClickListener(v -> {
+            if (isPlaying) {
+                player.stop();
+            }
+            else {
+                player.play();
+                buttonToggleReproduction.setEnabled(false); // TODO: Fix pausing logic & math
+            }
+
+            isPlaying = !isPlaying;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // TODO: Fix pausing logic & math
+                if (buttonToggleReproduction.isEnabled()) {
+                    player.stop();
+                    isPlaying = false;
+                }
+
+                new AlertDialog.Builder(ExerciseActivity.this)
+                        .setTitle("Salir de la aplicación")
+                        .setMessage("¿Estás seguro de que quieres salir?")
+                        .setPositiveButton("Sí", (dialog, which) -> {
+                            finish();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            // TODO: Fix pausing logic & math
+                            if (buttonToggleReproduction.isEnabled()) {
+                                player.play();
+                                isPlaying = true;
+                                buttonToggleReproduction.setEnabled(false);
+                            }
+                        })
+                        .show();
+            }
+        });
+
     }
 }
