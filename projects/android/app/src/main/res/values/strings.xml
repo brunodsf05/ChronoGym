@@ -3,6 +3,11 @@
 
     <string name="model_exercise_rest">Descanso</string>
 
+
+    <!-- UI: MainActivity -->
+    <string name="activity_main_settings">Configuración</string>
+    <string name="activity_main_add">Añadir rutina</string>
+
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>
     <string name="activity_exercise_prompt_message_finished">Has terminado la rutina…</string>
