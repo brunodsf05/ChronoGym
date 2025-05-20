@@ -26,7 +26,7 @@ public class FabMenuBuilder {
 
             // Give some style
             fabSub.setIconResource(action.iconResId);
-            fabSub.setIconGravity(MaterialButton.ICON_GRAVITY_START);
+            fabSub.setIconGravity(MaterialButton.ICON_GRAVITY_END);
             fabSub.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             fabSub.setCornerRadius(32);
 

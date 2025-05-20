@@ -44,11 +44,14 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabMain = findViewById(R.id.fab_main);
 
         List<FabMenuBuilder.FabAction> fabActions = List.of(
-                new FabMenuBuilder.FabAction("Acción 1", R.drawable.ic_exercise_default, v ->
-                        Toast.makeText(this, "Acción 1", Toast.LENGTH_SHORT).show()
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_explore, v ->
+                        Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
                 ),
-                new FabMenuBuilder.FabAction("Acción 2", R.drawable.ic_exercise_default, v ->
-                        Toast.makeText(this, "Acción 2", Toast.LENGTH_SHORT).show()
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_import, v ->
+                        Toast.makeText(this, "WIP: Importar rutina", Toast.LENGTH_SHORT).show()
+                ),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_add, v ->
+                        Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()
                 )
         );
 

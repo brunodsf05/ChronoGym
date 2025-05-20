@@ -71,11 +71,6 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Botón Acción 1 -->
-
-        <!-- Botón Acción 2 -->
-
-        <!-- Botón principal -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_main"
             android:layout_width="wrap_content"
