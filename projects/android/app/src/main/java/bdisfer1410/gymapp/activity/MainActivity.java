@@ -59,9 +59,17 @@ public class MainActivity extends AppCompatActivity {
 
         fabMain.setOnClickListener(view -> {
             boolean isOpen = fabActions.get(0).generatedButton.getVisibility() == View.VISIBLE;
+
+            fabMain.animate().rotation(isOpen ? 0f : 45f).setDuration(200).start();
             for (FabMenuBuilder.FabAction action : fabActions) {
-                action.generatedButton.setVisibility(isOpen ? View.GONE : View.VISIBLE);
+                if (!isOpen) action.generatedButton.setVisibility(View.VISIBLE);
                 action.generatedButton.setOnClickListener(action.onClickListener);
+                action.generatedButton.setAlpha(isOpen ? 1f : 0f);
+                action.generatedButton.animate().alpha(isOpen ? 0f : 1f).setDuration(200).withEndAction(
+                        () -> {
+                            if (isOpen) action.generatedButton.setVisibility(View.GONE);
+                        }
+                ).start();
             }
         });
     }

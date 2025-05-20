@@ -73,6 +73,8 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_main"
+            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+            app:backgroundTint="?attr/colorPrimaryContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
