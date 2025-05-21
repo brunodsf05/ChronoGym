@@ -3,7 +3,6 @@
 
     <string name="model_exercise_rest">Descanso</string>
 
-
     <!-- UI: MainActivity -->
     <string name="activity_main_settings">Configuración</string>
     <string name="activity_main_add">Añadir rutina</string>
@@ -17,4 +16,11 @@
     <string name="activity_exercise_button_pause">Pausa</string>
     <string name="activity_exercise_button_return">Volver</string>
     <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
+
+    <!-- JSON: Serialization: Error -->
+    <string name="file_json_serialization_error">Error al guardar la rutina como JSON</string>
+
+    <!-- JSON: Deserialization: Error -->
+    <string name="file_json_deserialization_error">Error al leer la rutina del JSON</string>
+    <string name="file_json_deserialization_error_exercises">Un elemento de la lista de ejercicios no es un objeto JSON</string>
 </resources>
