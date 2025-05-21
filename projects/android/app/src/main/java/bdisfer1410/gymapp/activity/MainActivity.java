@@ -3,6 +3,7 @@ package bdisfer1410.gymapp.activity;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -15,9 +16,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.FabMenuBuilder;
 
@@ -45,9 +51,26 @@ public class MainActivity extends AppCompatActivity {
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->
                         Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
                 ),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v ->
-                        Toast.makeText(this, "WIP: Importar rutina", Toast.LENGTH_SHORT).show()
-                ),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
+                    Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
+                    // Read file
+                    InputStream inputStream = getResources().openRawResource(R.raw.serialized_exercise_prototype);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while (true) {
+                        try { if ((line = reader.readLine()) == null) break; }
+                        catch (IOException e) {throw new RuntimeException(e); }
+                        stringBuilder.append(line);
+                    }
+                    String jsonString = stringBuilder.toString();
+                    // Deserialize
+                    ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(
+                            MainActivity.this, jsonString
+                    );
+                    // Output
+                    Log.d("ExerciseSerdeJSON", exerciseSerdeJSON.deserialize().toString());
+                }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()
                 )

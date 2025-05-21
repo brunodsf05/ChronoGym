@@ -1,5 +1,7 @@
 package bdisfer1410.gymapp.exercise.models;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
@@ -31,5 +33,16 @@ public class Exercise {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "name='" + name + '\'' +
+                ", icon=" + icon +
+                ", tags=" + tags +
+                ", queue=" + queue +
+                '}';
     }
 }
