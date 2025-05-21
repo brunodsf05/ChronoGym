@@ -94,8 +94,25 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
         String name = getString(exerciseJSONObject.optString("name", "@exercise_name_notfound"));
         int icon = getIcon(exerciseJSONObject.optString("icon", "/exercise/notfound"));
+        List<String> tags = parseTags(exerciseJSONObject);
 
-        return Result.ok(new Exercise(name, icon, null, List.of()));
+        return Result.ok(new Exercise(name, icon, null, tags));
+    }
+
+    private List<String> parseTags(JSONObject exerciseJSONObject) {
+        List<String> tagsList = new ArrayList<>();
+
+        JSONArray tagsArray = exerciseJSONObject.optJSONArray("tags");
+        if (tagsArray == null) return tagsList;
+
+        for (int i = 0; i < tagsArray.length(); i++) {
+            String tag = tagsArray.optString(i, null);
+            if (tag != null) {
+                tagsList.add(getString(tag));
+            }
+        }
+
+        return tagsList;
     }
     //endregion
 }
