@@ -62,6 +62,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         return null;
     }
 
+    //region Deserialization
     @NonNull
     @Override
     public Result<List<Exercise>, Integer> deserialize() {
@@ -75,14 +76,26 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         // Each exercise is composed of simple data like: name, icon, tags
         for (int i = 0; i < exercisesJSONArray.length(); i++) {
             JSONObject exerciseJSONObject = exercisesJSONArray.optJSONObject(i);
-            if (exerciseJSONObject == null) return Result.err(R.string.file_json_deserialization_error_exercises);
 
-            String name = getString(exerciseJSONObject.optString("name", "@exercise_name_notfound"));
-            int icon = getIcon(exerciseJSONObject.optString("icon", "/exercise/notfound"));
+            Result<Exercise, Integer> exerciseResult = deserializeExercise(exerciseJSONObject);
 
-            exercises.add(new Exercise(name, icon, null, List.of()));
+            if (exerciseResult.isErr())
+                return Result.err(exerciseResult.getError());
+
+            exercises.add(exerciseResult.getValue());
         }
 
         return Result.ok(exercises);
     }
+
+    private Result<Exercise, Integer> deserializeExercise(JSONObject exerciseJSONObject) {
+        if (exerciseJSONObject == null)
+            return Result.err(R.string.file_json_deserialization_error_exercises);
+
+        String name = getString(exerciseJSONObject.optString("name", "@exercise_name_notfound"));
+        int icon = getIcon(exerciseJSONObject.optString("icon", "/exercise/notfound"));
+
+        return Result.ok(new Exercise(name, icon, null, List.of()));
+    }
+    //endregion
 }
