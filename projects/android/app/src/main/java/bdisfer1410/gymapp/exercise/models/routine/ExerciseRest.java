@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.exercise.models;
+package bdisfer1410.gymapp.exercise.models.routine;
 
 import android.animation.ValueAnimator;
 

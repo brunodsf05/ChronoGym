@@ -2,11 +2,11 @@ package bdisfer1410.gymapp.exercise.mock;
 
 import java.util.List;
 
-import bdisfer1410.gymapp.exercise.models.ExerciseRest;
-import bdisfer1410.gymapp.exercise.models.movement.ExercisePose;
-import bdisfer1410.gymapp.exercise.models.movement.ExerciseTransition;
-import bdisfer1410.gymapp.exercise.models.sets.ExerciseSetDynamic;
-import bdisfer1410.gymapp.exercise.models.sets.ExerciseSetStatic;
+import bdisfer1410.gymapp.exercise.models.routine.ExerciseRest;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 
 public class ExerciseMock {

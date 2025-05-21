@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.exercise.models.movement;
+package bdisfer1410.gymapp.exercise.models.routine.movement;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.exercise.models.sets;
+package bdisfer1410.gymapp.exercise.models.routine.sets;
 
 import android.animation.ValueAnimator;
 
@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
-import bdisfer1410.gymapp.exercise.models.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.BeepGenerator;
 
