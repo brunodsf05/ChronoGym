@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/activity_exercise_button_pause"
-        app:icon="@drawable/ic_pause"
+        app:icon="@drawable/ic_ui_pause"
         app:layout_constraintEnd_toEndOf="@+id/fragmentContainer"
         app:layout_constraintStart_toStartOf="@+id/fragmentContainer"
         app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />

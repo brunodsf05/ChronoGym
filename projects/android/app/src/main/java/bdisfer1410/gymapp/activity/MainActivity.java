@@ -5,8 +5,6 @@ import android.graphics.Insets;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -44,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabMain = findViewById(R.id.fab_main);
 
         List<FabMenuBuilder.FabAction> fabActions = List.of(
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_explore, v ->
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->
                         Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
                 ),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_import, v ->
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v ->
                         Toast.makeText(this, "WIP: Importar rutina", Toast.LENGTH_SHORT).show()
                 ),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_add, v ->
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()
                 )
         );
