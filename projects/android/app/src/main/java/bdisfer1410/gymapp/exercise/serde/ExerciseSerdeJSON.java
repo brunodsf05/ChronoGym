@@ -99,6 +99,10 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         int icon = getIcon(exerciseJSONObject.optString("icon", "/exercise/notfound"));
         List<String> tags = parseTags(exerciseJSONObject);
 
+        Log.d("ExerciseSerdeJSON", String.format("des::[?]{name} = \"%s\"", name));
+        Log.d("ExerciseSerdeJSON", String.format("des::[?]{icon} = %d", icon));
+        Log.d("ExerciseSerdeJSON", String.format("des::[?]{tags} = \"%s\"", tags));
+
         Result<TimerAnimationQueue, Integer> queueResult = parseExercise(
                 exerciseJSONObject.optJSONObject("exercise")
         );
@@ -140,10 +144,13 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             if (poseJSONObject == null) continue;
 
             String poseId = poseJSONObject.optString("id");
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{id} = \"%s\"", i, poseId));
             if (poseId.isEmpty()) continue; // Pose id is obligatory
 
             String poseName = getString(exerciseJSONObject.optString("name", "@pose_name_notfound"));
             int poseIcon = getIcon(exerciseJSONObject.optString("icon", "/pose/notfound"));
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseName} = \"%s\"", i, poseName));
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseIcon} = %d", i, poseIcon));
 
             poses.put(poseId, new ExercisePose(poseName, poseIcon));
         }
@@ -157,6 +164,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             if (transitionJSONObject == null) continue;
 
             String transitionId = transitionJSONObject.optString("id");
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{id} = \"%s\"", i, transitionId));
             if (transitionId.isEmpty()) continue; // Transition id is obligatory
 
             JSONArray transitionPosesJSONArray = transitionJSONObject.optJSONArray("poses");
@@ -170,7 +178,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 if (transitionPoseId.isEmpty()) continue; // transitionPose id is obligatory
 
                 int transitionPoseTime = transitionPoseJSONObject.optInt("time", -1);
-                if (transitionPoseTime <= 0) continue; // transitionPose time can't break the laws of the universe
+                //if (transitionPoseTime.isEmpty()) continue; // transitionPose time can't go
 
             }
         }
