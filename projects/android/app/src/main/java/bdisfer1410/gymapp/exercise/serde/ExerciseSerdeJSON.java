@@ -19,6 +19,7 @@ import java.util.Map;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.Result;
 
@@ -133,7 +134,8 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         if (exerciseJSONObject == null)
             return Result.err(R.string.file_json_deserialization_error_exercise);
 
-        HashMap<String, ExercisePose> poses = new HashMap<>();
+        HashMap<String, ExercisePose> mapPoses = new HashMap<>();
+        HashMap<String, List<ExerciseTransition>> mapTransitions = new HashMap<>();
 
         // Parse poses
         JSONArray posesJSONArray = exerciseJSONObject.optJSONArray("poses");
@@ -152,7 +154,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseName} = \"%s\"", i, poseName));
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseIcon} = %d", i, poseIcon));
 
-            poses.put(poseId, new ExercisePose(poseName, poseIcon));
+            mapPoses.put(poseId, new ExercisePose(poseName, poseIcon));
         }
 
         // Parse transitions
@@ -170,17 +172,23 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             JSONArray transitionPosesJSONArray = transitionJSONObject.optJSONArray("poses");
             if (transitionPosesJSONArray == null) return Result.err(R.string.file_json_deserialization_error_transition_poses);
 
+            List<ExerciseTransition> transitionsList = new ArrayList<>();
             for (int j = 0; j < transitionPosesJSONArray.length(); j++) {
-                JSONObject transitionPoseJSONObject = transitionPosesJSONArray.optJSONObject(i);
+                JSONObject transitionPoseJSONObject = transitionPosesJSONArray.optJSONObject(j);
                 if (transitionPoseJSONObject == null) continue;
 
-                String transitionPoseId = transitionJSONObject.optString("id");
+                String transitionPoseId = transitionPoseJSONObject.optString("id");
+                Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{poses}[%d]{id} = \"%s\"", i, j, transitionPoseId));
                 if (transitionPoseId.isEmpty()) continue; // transitionPose id is obligatory
+                if (mapPoses.containsKey(transitionPoseId)) continue; // transitionPose id must exists in poses
 
                 int transitionPoseTime = transitionPoseJSONObject.optInt("time", -1);
-                //if (transitionPoseTime.isEmpty()) continue; // transitionPose time can't go
+                Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{poses}[%d]{time} = %d", i, j, transitionPoseTime));
+                if (transitionPoseTime < 0) continue; // transitionPose time break the laws of the universe
 
+                transitionsList.add(new ExerciseTransition(mapPoses.get(transitionPoseId), transitionPoseTime));
             }
+            mapTransitions.put(transitionId, transitionsList);
         }
 
         // Parse sets
