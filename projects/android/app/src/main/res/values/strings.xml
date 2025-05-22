@@ -23,4 +23,10 @@
     <!-- JSON: Deserialization: Error -->
     <string name="file_json_deserialization_error">Error al leer la rutina del JSON</string>
     <string name="file_json_deserialization_error_exercises">Un elemento de la lista de ejercicios no es un objeto JSON</string>
+    <string name="file_json_deserialization_error_exercise">Un ejercicio no tiene un elemento "exercise" válido</string>
+    <string name="file_json_deserialization_error_poses">Un ejercicio no tiene un elemento "poses" válido</string>
+    <string name="file_json_deserialization_error_transitions">Un ejercicio no tiene un elemento "transitions" válido</string>
+    <string name="file_json_deserialization_error_transition_poses">Un elemento "tansition" no tiene un elemento "poses" válido</string>
+    <string name="file_json_deserialization_error_sets">Un ejercicio no tiene un elemento "sets" válido</string>
+    <string name="file_json_deserialization_error_queue">Un ejercicio no tiene un elemento "queue" válido</string>
 </resources>

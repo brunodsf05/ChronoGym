@@ -23,9 +23,11 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.FabMenuBuilder;
+import bdisfer1410.gymapp.util.Result;
 
 public class MainActivity extends AppCompatActivity {
     //region Android
@@ -69,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
                             MainActivity.this, jsonString
                     );
                     // Output
-                    Log.d("ExerciseSerdeJSON", exerciseSerdeJSON.deserialize().toString());
+                    Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
+                    Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
                 }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()

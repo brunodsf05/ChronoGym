@@ -3,6 +3,7 @@ package bdisfer1410.gymapp.exercise.serde;
 import static java.util.Map.of;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -17,6 +18,8 @@ import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.Result;
 
 /**
@@ -96,7 +99,13 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         int icon = getIcon(exerciseJSONObject.optString("icon", "/exercise/notfound"));
         List<String> tags = parseTags(exerciseJSONObject);
 
-        return Result.ok(new Exercise(name, icon, null, tags));
+        Result<TimerAnimationQueue, Integer> queueResult = parseExercise(
+                exerciseJSONObject.optJSONObject("exercise")
+        );
+
+        return queueResult.isOk()
+                ? Result.ok(new Exercise(name, icon, null, tags))
+                : Result.err(queueResult.getError());
     }
 
     private List<String> parseTags(JSONObject exerciseJSONObject) {
@@ -113,6 +122,68 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         }
 
         return tagsList;
+    }
+
+    private Result<TimerAnimationQueue, Integer> parseExercise(JSONObject exerciseJSONObject) {
+        // Prepare parsing
+        if (exerciseJSONObject == null)
+            return Result.err(R.string.file_json_deserialization_error_exercise);
+
+        HashMap<String, ExercisePose> poses = new HashMap<>();
+
+        // Parse poses
+        JSONArray posesJSONArray = exerciseJSONObject.optJSONArray("poses");
+        if (posesJSONArray == null) return Result.err(R.string.file_json_deserialization_error_poses);
+
+        for (int i = 0; i < posesJSONArray.length(); i++) {
+            JSONObject poseJSONObject = posesJSONArray.optJSONObject(i);
+            if (poseJSONObject == null) continue;
+
+            String poseId = poseJSONObject.optString("id");
+            if (poseId.isEmpty()) continue; // Pose id is obligatory
+
+            String poseName = getString(exerciseJSONObject.optString("name", "@pose_name_notfound"));
+            int poseIcon = getIcon(exerciseJSONObject.optString("icon", "/pose/notfound"));
+
+            poses.put(poseId, new ExercisePose(poseName, poseIcon));
+        }
+
+        // Parse transitions
+        JSONArray transitionsJSONArray = exerciseJSONObject.optJSONArray("transitions");
+        if (transitionsJSONArray == null) return Result.err(R.string.file_json_deserialization_error_transitions);
+
+        for (int i = 0; i < transitionsJSONArray.length(); i++) {
+            JSONObject transitionJSONObject = transitionsJSONArray.optJSONObject(i);
+            if (transitionJSONObject == null) continue;
+
+            String transitionId = transitionJSONObject.optString("id");
+            if (transitionId.isEmpty()) continue; // Transition id is obligatory
+
+            JSONArray transitionPosesJSONArray = transitionJSONObject.optJSONArray("poses");
+            if (transitionPosesJSONArray == null) return Result.err(R.string.file_json_deserialization_error_transition_poses);
+
+            for (int j = 0; j < transitionPosesJSONArray.length(); j++) {
+                JSONObject transitionPoseJSONObject = transitionPosesJSONArray.optJSONObject(i);
+                if (transitionPoseJSONObject == null) continue;
+
+                String transitionPoseId = transitionJSONObject.optString("id");
+                if (transitionPoseId.isEmpty()) continue; // transitionPose id is obligatory
+
+                int transitionPoseTime = transitionPoseJSONObject.optInt("time", -1);
+                if (transitionPoseTime <= 0) continue; // transitionPose time can't break the laws of the universe
+
+            }
+        }
+
+        // Parse sets
+        JSONArray setsJSONArray = exerciseJSONObject.optJSONArray("sets");
+        if (setsJSONArray == null) return Result.err(R.string.file_json_deserialization_error_sets);
+
+        // Parse queue
+        JSONArray queueJSONArray = exerciseJSONObject.optJSONArray("queue");
+        if (queueJSONArray == null) return Result.err(R.string.file_json_deserialization_error_queue);
+
+        return Result.err(R.string.file_json_deserialization_error);
     }
     //endregion
 }
