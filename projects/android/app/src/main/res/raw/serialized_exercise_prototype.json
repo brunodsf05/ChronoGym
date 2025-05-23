@@ -39,6 +39,7 @@
           "type": "set_static",
           "data": {
             "name": "@plank",
+            "pose": "push_up",
             "duration": 60000
           }
         },
@@ -47,7 +48,7 @@
           "type": "set_dynamic",
           "data": {
             "name": "@push_ups",
-            "transtion": "push_ups",
+            "transition": "push_ups",
             "repetitions": 10
           }
         },
@@ -56,7 +57,7 @@
           "type": "set_dynamic",
           "data": {
             "name": "@pull_ups",
-            "transtion": "pull_ups",
+            "transition": "pull_ups",
             "repetitions": 10
           }
         }
