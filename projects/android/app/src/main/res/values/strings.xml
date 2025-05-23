@@ -29,4 +29,19 @@
     <string name="file_json_deserialization_error_transition_poses">Un elemento "tansition" no tiene un elemento "poses" válido</string>
     <string name="file_json_deserialization_error_sets">Un ejercicio no tiene un elemento "sets" válido</string>
     <string name="file_json_deserialization_error_queue">Un ejercicio no tiene un elemento "queue" válido</string>
+
+    <!-- JSON: Strings: Tags -->
+    <string name="file_json_string_calisthenics">Calistenia</string>
+    <string name="file_json_string_fullbody">Cuerpo completo</string>
+
+    <!-- JSON: Strings: Poses -->
+    <string name="file_json_string_push_up">Flexión hacia arriba</string>
+    <string name="file_json_string_push_down">Flexión hacia abajo</string>
+    <string name="file_json_string_pull_up">Dominada</string>
+    <string name="file_json_string_pull_down">Jalón</string>
+
+    <!-- JSON: Strings: Sets -->
+    <string name="file_json_string_plank">Plancha</string>
+    <string name="file_json_string_push_ups">Flexiones</string>
+    <string name="file_json_string_pull_ups">Dominadas</string>
 </resources>

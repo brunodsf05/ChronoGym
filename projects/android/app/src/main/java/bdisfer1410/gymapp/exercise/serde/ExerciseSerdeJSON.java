@@ -25,6 +25,7 @@ import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
+import bdisfer1410.gymapp.util.ResourceUtils;
 import bdisfer1410.gymapp.util.Result;
 
 /**
@@ -33,6 +34,8 @@ import bdisfer1410.gymapp.util.Result;
 public class ExerciseSerdeJSON implements ExerciseSerde {
     private final static Map<String, Integer> ICONS = Map.of(
     );
+
+    private final static String NAME_RESOURCE_KEY_PREFIX = "file_json_string_";
 
     private String jsonString = null;
     private Context context = null;
@@ -48,7 +51,13 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
      * @return
      */
     private String getString(String line) {
-        return line;
+        if (!line.startsWith("@"))
+            return line;
+
+        String string_resource_key =
+                NAME_RESOURCE_KEY_PREFIX + line.replaceFirst("@", "");
+
+        return ResourceUtils.fromKeyOrDefault(context, string_resource_key, line);
     }
 
 
@@ -155,8 +164,8 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{id} = \"%s\"", i, poseId));
             if (poseId.isEmpty()) continue; // Pose id is obligatory
 
-            String poseName = getString(exerciseJSONObject.optString("name", "@pose_name_notfound"));
-            int poseIcon = getIcon(exerciseJSONObject.optString("icon", "/pose/notfound"));
+            String poseName = getString(poseJSONObject.optString("name", "@pose_name_notfound"));
+            int poseIcon = getIcon(poseJSONObject.optString("icon", "/pose/notfound"));
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseName} = \"%s\"", i, poseName));
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseIcon} = %d", i, poseIcon));
 
