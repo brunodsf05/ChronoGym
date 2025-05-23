@@ -141,6 +141,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         HashMap<String, ExercisePose> mapPoses = new HashMap<>();
         HashMap<String, List<ExerciseTransition>> mapTransitions = new HashMap<>();
         HashMap<String, TimerAnimation> mapSets = new HashMap<>();
+        List<TimerAnimation> queue = new ArrayList<>();
 
         // Parse poses
         JSONArray posesJSONArray = exerciseJSONObject.optJSONArray("poses");
@@ -263,7 +264,17 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         JSONArray queueJSONArray = exerciseJSONObject.optJSONArray("queue");
         if (queueJSONArray == null) return Result.err(R.string.file_json_deserialization_error_queue);
 
-        return Result.err(R.string.file_json_deserialization_error);
+        for (int i = 0; i < queueJSONArray.length(); i++) {
+            String queueSetName = queueJSONArray.optString(i);
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{queue}[%d] = %s", i, queueSetName));
+
+            TimerAnimation set = mapSets.getOrDefault(queueSetName, null);
+            if (set == null) continue;
+
+            queue.add(set);
+        }
+
+        return Result.ok(new TimerAnimationQueue(queue));
     }
     //endregion
 }
