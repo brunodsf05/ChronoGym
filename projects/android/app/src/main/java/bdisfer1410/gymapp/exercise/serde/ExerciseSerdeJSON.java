@@ -18,8 +18,12 @@ import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.models.routine.ExerciseRest;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
+import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.Result;
 
@@ -136,6 +140,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
         HashMap<String, ExercisePose> mapPoses = new HashMap<>();
         HashMap<String, List<ExerciseTransition>> mapTransitions = new HashMap<>();
+        HashMap<String, TimerAnimation> mapSets = new HashMap<>();
 
         // Parse poses
         JSONArray posesJSONArray = exerciseJSONObject.optJSONArray("poses");
@@ -179,12 +184,11 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
                 String transitionPoseId = transitionPoseJSONObject.optString("id");
                 Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{poses}[%d]{id} = \"%s\"", i, j, transitionPoseId));
-                if (transitionPoseId.isEmpty()) continue; // transitionPose id is obligatory
-                if (mapPoses.containsKey(transitionPoseId)) continue; // transitionPose id must exists in poses
+                if (!mapPoses.containsKey(transitionPoseId)) continue; // transitionPose id must exists in poses
 
                 int transitionPoseTime = transitionPoseJSONObject.optInt("time", -1);
                 Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{poses}[%d]{time} = %d", i, j, transitionPoseTime));
-                if (transitionPoseTime < 0) continue; // transitionPose time break the laws of the universe
+                if (transitionPoseTime < 0) continue; // transitionPose time can't break the laws of the universe
 
                 transitionsList.add(new ExerciseTransition(mapPoses.get(transitionPoseId), transitionPoseTime));
             }
@@ -194,6 +198,66 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         // Parse sets
         JSONArray setsJSONArray = exerciseJSONObject.optJSONArray("sets");
         if (setsJSONArray == null) return Result.err(R.string.file_json_deserialization_error_sets);
+
+        for (int i = 0; i < setsJSONArray.length(); i++) {
+            // { id: "str", type: "str", data: { ??? } }
+            JSONObject setJSONObject = setsJSONArray.optJSONObject(i);
+            if (setJSONObject == null) continue;
+
+            String setId = setJSONObject.optString("id");
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{id} = \"%s\"", i, setId));
+            if (setId.isEmpty()) continue; // Set id is obligatory
+
+            String setType = setJSONObject.optString("type");
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{type} = \"%s\"", i, setType));
+            if (setType.isEmpty()) continue; // Set type is obligatory
+
+            JSONObject setDataJSONObject = setJSONObject.optJSONObject("data");
+            if (setDataJSONObject == null) continue;
+
+            switch (setType) {
+                case "rest": // { duration: 123 }
+                    int setDataRestDuration = setDataJSONObject.optInt("duration", -1);
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{duration} = %d", i, setDataRestDuration));
+                    if (setDataRestDuration < 0) continue;
+
+                    mapSets.put(setId, new ExerciseRest(setDataRestDuration));
+                    break;
+
+                case "set_static": // { name: "str", pose: "id" duration: 123 }
+                    String setDataSetStaticName = getString(setDataJSONObject.optString("name"));
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{name} = \"%s\"", i, setDataSetStaticName));
+
+                    String setDataSetStaticPose = setDataJSONObject.optString("pose");
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{pose} = \"%s\"", i, setDataSetStaticPose));
+                    if (!mapPoses.containsKey(setDataSetStaticPose)) continue; // setDataSetStaticPose id must exists in poses
+
+                    int setDataSetStaticDuration = setDataJSONObject.optInt("duration", -1);
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{duration} = %d", i, setDataSetStaticDuration));
+                    if (setDataSetStaticDuration < 0) continue;
+
+                    mapSets.put(setId, new ExerciseSetStatic(setDataSetStaticName, mapPoses.get(setDataSetStaticPose), setDataSetStaticDuration));
+                    break;
+
+                case "set_dynamic":
+                    String setDataSetDynamicName = getString(setDataJSONObject.optString("name"));
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{name} = \"%s\"", i, setDataSetDynamicName));
+
+                    String setDataSetDynamicTransition = setDataJSONObject.optString("transition");
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{transition} = \"%s\"", i, setDataSetDynamicTransition));
+                    if (!mapTransitions.containsKey(setDataSetDynamicTransition)) continue; // setDataSetDynamicTransition id must exists in poses
+
+                    int setDataSetDynamicRepetitions = setDataJSONObject.optInt("repetitions", -1);
+                    Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{repetitions} = %d", i, setDataSetDynamicRepetitions));
+                    if (setDataSetDynamicRepetitions < 0) continue;
+
+                    List<ExerciseTransition> let = mapTransitions.get(setDataSetDynamicTransition);
+                    let = let == null ? new ArrayList<>() : let; // Android cries if I don't do this
+
+                    mapSets.put(setId, new ExerciseSetDynamic(setDataSetDynamicName, let, setDataSetDynamicRepetitions));
+                    break;
+            }
+        }
 
         // Parse queue
         JSONArray queueJSONArray = exerciseJSONObject.optJSONArray("queue");
