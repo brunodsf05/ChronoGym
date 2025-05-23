@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                     // Output
                     Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
                     Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
+                    if (result.isOk() && !result.getValue().isEmpty()) {
+                        startExerciseActivity(result.getValue().get(0).getQueue());
+                    }
                 }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()

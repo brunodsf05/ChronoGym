@@ -113,7 +113,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         );
 
         return queueResult.isOk()
-                ? Result.ok(new Exercise(name, icon, null, tags))
+                ? Result.ok(new Exercise(name, icon, queueResult.getValue(), tags))
                 : Result.err(queueResult.getError());
     }
 
