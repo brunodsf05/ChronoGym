@@ -29,14 +29,14 @@
       "sets": [
         {
           "id": "rest",
-          "type:": "rest",
+          "type": "rest",
           "data": {
             "duration": 60
           }
         },
         {
           "id": "plank",
-          "type:": "set_static",
+          "type": "set_static",
           "data": {
             "name": "@plank",
             "time": 60
@@ -44,7 +44,7 @@
         },
         {
           "id": "push_ups",
-          "type:": "set_dynamic",
+          "type": "set_dynamic",
           "data": {
             "name": "@push_ups",
             "transtion": "push_ups",
@@ -53,7 +53,7 @@
         },
         {
           "id": "pull_ups",
-          "type:": "set_dynamic",
+          "type": "set_dynamic",
           "data": {
             "name": "@pull_ups",
             "transtion": "pull_ups",
