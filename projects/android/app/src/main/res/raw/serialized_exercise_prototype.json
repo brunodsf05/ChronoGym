@@ -31,7 +31,7 @@
           "id": "rest",
           "type": "rest",
           "data": {
-            "duration": 60
+            "duration": 60000
           }
         },
         {
@@ -39,7 +39,7 @@
           "type": "set_static",
           "data": {
             "name": "@plank",
-            "time": 60
+            "duration": 60000
           }
         },
         {
