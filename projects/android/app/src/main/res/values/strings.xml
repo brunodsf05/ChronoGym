@@ -9,6 +9,7 @@
     <string name="activity_main_menu_explore">Explorar rutinas</string>
     <string name="activity_main_menu_import">Importar rutina</string>
     <string name="activity_main_menu_create">Crear rutina</string>
+    <string name="activity_main_error_cant_play_queue">No se puede iniciar la rutina</string>
 
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>

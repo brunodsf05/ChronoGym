@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.os.Bundle;
@@ -71,9 +72,28 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
         cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
 
-        adapter = new ExerciseCardAdapter(cardList, card ->
-                Toast.makeText(this, "Clicked: " + card.getCardName(), Toast.LENGTH_SHORT).show()
-        );
+        adapter = new ExerciseCardAdapter(cardList, card -> {
+            Log.d("ActivityMain", "Clicked on card... Trying to play it!");
+            Exercise exercise = null;
+            TimerAnimationQueue queue = null;
+
+            if (card instanceof Exercise) {
+                exercise = (Exercise) card;
+                Log.d("ActivityMain", "Card is a valid Exercise object!");
+            }
+
+            if (exercise != null) {
+                queue = exercise.getQueue();
+            }
+
+            if (queue == null) {
+                Log.e("ActivityMain", "Exercise does not have valid TimerAnimationQueue to play :(");
+                Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                startExerciseActivity(queue);
+            }
+        });
 
         exercisesList.setAdapter(adapter);
 
