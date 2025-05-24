@@ -16,10 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
@@ -28,6 +24,7 @@ import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.FabMenuBuilder;
 import bdisfer1410.gymapp.util.Result;
+import bdisfer1410.gymapp.util.data.QuickFileManager;
 
 public class MainActivity extends AppCompatActivity {
     //region Android
@@ -56,16 +53,11 @@ public class MainActivity extends AppCompatActivity {
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
                     Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
                     // Read file
-                    InputStream inputStream = getResources().openRawResource(R.raw.serialized_exercise_prototype);
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while (true) {
-                        try { if ((line = reader.readLine()) == null) break; }
-                        catch (IOException e) {throw new RuntimeException(e); }
-                        stringBuilder.append(line);
-                    }
-                    String jsonString = stringBuilder.toString();
+                    String jsonString = QuickFileManager
+                            .with(MainActivity.this)
+                            .rawRes(R.raw.serialized_exercise_prototype)
+                            .read();
+
                     // Deserialize
                     ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(
                             MainActivity.this, jsonString
