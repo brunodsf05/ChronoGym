@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         // findViewById(R.id.button2).setOnClickListener(v -> startExerciseActivity(ExerciseMock.TIMERS));
 
         ConstraintLayout fabLayout = findViewById(R.id.fabLayout);
-        FloatingActionButton fabMain = findViewById(R.id.fab_main);
+        Button fabMain = findViewById(R.id.fab_main);
 
         List<FabMenuBuilder.FabAction> fabActions = List.of(
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->

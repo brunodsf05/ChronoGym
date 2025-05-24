@@ -79,10 +79,12 @@
             android:src="@drawable/ic_ui_add"
             app:backgroundTint="?attr/colorPrimaryContainer"
             app:icon="@drawable/ic_ui_add"
+            app:iconSize="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:strokeColor="?colorPrimaryInverse"
-            app:strokeWidth="1sp" />
+            app:strokeWidth="1sp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
