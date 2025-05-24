@@ -35,6 +35,7 @@ import bdisfer1410.gymapp.util.java.ListTools;
 
 public class MainActivity extends AppCompatActivity {
     private ExerciseCardAdapter adapter;
+    private boolean canStartExercise = false;
 
 
     @Override
@@ -68,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
         // Init views
         initExercisesListRecyclerView(cardList);
         initFabMenu();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        canStartExercise = true;
     }
 
     private void initExercisesListRecyclerView(List<ExerciseCard> cards) {
@@ -109,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onCardClick(ExerciseCard card) {
+        if (!canStartExercise) {
+            Log.d("ActivityMain", "Can't start exercise because \"canStartExercise\" is false...");
+            return;
+        }
+
         Log.d("ActivityMain", "Clicked on card... Trying to play it!");
         Exercise exercise = null;
         TimerAnimationQueue queue = null;
@@ -127,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
         }
         else {
+            canStartExercise = false;
             startExerciseActivity(queue);
         }
     }
