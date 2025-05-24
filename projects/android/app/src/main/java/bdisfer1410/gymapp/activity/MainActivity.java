@@ -9,16 +9,23 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Arrays;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
@@ -27,6 +34,10 @@ import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.data.QuickFileManager;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView exercisesList;
+    private ExerciseCardAdapter adapter;
+    private List<ExerciseCard> cardList;
+
     //region Android
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,62 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //region exercisesListRecyclerView
+        exercisesList = findViewById(R.id.exercisesList);
+        exercisesList.setLayoutManager(new LinearLayoutManager(this));
+
+        cardList = Arrays.asList(
+                new ExerciseCard() {
+                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
+                    @Override @NonNull public String getCardName() { return "Push-Ups"; }
+                    @Override public String getCardTags() { return "Chest, Arms"; }
+                    @Override @NonNull public String getCardInterval() { return "30s"; }
+                    @Override public String getCardExtra() { return "x15"; }
+                },
+                new ExerciseCard() {
+                    @Override public Integer getCardIcon() { return null; }
+                    @Override @NonNull public String getCardName() { return "Plank"; }
+                    @Override public String getCardTags() { return null; }
+                    @Override @NonNull public String getCardInterval() { return "45s"; }
+                    @Override public String getCardExtra() { return null; }
+                },
+                new ExerciseCard() {
+                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
+                    @Override @NonNull public String getCardName() { return "Squats"; }
+                    @Override public String getCardTags() { return "Legs"; }
+                    @Override @NonNull public String getCardInterval() { return "1m"; }
+                    @Override public String getCardExtra() { return "3 sets"; }
+                }
+        );
+
+        adapter = new ExerciseCardAdapter(cardList, card ->
+                Toast.makeText(this, "Clicked: " + card.getCardName(), Toast.LENGTH_SHORT).show()
+        );
+
+        exercisesList.setAdapter(adapter);
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+                adapter.swapItems(from, to);
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // Not used
+            }
+        });
+
+        helper.attachToRecyclerView(exercisesList);
+        //endregion
 
         // findViewById(R.id.button1).setOnClickListener(v -> startExerciseActivity(ExerciseMock.CALISTHENICS));
         // findViewById(R.id.button2).setOnClickListener(v -> startExerciseActivity(ExerciseMock.TIMERS));
