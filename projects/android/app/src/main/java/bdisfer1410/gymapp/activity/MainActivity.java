@@ -1,6 +1,5 @@
 package bdisfer1410.gymapp.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.os.Bundle;
@@ -20,9 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
@@ -31,17 +28,15 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
-import bdisfer1410.gymapp.util.android.FabMenuBuilder;
 import bdisfer1410.gymapp.util.Result;
+import bdisfer1410.gymapp.util.android.FabMenuBuilder;
 import bdisfer1410.gymapp.util.data.QuickFileManager;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView exercisesList;
     private ExerciseCardAdapter adapter;
-    private List<ExerciseCard> cardList;
 
-    //region Android
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,25 +49,32 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //region exercisesListRecyclerView
-        exercisesList = findViewById(R.id.exercisesList);
-        exercisesList.setLayoutManager(new LinearLayoutManager(this));
+        // Load exercises from file
+        List<ExerciseCard> cardList = new ArrayList<>();
 
-        // Load
         String jsonString = QuickFileManager
                 .with(MainActivity.this)
                 .file("user_exercises.json")
                 .read();
 
-        ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(
-                MainActivity.this, jsonString
-        );
+        if (jsonString != null) {
+            ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(MainActivity.this, jsonString);
+            Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
+            Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
 
-        Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
-        Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
-        cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
+            cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
+        }
 
-        adapter = new ExerciseCardAdapter(cardList, card -> {
+        // Init views
+        initExercisesListRecyclerView(cardList);
+        initFabMenu();
+    }
+
+    private void initExercisesListRecyclerView(List<ExerciseCard> cards) {
+        exercisesList = findViewById(R.id.exercisesList);
+        exercisesList.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new ExerciseCardAdapter(cards, card -> {
             Log.d("ActivityMain", "Clicked on card... Trying to play it!");
             Exercise exercise = null;
             TimerAnimationQueue queue = null;
@@ -89,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
             if (queue == null) {
                 Log.e("ActivityMain", "Exercise does not have valid TimerAnimationQueue to play :(");
                 Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 startExerciseActivity(queue);
             }
         });
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
@@ -117,11 +117,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         helper.attachToRecyclerView(exercisesList);
-        //endregion
+    }
 
-        // findViewById(R.id.button1).setOnClickListener(v -> startExerciseActivity(ExerciseMock.CALISTHENICS));
-        // findViewById(R.id.button2).setOnClickListener(v -> startExerciseActivity(ExerciseMock.TIMERS));
-
+    private void initFabMenu() {
         ConstraintLayout fabLayout = findViewById(R.id.fabLayout);
         Button fabMain = findViewById(R.id.fab_main);
 
@@ -131,18 +129,15 @@ public class MainActivity extends AppCompatActivity {
                 ),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
                     Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
-                    // Read raw file
                     String rawJsonString = QuickFileManager
                             .with(MainActivity.this)
                             .rawRes(R.raw.serialized_exercise_prototype)
                             .read();
 
-                    // Save to application user data
                     QuickFileManager
                             .with(MainActivity.this)
                             .file("user_exercises.json")
                             .save(rawJsonString);
-
                 }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()
@@ -167,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    //endregion
 
     private void startExerciseActivity(TimerAnimationQueue animationQueue) {
         Intent intent = new Intent(this, ExerciseActivity.class);
