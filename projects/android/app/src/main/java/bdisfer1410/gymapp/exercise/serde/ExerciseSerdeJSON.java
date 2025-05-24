@@ -33,6 +33,7 @@ import bdisfer1410.gymapp.util.Result;
  */
 public class ExerciseSerdeJSON implements ExerciseSerde {
     private final static Map<String, Integer> ICONS = Map.of(
+            "/generic/fullbody", R.drawable.ic_exercise_generic_full_body,
             "/pose/push_up_from_flat_floor", R.drawable.ic_exercise_pose_push_up,
             "/pose/push_down_from_flat_floor", R.drawable.ic_exercise_pose_push_down,
             "/pose/pull_up_with_bar", R.drawable.ic_exercise_pose_pull_up,
