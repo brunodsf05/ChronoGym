@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.util;
+package bdisfer1410.gymapp.util.data;
 
 import android.content.Context;
 import java.io.*;

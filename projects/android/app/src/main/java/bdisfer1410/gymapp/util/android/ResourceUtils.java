@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.util;
+package bdisfer1410.gymapp.util.android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

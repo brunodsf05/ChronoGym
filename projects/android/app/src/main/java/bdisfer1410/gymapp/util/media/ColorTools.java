@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.util;
+package bdisfer1410.gymapp.util.media;
 
 import android.content.Context;
 import android.graphics.Color;

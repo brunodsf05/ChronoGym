@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.util;
+package bdisfer1410.gymapp.util.media;
 
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Just plays beeps.
  */
-public class BeepGenerator {
+public class Beep {
     public enum Type {
         NORMAL,
         HIGH,

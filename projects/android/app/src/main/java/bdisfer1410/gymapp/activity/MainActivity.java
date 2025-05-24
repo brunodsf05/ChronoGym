@@ -26,7 +26,7 @@ import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
-import bdisfer1410.gymapp.util.FabMenuBuilder;
+import bdisfer1410.gymapp.util.android.FabMenuBuilder;
 import bdisfer1410.gymapp.util.Result;
 
 public class MainActivity extends AppCompatActivity {

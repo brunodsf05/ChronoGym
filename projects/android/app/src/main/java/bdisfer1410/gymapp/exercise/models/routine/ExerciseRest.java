@@ -9,7 +9,7 @@ import java.io.Serializable;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
-import bdisfer1410.gymapp.util.BeepGenerator;
+import bdisfer1410.gymapp.util.media.Beep;
 
 public class ExerciseRest implements TimerAnimation, Serializable {
     private final int msDuration;
@@ -55,7 +55,7 @@ public class ExerciseRest implements TimerAnimation, Serializable {
     @Override
     public int onTick(@NonNull TimerFragment timer) {
         if (hasToEmitBeep) {
-            BeepGenerator.emit(BeepGenerator.Type.WARNING);
+            Beep.emit(Beep.Type.WARNING);
             return 0;
         }
 

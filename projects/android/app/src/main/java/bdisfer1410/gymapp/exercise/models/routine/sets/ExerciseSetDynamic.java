@@ -10,7 +10,7 @@ import java.util.List;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
-import bdisfer1410.gymapp.util.BeepGenerator;
+import bdisfer1410.gymapp.util.media.Beep;
 
 public class ExerciseSetDynamic extends ExerciseSet {
     private final List<ExerciseTransition> transitions;
@@ -53,7 +53,7 @@ public class ExerciseSetDynamic extends ExerciseSet {
 
     @Override
     public void onEnd(@NonNull TimerFragment timer) {
-        BeepGenerator.emit(BeepGenerator.Type.HIGH);
+        Beep.emit(Beep.Type.HIGH);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ExerciseSetDynamic extends ExerciseSet {
             return 0;
         }
 
-        BeepGenerator.emit(BeepGenerator.Type.NORMAL);
+        Beep.emit(Beep.Type.NORMAL);
         return transition.getMsToNext();
     }
 

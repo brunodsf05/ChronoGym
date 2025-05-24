@@ -25,7 +25,7 @@ import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationPlayerState;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.Counter;
-import bdisfer1410.gymapp.util.Voice;
+import bdisfer1410.gymapp.util.media.Voice;
 
 public class ExerciseActivity extends AppCompatActivity {
     //region Timer

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import bdisfer1410.gymapp.R;
-import bdisfer1410.gymapp.util.Voice;
+import bdisfer1410.gymapp.util.media.Voice;
 
 /**
  * Screen used to initialize background resources while displaying the app logo.

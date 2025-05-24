@@ -25,7 +25,7 @@ import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
-import bdisfer1410.gymapp.util.ResourceUtils;
+import bdisfer1410.gymapp.util.android.ResourceUtils;
 import bdisfer1410.gymapp.util.Result;
 
 /**
