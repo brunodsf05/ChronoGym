@@ -22,11 +22,15 @@ public class ListTools {
      */
     public static <T, R> List<R> cast(List<T> list, Class<R> clazz) {
         List<R> result = new ArrayList<>();
-        for (T element : list) {
-            if (clazz.isInstance(element)) {
-                result.add(clazz.cast(element));
+
+        if (list != null) {
+            for (T element : list) {
+                if (clazz.isInstance(element)) {
+                    result.add(clazz.cast(element));
+                }
             }
         }
+
         return result;
     }
 }
