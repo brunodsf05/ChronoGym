@@ -117,17 +117,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCardClick(ExerciseCard card) {
         if (!canStartExercise) {
-            Log.d("ActivityMain", "Can't start exercise because \"canStartExercise\" is false...");
+            Log.d("MainActivity", "Can't start exercise because \"canStartExercise\" is false...");
             return;
         }
 
-        Log.d("ActivityMain", "Clicked on card... Trying to play it!");
+        Log.d("MainActivity", "Clicked on card... Trying to play it!");
         Exercise exercise = null;
         TimerAnimationQueue queue = null;
 
         if (card instanceof Exercise) {
             exercise = (Exercise) card;
-            Log.d("ActivityMain", "Card is a valid Exercise object!");
+            Log.d("MainActivity", "Card is a valid Exercise object!");
         }
 
         if (exercise != null) {
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (queue == null) {
-            Log.e("ActivityMain", "Exercise does not have valid TimerAnimationQueue to play :(");
+            Log.e("MainActivity", "Exercise does not have valid TimerAnimationQueue to play :(");
             Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
         }
         else {
