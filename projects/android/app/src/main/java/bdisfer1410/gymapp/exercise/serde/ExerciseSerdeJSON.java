@@ -73,7 +73,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
     private int getIcon(String path) {
         Integer foundResId = ICONS.getOrDefault(path, null);
         return (foundResId == null || foundResId <= 0)
-                ? R.drawable.ic_launcher_foreground
+                ? R.drawable.ic_missing
                 : foundResId;
     }
 
