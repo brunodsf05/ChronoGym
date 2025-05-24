@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    app:cardBackgroundColor="?colorPrimaryContainer"
     app:cardCornerRadius="16dp"
     app:cardUseCompatPadding="false"
-    app:contentPadding="4dp">
+    app:contentPadding="4dp"
+    app:strokeColor="?colorPrimaryInverse"
+    app:strokeWidth="1sp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +52,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:text=""
-                android:textColor="?colorOnSurfaceVariant"
+                android:textColor="?colorOnPrimaryContainer"
                 android:textSize="10sp"
                 tools:ignore="SmallSp,VisualLintLongText" />
         </LinearLayout>
@@ -57,7 +60,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="9dp"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="0">
 
             <TextView
@@ -77,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="?colorOnSurfaceVariant"
+                android:textColor="?colorOnPrimaryContainer"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/interval"
                 app:layout_constraintEnd_toEndOf="@+id/interval" />

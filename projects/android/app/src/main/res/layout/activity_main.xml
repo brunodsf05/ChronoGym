@@ -71,15 +71,18 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <Button
             android:id="@+id/fab_main"
             style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-            app:backgroundTint="?attr/colorPrimaryContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_ui_add"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            app:icon="@drawable/ic_ui_add"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:strokeColor="?colorPrimaryInverse"
+            app:strokeWidth="1sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
