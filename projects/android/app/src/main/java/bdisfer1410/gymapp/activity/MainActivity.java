@@ -10,14 +10,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,8 @@ import bdisfer1410.gymapp.util.data.QuickFileManager;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView exercisesList;
     private ExerciseCardAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,31 +71,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initExercisesListRecyclerView(List<ExerciseCard> cards) {
-        exercisesList = findViewById(R.id.exercisesList);
+        RecyclerView exercisesList = findViewById(R.id.exercisesList);
         exercisesList.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ExerciseCardAdapter(cards, card -> {
-            Log.d("ActivityMain", "Clicked on card... Trying to play it!");
-            Exercise exercise = null;
-            TimerAnimationQueue queue = null;
+        adapter = new ExerciseCardAdapter(cards, this::onCardClick, this::onCardLongPress);
+        exercisesList.setAdapter(adapter);
 
-            if (card instanceof Exercise) {
-                exercise = (Exercise) card;
-                Log.d("ActivityMain", "Card is a valid Exercise object!");
-            }
-
-            if (exercise != null) {
-                queue = exercise.getQueue();
-            }
-
-            if (queue == null) {
-                Log.e("ActivityMain", "Exercise does not have valid TimerAnimationQueue to play :(");
-                Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
-            } else {
-                startExerciseActivity(queue);
-            }
-        });
-
+        /*
+        adapter = new ExerciseCardAdapter(cards, this::onCardClick, null);
         exercisesList.setAdapter(adapter);
 
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
@@ -106,7 +89,12 @@ public class MainActivity extends AppCompatActivity {
                                   @NonNull RecyclerView.ViewHolder target) {
                 int from = viewHolder.getAdapterPosition();
                 int to = target.getAdapterPosition();
-                adapter.swapItems(from, to);
+                try {
+                    adapter.wait(from, to);
+                }
+                catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 return true;
             }
 
@@ -117,6 +105,58 @@ public class MainActivity extends AppCompatActivity {
         });
 
         helper.attachToRecyclerView(exercisesList);
+        */
+    }
+
+    private void onCardClick(ExerciseCard card) {
+        Log.d("ActivityMain", "Clicked on card... Trying to play it!");
+        Exercise exercise = null;
+        TimerAnimationQueue queue = null;
+
+        if (card instanceof Exercise) {
+            exercise = (Exercise) card;
+            Log.d("ActivityMain", "Card is a valid Exercise object!");
+        }
+
+        if (exercise != null) {
+            queue = exercise.getQueue();
+        }
+
+        if (queue == null) {
+            Log.e("ActivityMain", "Exercise does not have valid TimerAnimationQueue to play :(");
+            Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            startExerciseActivity(queue);
+        }
+    }
+
+    private void onCardLongPress(View anchor, int position) {
+        String[] options = {
+                getString(R.string.activity_main_menu_edit),
+                getString(R.string.activity_main_menu_export),
+                getString(R.string.activity_main_menu_delete)
+        };
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.activity_main_longpress_hint)
+                .setItems(options, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            Toast.makeText(this, "TODO: Edit exercise", Toast.LENGTH_SHORT).show();
+                            // TODO: abrir pantalla edición
+                            break;
+                        case 1:
+                            Toast.makeText(this, "TODO: Export exercise", Toast.LENGTH_SHORT).show();
+                            break;
+                        case 2:
+                            adapter.removeItem(position);
+
+                            Toast.makeText(this, "TODO: Delete exercise", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                })
+                .show();
     }
 
     private void initFabMenu() {

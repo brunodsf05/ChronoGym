@@ -6,9 +6,13 @@
     <!-- UI: MainActivity -->
     <string name="activity_main_settings">Configuración</string>
     <string name="activity_main_add">Añadir rutina</string>
+    <string name="activity_main_longpress_hint">¿Que quieres hacer con esa rutina?</string>
     <string name="activity_main_menu_explore">Explorar rutinas</string>
     <string name="activity_main_menu_import">Importar rutina</string>
     <string name="activity_main_menu_create">Crear rutina</string>
+    <string name="activity_main_menu_edit">Editar</string>
+    <string name="activity_main_menu_delete">Borrar</string>
+    <string name="activity_main_menu_export">Exportar</string>
     <string name="activity_main_error_cant_play_queue">No se puede iniciar la rutina</string>
 
     <!-- UI: ExerciseActivity -->
