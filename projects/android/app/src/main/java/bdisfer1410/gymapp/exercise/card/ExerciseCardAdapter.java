@@ -8,49 +8,61 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import bdisfer1410.gymapp.R;
 
 /**
- * Adapter class for displaying a list of exercise cards in a RecyclerView.
- * Each item in the list must implement the {@link ExerciseCard} interface.
+ * Adapter for displaying a list of ExerciseCard items.
  */
 public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapter.ViewHolder> {
 
-    private final List<ExerciseCard> cards;
-    private final OnItemClickListener listener;
+    private final List<ExerciseCard> items;
+    private final Consumer<ExerciseCard> onClick;
+    private final BiConsumer<View, Integer> onLongClick; // May be null if no long click needed
 
     /**
-     * Interface for handling card click events.
+     * Constructor.
+     * @param items List of ExerciseCard objects to display.
+     * @param onClick Callback for item click.
+     * @param onLongClick Callback for item long click, or null if not used.
      */
-    public interface OnItemClickListener {
-        /**
-         * Called when a card is clicked.
-         *
-         * @param card The clicked {@link ExerciseCard} item.
-         */
-        void onItemClick(ExerciseCard card);
+    public ExerciseCardAdapter(List<ExerciseCard> items, Consumer<ExerciseCard> onClick, BiConsumer<View, Integer> onLongClick) {
+        this.items = items;
+        this.onClick = onClick;
+        this.onLongClick = onLongClick;
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_exercise, parent, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ExerciseCardAdapter.ViewHolder holder, int position) {
+        holder.bind(items.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 
     /**
-     * Adapter constructor.
-     *
-     * @param cards    List of items implementing {@link ExerciseCard}.
-     * @param listener Listener for handling item click events.
+     * Removes an item from the list and notifies adapter.
+     * @param position Position of item to remove.
      */
-    public ExerciseCardAdapter(List<ExerciseCard> cards, OnItemClickListener listener) {
-        this.cards = cards;
-        this.listener = listener;
+    public void removeItem(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
     }
 
-    /**
-     * ViewHolder class for exercise cards.
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, tags, interval, extra;
         ImageView icon;
 
@@ -63,13 +75,18 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
             icon = itemView.findViewById(R.id.icon);
         }
 
-        /**
-         * Binds the {@link ExerciseCard} data to the views in the layout.
-         *
-         * @param card     The card data to bind.
-         * @param listener Click listener.
-         */
-        public void bind(final ExerciseCard card, final OnItemClickListener listener) {
+        public void bind(ExerciseCard card) {
+            itemView.setOnClickListener(v -> onClick.accept(card));
+            if (onLongClick != null) {
+                itemView.setOnLongClickListener(v -> {
+                    onLongClick.accept(v, getAdapterPosition());
+                    return true;
+                });
+            }
+            else {
+                itemView.setOnLongClickListener(null);
+            }
+            // TODO: Bind your views with card data here
             name.setText(card.getCardName());
             interval.setText(card.getCardInterval());
 
@@ -96,36 +113,6 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
                     Objects.requireNonNullElse(card.getCardIcon(), R.drawable.ic_exercise_default)
             );
 
-            itemView.setOnClickListener(v -> listener.onItemClick(card));
         }
-    }
-
-    @NonNull
-    @Override
-    public ExerciseCardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_exercise, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ExerciseCardAdapter.ViewHolder holder, int position) {
-        holder.bind(cards.get(position), listener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return cards.size();
-    }
-
-    /**
-     * Swaps two items in the list. Useful for reordering.
-     *
-     * @param fromPosition Index of the item being moved.
-     * @param toPosition   Index of the target position.
-     */
-    public void swapItems(int fromPosition, int toPosition) {
-        Collections.swap(cards, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
     }
 }
