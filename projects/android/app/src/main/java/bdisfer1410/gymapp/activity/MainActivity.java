@@ -33,6 +33,7 @@ import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.FabMenuBuilder;
 import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.data.QuickFileManager;
+import bdisfer1410.gymapp.util.java.ListTools;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView exercisesList;
@@ -56,29 +57,19 @@ public class MainActivity extends AppCompatActivity {
         exercisesList = findViewById(R.id.exercisesList);
         exercisesList.setLayoutManager(new LinearLayoutManager(this));
 
-        cardList = Arrays.asList(
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
-                    @Override @NonNull public String getCardName() { return "Push-Ups"; }
-                    @Override public String getCardTags() { return "Chest, Arms"; }
-                    @Override @NonNull public String getCardInterval() { return "30s"; }
-                    @Override public String getCardExtra() { return "x15"; }
-                },
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return null; }
-                    @Override @NonNull public String getCardName() { return "Plank"; }
-                    @Override public String getCardTags() { return null; }
-                    @Override @NonNull public String getCardInterval() { return "45s"; }
-                    @Override public String getCardExtra() { return null; }
-                },
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
-                    @Override @NonNull public String getCardName() { return "Squats"; }
-                    @Override public String getCardTags() { return "Legs"; }
-                    @Override @NonNull public String getCardInterval() { return "1m"; }
-                    @Override public String getCardExtra() { return "3 sets"; }
-                }
+        // Load
+        String jsonString = QuickFileManager
+                .with(MainActivity.this)
+                .file("user_exercises.json")
+                .read();
+
+        ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(
+                MainActivity.this, jsonString
         );
+
+        Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
+        Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
+        cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
 
         adapter = new ExerciseCardAdapter(cardList, card ->
                 Toast.makeText(this, "Clicked: " + card.getCardName(), Toast.LENGTH_SHORT).show()
@@ -120,22 +111,18 @@ public class MainActivity extends AppCompatActivity {
                 ),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
                     Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
-                    // Read file
-                    String jsonString = QuickFileManager
+                    // Read raw file
+                    String rawJsonString = QuickFileManager
                             .with(MainActivity.this)
                             .rawRes(R.raw.serialized_exercise_prototype)
                             .read();
 
-                    // Deserialize
-                    ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(
-                            MainActivity.this, jsonString
-                    );
-                    // Output
-                    Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
-                    Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
-                    if (result.isOk() && !result.getValue().isEmpty()) {
-                        startExerciseActivity(result.getValue().get(0).getQueue());
-                    }
+                    // Save to application user data
+                    QuickFileManager
+                            .with(MainActivity.this)
+                            .file("user_exercises.json")
+                            .save(rawJsonString);
+
                 }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()
