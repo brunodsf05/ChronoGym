@@ -59,6 +59,8 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
         holder.list.setLayoutManager(new LinearLayoutManager(holder.list.getContext()));
         holder.list.setAdapter(adapter);
 
+        if (!page.isReorderEnabled()) return;
+
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
             @Override
