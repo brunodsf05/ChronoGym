@@ -21,13 +21,14 @@ import java.util.Map;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
 import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
+import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class EditorActivity extends AppCompatActivity {
     //region Pages
-    private CardPage pagePoses, pageTransitions, pageSets, pageQueue, pageMain;
+    private CardPage pagePoses, pageTransitions, pageSets, pageExerciseQueue, pageExerciseInfo, pageExerciseFile;
     private List<CardPage> sectionExercise, sectionFiles, sectionResources;
     private PagerEditorCardsAdapter pagerAdapter;
     private Sections openedSection = Sections.EXERCISE;
@@ -96,7 +97,15 @@ public class EditorActivity extends AppCompatActivity {
         sectionExercise = List.of(pagePoses);
 
         // Files
-        sectionFiles = List.of();
+        pageExerciseFile = new CardPage(getString(R.string.activity_editor_section_file), List.of(
+                new SimpleCard("save", R.drawable.ic_ui_save, getString(R.string.activity_editor_action_name_save), getString(R.string.activity_editor_action_desc_save)),
+                new SimpleCard("help", R.drawable.ic_ui_help, getString(R.string.activity_editor_action_name_help), getString(R.string.activity_editor_action_desc_help)),
+                new SimpleCard("exit", R.drawable.ic_ui_close, getString(R.string.activity_editor_action_name_exit), getString(R.string.activity_editor_action_desc_exit))
+        ));
+
+        sectionFiles = List.of(
+                pageExerciseFile
+        );
     }
     //endregion
 
