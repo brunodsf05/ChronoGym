@@ -29,12 +29,12 @@
             android:id="@+id/sections"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:checkedButton="@id/sectionRoutine"
+            app:checkedButton="@id/sectionExercise"
             app:selectionRequired="true"
             app:singleSelection="true">
 
             <Button
-                android:id="@+id/sectionRoutine"
+                android:id="@+id/sectionExercise"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:textAllCaps="true"
                 android:textSize="8sp"
                 android:textStyle="bold"
-                app:icon="@drawable/ic_exercise_default"
+                app:icon="@drawable/ic_section_exercise"
                 app:iconGravity="top"
                 app:iconSize="32dp" />
 
@@ -58,7 +58,7 @@
                 android:textAllCaps="true"
                 android:textSize="8sp"
                 android:textStyle="bold"
-                app:icon="@drawable/ic_exercise_default"
+                app:icon="@drawable/ic_section_save"
                 app:iconGravity="top"
                 app:iconSize="32dp" />
 
@@ -72,7 +72,7 @@
                 android:textAllCaps="true"
                 android:textSize="8sp"
                 android:textStyle="bold"
-                app:icon="@drawable/ic_exercise_default"
+                app:icon="@drawable/ic_section_resources"
                 app:iconGravity="top"
                 app:iconSize="32dp" />
         </com.google.android.material.button.MaterialButtonToggleGroup>

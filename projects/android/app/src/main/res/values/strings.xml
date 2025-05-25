@@ -30,6 +30,7 @@
     <string name="activity_editor_section_file">Archivo</string>
     <string name="activity_editor_section_resources">Recursos</string>
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
+    <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>
 
     <!-- JSON: Strings: Sets -->
     <string name="card_subtext_set_static">%s, Set estático</string>
