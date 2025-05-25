@@ -22,9 +22,13 @@ import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
 import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
+import bdisfer1410.gymapp.util.java.ListTools;
 
 public class EditorActivity extends AppCompatActivity {
     private CardPage pagePoses, pageTransitions, pageSets;
+    private Exercise exercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,72 +43,27 @@ public class EditorActivity extends AppCompatActivity {
             return insets;
         });
 
+        if (savedInstanceState == null) {
+            Object obj = getIntent().getSerializableExtra("exercise");
+
+            if (obj instanceof Exercise){
+                Log.d("EditorActivity", "Loading Exercise from Intent");
+                exercise = (Exercise) obj;
+            }
+            else {
+                Log.d("EditorActivity", "Creating new exercise object");
+                exercise = new Exercise("", 0, null, null);
+                exercise.setRepositories(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            }
+        }
+
         ViewPager2 viewPager = findViewById(R.id.pager);
 
-        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), new ArrayList<>());
-        pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), new ArrayList<>());
-        pageSets = new CardPage(getString(R.string.activity_editor_page_sets), new ArrayList<>());
+        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), ListTools.cast(exercise.repoPoses, ExerciseCard.class));
+        pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
+        pageSets = new CardPage(getString(R.string.activity_editor_page_sets), ListTools.cast(exercise.repoSets, ExerciseCard.class));
 
         List<CardPage> pages = List.of(pagePoses, pageTransitions, pageSets);
-
-        //region Mock
-        pagePoses.setCards(new ArrayList<>(Arrays.asList(
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
-                    @Override @NonNull public String getCardName() { return "Push-Ups"; }
-                    @Override public String getCardTags() { return "Chest, Arms"; }
-                    @Override @NonNull public String getCardInterval() { return "30s"; }
-                    @Override public String getCardExtra() { return "x15"; }
-                },
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return null; }
-                    @Override @NonNull public String getCardName() { return "Plank"; }
-                    @Override public String getCardTags() { return null; }
-                    @Override @NonNull public String getCardInterval() { return "45s"; }
-                    @Override public String getCardExtra() { return null; }
-                },
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
-                    @Override @NonNull public String getCardName() { return "Squats"; }
-                    @Override public String getCardTags() { return "Legs"; }
-                    @Override @NonNull public String getCardInterval() { return "1m"; }
-                    @Override public String getCardExtra() { return "3 sets"; }
-                }
-        )));
-        pageTransitions.setCards(new ArrayList<>(Arrays.asList(
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
-                    @Override @NonNull public String getCardName() { return "Jumping Jacks"; }
-                    @Override public String getCardTags() { return "Cardio"; }
-                    @Override @NonNull public String getCardInterval() { return "30s"; }
-                    @Override public String getCardExtra() { return null; }
-                },
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return R.drawable.ic_exercise_default; }
-                    @Override @NonNull public String getCardName() { return "Mountain Climbers"; }
-                    @Override public String getCardTags() { return "Core"; }
-                    @Override @NonNull public String getCardInterval() { return "30s"; }
-                    @Override public String getCardExtra() { return "Fast pace"; }
-                }
-        )));
-
-        pageSets.setCards(new ArrayList<>(Arrays.asList(
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return null; }
-                    @Override @NonNull public String getCardName() { return "Stretching"; }
-                    @Override public String getCardTags() { return "Cool Down"; }
-                    @Override @NonNull public String getCardInterval() { return "2m"; }
-                    @Override public String getCardExtra() { return "Full body"; }
-                },
-                new ExerciseCard() {
-                    @Override public Integer getCardIcon() { return null; }
-                    @Override @NonNull public String getCardName() { return "Breathing"; }
-                    @Override public String getCardTags() { return null; }
-                    @Override @NonNull public String getCardInterval() { return "1m"; }
-                    @Override public String getCardExtra() { return "Relaxation"; }
-                }
-        )));
-        //endregion
 
         PagerEditorCardsAdapter pagerAdapter = new PagerEditorCardsAdapter(
                 pages,

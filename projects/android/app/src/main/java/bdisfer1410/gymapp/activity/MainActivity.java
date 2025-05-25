@@ -34,6 +34,7 @@ import bdisfer1410.gymapp.util.data.QuickFileManager;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class MainActivity extends AppCompatActivity {
+    private List<ExerciseCard> cardList;
     private ExerciseCardAdapter adapter;
     private boolean canStartExercise = false;
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Load exercises from file
-        List<ExerciseCard> cardList = new ArrayList<>();
+        cardList = new ArrayList<>();
 
         String jsonString = QuickFileManager
                 .with(MainActivity.this)
@@ -83,36 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ExerciseCardAdapter(cards, this::onCardClick, this::onCardLongPress);
         exercisesList.setAdapter(adapter);
-
-        /*
-        adapter = new ExerciseCardAdapter(cards, this::onCardClick, null);
-        exercisesList.setAdapter(adapter);
-
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView,
-                                  @NonNull RecyclerView.ViewHolder viewHolder,
-                                  @NonNull RecyclerView.ViewHolder target) {
-                int from = viewHolder.getAdapterPosition();
-                int to = target.getAdapterPosition();
-                try {
-                    adapter.wait(from, to);
-                }
-                catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                return true;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // Not used
-            }
-        });
-
-        helper.attachToRecyclerView(exercisesList);
-        */
     }
 
     private void onCardClick(ExerciseCard card) {
@@ -145,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onCardLongPress(View anchor, int position) {
+        Exercise exercise;
+
+        try {
+            exercise = (Exercise) cardList.get(position);
+        }
+        catch (Exception e) {
+            Log.e("MainActivity", "Couldn't identify card by long pressing");
+            return;
+        }
+
         String[] options = {
                 getString(R.string.activity_main_menu_edit),
                 getString(R.string.activity_main_menu_export),
@@ -156,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            Toast.makeText(this, "TODO: Edit exercise", Toast.LENGTH_SHORT).show();
-                            // TODO: abrir pantalla edición
+                            startEditorActivity(exercise);
                             break;
                         case 1:
                             Toast.makeText(this, "TODO: Export exercise", Toast.LENGTH_SHORT).show();
@@ -219,6 +199,12 @@ public class MainActivity extends AppCompatActivity {
     private void startExerciseActivity(TimerAnimationQueue animationQueue) {
         Intent intent = new Intent(this, ExerciseActivity.class);
         intent.putExtra("queue", animationQueue);
+        startActivity(intent);
+    }
+
+    private void startEditorActivity(Exercise exercise) {
+        Intent intent = new Intent(this, EditorActivity.class);
+        intent.putExtra("exercise", exercise);
         startActivity(intent);
     }
 }

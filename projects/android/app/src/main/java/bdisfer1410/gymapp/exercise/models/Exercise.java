@@ -5,18 +5,18 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
-import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSet;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
-public class Exercise implements ExerciseCard {
+public class Exercise implements ExerciseCard, Serializable {
     private final String name;
     private final Integer icon;
     private final TimerAnimationQueue queue;

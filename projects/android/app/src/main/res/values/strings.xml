@@ -22,10 +22,11 @@
     <string name="activity_exercise_button_return">Volver</string>
     <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
 
-    <!-- UI: ExerciseActivity -->
+    <!-- UI: EditorActivity -->
     <string name="activity_editor_page_poses">Poses</string>
     <string name="activity_editor_page_transitions">Transiciones</string>
     <string name="activity_editor_page_sets">Sets</string>
+    <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
 
     <!-- JSON: Strings: Sets -->
     <string name="card_subtext_set_static">%s, Set estático</string>
