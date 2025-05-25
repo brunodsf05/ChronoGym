@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
@@ -28,6 +29,7 @@ import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.ResourceUtils;
 import bdisfer1410.gymapp.util.Result;
+import bdisfer1410.gymapp.util.java.Identifiable;
 
 /**
  * Serializes/deserializes an {@link Exercise} to/from JSON.
@@ -189,6 +191,8 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{poses}[%d]{poseIcon} = %d", i, poseIcon));
 
             mapPoses.put(poseId, new ExercisePose(poseName, poseIcon));
+            if (mapPoses.get(poseId) != null)
+                Objects.requireNonNull(mapPoses.get(poseId)).setId(poseId);
         }
 
         // Parse transitions
@@ -222,6 +226,8 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 transitionsList.add(new ExerciseTransition(mapPoses.get(transitionPoseId), transitionPoseTime));
             }
             mapTransitions.put(transitionId, new ExerciseTransitions("NotYet", transitionsList));
+            if (mapTransitions.get(transitionId) != null)
+                Objects.requireNonNull(mapTransitions.get(transitionId)).setId(transitionId);
         }
 
         // Parse sets
@@ -286,6 +292,8 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     mapSets.put(setId, new ExerciseSetDynamic(setDataSetDynamicName, let, setDataSetDynamicRepetitions));
                     break;
             }
+            if (mapSets.get(setId) instanceof Identifiable)
+                ((Identifiable) Objects.requireNonNull(mapSets.get(setId))).setId(setId);
         }
 
         // Parse queue
