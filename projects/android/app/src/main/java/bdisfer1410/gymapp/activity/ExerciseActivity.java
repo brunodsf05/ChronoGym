@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
@@ -177,7 +179,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     isPlaying = false;
                 }
 
-                new AlertDialog.Builder(ExerciseActivity.this)
+                new MaterialAlertDialogBuilder(ExerciseActivity.this)
                         .setTitle("Salir de la aplicación")
                         .setMessage("¿Estás seguro de que quieres salir?")
                         .setPositiveButton("Sí", (dialog, which) -> {
