@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             .save(rawJsonString);
                 }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
-                        Toast.makeText(this, "WIP: Crear rutina", Toast.LENGTH_SHORT).show()
+                        startEditorActivity(null)
                 )
         );
 
