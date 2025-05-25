@@ -130,18 +130,10 @@ public class EditorActivity extends AppCompatActivity {
 
     //region HighLevel Handlers
     private void handleExit() {
-        String[] options = {
-                getString(R.string.activity_editor_action_button_exit_deny),
-                getString(R.string.activity_editor_action_button_exit_confirm)
-        };
-
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.activity_editor_action_title_exit)
-                .setItems(options, (dialog, which) -> {
-                    if (which == 1) {
-                        finish();
-                    }
-                })
+                .setNegativeButton(R.string.activity_editor_action_button_exit_confirm, (dialog, which) -> finish())
+                .setNeutralButton(R.string.activity_editor_action_button_exit_deny, null)
                 .show();
     }
 
