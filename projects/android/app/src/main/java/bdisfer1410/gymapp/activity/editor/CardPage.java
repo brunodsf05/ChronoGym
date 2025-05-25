@@ -6,7 +6,7 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 
 public class CardPage {
     private final String name;
-    private final List<ExerciseCard> cards;
+    private List<ExerciseCard> cards;
 
     public CardPage(String name, List<ExerciseCard> cards) {
         this.name = name;
@@ -19,5 +19,9 @@ public class CardPage {
 
     public List<ExerciseCard> getCards() {
         return cards;
+    }
+
+    public void setCards(List<ExerciseCard> cards) {
+        this.cards = cards;
     }
 }

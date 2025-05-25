@@ -22,6 +22,11 @@
     <string name="activity_exercise_button_return">Volver</string>
     <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
 
+    <!-- UI: ExerciseActivity -->
+    <string name="activity_editor_page_poses">Poses</string>
+    <string name="activity_editor_page_transitions">Transiciones</string>
+    <string name="activity_editor_page_sets">Sets</string>
+
     <!-- JSON: Serialization: Error -->
     <string name="file_json_serialization_error">Error al guardar la rutina como JSON</string>
 
