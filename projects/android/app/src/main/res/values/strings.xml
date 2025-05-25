@@ -35,10 +35,15 @@
     <string name="activity_editor_action_name_help">Ayuda</string>
     <string name="activity_editor_action_name_exit">Salir</string>
 
+    <string name="activity_editor_action_title_help">¿Cómo puedo crear/editar una rutina?</string>
+    <string name="activity_editor_action_title_exit">¿Seguro que quieres salir?</string>
+
+    <string name="activity_editor_action_button_exit_confirm">Sí</string>
+    <string name="activity_editor_action_button_exit_deny">No, quiero seguir editando</string>
 
     <string name="activity_editor_action_desc_save">Si la rutina ya existía, se sobrescribirán los datos</string>
     <string name="activity_editor_action_desc_help">¿Quieres aprender a configurar tu rutina? Este es tu sitio</string>
-    <string name="activity_editor_action_desc_exit">Los cambios no guardados serán olvidados por toda la eternidad</string>
+    <string name="activity_editor_action_desc_exit">Los cambios no guardados serán olvidados para siempre…</string>
 
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
     <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>

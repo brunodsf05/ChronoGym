@@ -1,11 +1,13 @@
 package bdisfer1410.gymapp.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,7 @@ import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class EditorActivity extends AppCompatActivity {
@@ -71,6 +75,13 @@ public class EditorActivity extends AppCompatActivity {
         MaterialButtonToggleGroup toggleGroup = findViewById(R.id.sections);
         toggleGroup.addOnButtonCheckedListener(this::handleSectionClick);
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleExit();
+            }
+        });
+
         // Setup pages
         initPages();
         pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
@@ -110,6 +121,22 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region HighLevel Handlers
+    private void handleExit() {
+        String[] options = {
+                getString(R.string.activity_editor_action_button_exit_deny),
+                getString(R.string.activity_editor_action_button_exit_confirm)
+        };
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.activity_editor_action_title_exit)
+                .setItems(options, (dialog, which) -> {
+                    if (which == 1) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
     private void handleSectionClick(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
         if (!isChecked) return;
 
@@ -157,7 +184,32 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {
-        Toast.makeText(this, "handleCardClickOnPageFile", Toast.LENGTH_SHORT).show();
+        // Manage Identifiable instance
+        if (!(exerciseCard instanceof Identifiable)) {
+            Log.e("EditorActivity", "Selected card is not an instance of \"Identifiable\"");
+           return;
+        }
+
+        Identifiable identifiable = (Identifiable) exerciseCard;
+
+        // Execute based of id
+        switch (identifiable.getId()) {
+            case "save":
+                Toast.makeText(this, "TODO: Implement save", Toast.LENGTH_SHORT).show();
+                break;
+
+            case "help":
+                Toast.makeText(this, "TODO: Implement help", Toast.LENGTH_SHORT).show();
+                break;
+
+            case "exit":
+                handleExit();
+                break;
+
+            default:
+                Log.e("EditorActivity", "Selected card id is not a valid pageFile action");
+                break;
+        }
     }
 
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard) {
