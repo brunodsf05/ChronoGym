@@ -12,9 +12,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.button.MaterialButtonToggleGroup;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
@@ -24,11 +26,17 @@ import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class EditorActivity extends AppCompatActivity {
+    //region Pages
     private CardPage pagePoses, pageTransitions, pageSets, pageQueue, pageMain;
-    private List<CardPage> pagesResources;
-    private List<CardPage> pagesMain;
+    private List<CardPage> pagesExercise, pagesFiles, pagesResources;
     private PagerEditorCardsAdapter pagerAdapter;
+    private Sections openedSection = Sections.EXERCISE;
+    //endregion
     private Exercise exercise;
+
+    private enum Sections {
+        EXERCISE, FILE, RESOURCES;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,10 @@ public class EditorActivity extends AppCompatActivity {
             }
         }
 
+        // Setup sections
+        MaterialButtonToggleGroup toggleGroup = findViewById(R.id.sections);
+        toggleGroup.addOnButtonCheckedListener(this::handleSectionClick);
+
         // Setup pages
         ViewPager2 viewPager = findViewById(R.id.pager);
 
@@ -65,32 +77,68 @@ public class EditorActivity extends AppCompatActivity {
         pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
         pageSets = new CardPage(getString(R.string.activity_editor_page_sets), ListTools.cast(exercise.repoSets, ExerciseCard.class));
 
+        pagesExercise = List.of(pagePoses);
         pagesResources = List.of(pagePoses, pageTransitions, pageSets);
-        pagesMain = List.of(pagePoses);
+        pagesFiles = List.of();
 
-        pagerAdapter = new PagerEditorCardsAdapter(pagesMain, this::handleCardClick);
+        pagerAdapter = new PagerEditorCardsAdapter(pagesExercise, this::handleCardClick);
 
         viewPager.setAdapter(pagerAdapter);
     }
 
-    private void handleCardClick(ExerciseCard exerciseCard) {
-        Log.d(
-                "EditorActivity",
-                Arrays.toString(pagePoses.getCards().stream()
-                        .map(ExerciseCard::getCardName)
-                        .toArray())
-        );
-        Toast.makeText(
-                this,
-                "Clicked on: " + exerciseCard.getCardName(),
-                Toast.LENGTH_SHORT
-        ).show();
+    //region HighLevel Handlers
+    private void handleSectionClick(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        if (!isChecked) return;
 
-        if (pagerAdapter == null) return;
+        // Determine which section is selected
+        openedSection = Map.of(
+                R.id.sectionExercise, Sections.EXERCISE,
+                R.id.sectionFile, Sections.FILE,
+                R.id.sectionResources, Sections.RESOURCES
+        ).getOrDefault(checkedId, Sections.EXERCISE);
+
+        // Swap pages based on enum
+        Log.d("EditorActivity", String.format("Clicked on section \"%s\"", openedSection));
+
         pagerAdapter.setPages(
-                pagerAdapter.getPages().size() == 1
-                        ? pagesResources
-                        : pagesMain
-                );
+                Map.of(
+                        Sections.EXERCISE, pagesExercise,
+                        Sections.FILE, pagesFiles,
+                        Sections.RESOURCES, pagesResources
+                ).getOrDefault(openedSection, List.of())
+        );
     }
+
+    private void handleCardClick(ExerciseCard exerciseCard) {
+        if (exerciseCard == null || pagerAdapter == null) {
+            Log.e("EditorActivity", "Can't handle click because \"exerciseCard\" or \"pagerAdapter\" is null");
+            return;
+        }
+
+        Log.d("EditorActivity", String.format("Clicked on card from section \"%s\" with name \"%s\"", openedSection, exerciseCard.getCardName()));
+
+        switch (openedSection) {
+            case EXERCISE : handleCardClickOnPageExercise (exerciseCard); break;
+            case FILE     : handleCardClickOnPageFile     (exerciseCard); break;
+            case RESOURCES: handleCardClickOnPageResources(exerciseCard); break;
+
+            default:
+                Toast.makeText(this, R.string.activity_editor_error_invalid_section, Toast.LENGTH_SHORT).show();
+        }
+    }
+    //endregion
+
+    //region Handlers: ExerciseCard
+    private void handleCardClickOnPageExercise(ExerciseCard exerciseCard) {
+        Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {
+        Toast.makeText(this, "handleCardClickOnPageFile", Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleCardClickOnPageResources(ExerciseCard exerciseCard) {
+        Toast.makeText(this, "handleCardClickOnPageResources", Toast.LENGTH_SHORT).show();
+    }
+    //endregion
 }
