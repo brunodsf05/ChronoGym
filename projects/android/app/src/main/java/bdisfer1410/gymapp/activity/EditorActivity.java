@@ -1,6 +1,8 @@
 package bdisfer1410.gymapp.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -106,9 +108,19 @@ public class EditorActivity extends AppCompatActivity {
 
         PagerEditorCardsAdapter pagerAdapter = new PagerEditorCardsAdapter(
                 pages,
-                exerciseCard -> Toast.makeText(this,
-                        "Clicked on: " + exerciseCard.getCardName(),
-                        Toast.LENGTH_SHORT).show()
+                exerciseCard -> {
+                    Log.d(
+                            "EditorActivity",
+                            Arrays.toString(pagePoses.getCards().stream()
+                                    .map(ExerciseCard::getCardName)
+                                    .toArray())
+                    );
+                    Toast.makeText(
+                            this,
+                            "Clicked on: " + exerciseCard.getCardName(),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
         );
 
         viewPager.setAdapter(pagerAdapter);
