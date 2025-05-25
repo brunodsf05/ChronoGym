@@ -28,7 +28,7 @@ import bdisfer1410.gymapp.util.java.ListTools;
 public class EditorActivity extends AppCompatActivity {
     //region Pages
     private CardPage pagePoses, pageTransitions, pageSets, pageQueue, pageMain;
-    private List<CardPage> pagesExercise, pagesFiles, pagesResources;
+    private List<CardPage> sectionExercise, sectionFiles, sectionResources;
     private PagerEditorCardsAdapter pagerAdapter;
     private Sections openedSection = Sections.EXERCISE;
     //endregion
@@ -71,20 +71,34 @@ public class EditorActivity extends AppCompatActivity {
         toggleGroup.addOnButtonCheckedListener(this::handleSectionClick);
 
         // Setup pages
+        initPages();
+        pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
+        pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
+        pageSets.setCards(ListTools.cast(exercise.repoSets, ExerciseCard.class));
+
         ViewPager2 viewPager = findViewById(R.id.pager);
 
-        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), ListTools.cast(exercise.repoPoses, ExerciseCard.class));
-        pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
-        pageSets = new CardPage(getString(R.string.activity_editor_page_sets), ListTools.cast(exercise.repoSets, ExerciseCard.class));
-
-        pagesExercise = List.of(pagePoses);
-        pagesResources = List.of(pagePoses, pageTransitions, pageSets);
-        pagesFiles = List.of();
-
-        pagerAdapter = new PagerEditorCardsAdapter(pagesExercise, this::handleCardClick);
+        pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick);
 
         viewPager.setAdapter(pagerAdapter);
     }
+
+    //region Setup
+    private void initPages() {
+        // Resources
+        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), List.of());
+        pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), List.of());
+        pageSets = new CardPage(getString(R.string.activity_editor_page_sets), List.of());
+
+        sectionResources = List.of(pagePoses, pageTransitions, pageSets);
+
+        // Exercise
+        sectionExercise = List.of(pagePoses);
+
+        // Files
+        sectionFiles = List.of();
+    }
+    //endregion
 
     //region HighLevel Handlers
     private void handleSectionClick(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
@@ -102,9 +116,9 @@ public class EditorActivity extends AppCompatActivity {
 
         pagerAdapter.setPages(
                 Map.of(
-                        Sections.EXERCISE, pagesExercise,
-                        Sections.FILE, pagesFiles,
-                        Sections.RESOURCES, pagesResources
+                        Sections.EXERCISE, sectionExercise,
+                        Sections.FILE, sectionFiles,
+                        Sections.RESOURCES, sectionResources
                 ).getOrDefault(openedSection, List.of())
         );
     }
