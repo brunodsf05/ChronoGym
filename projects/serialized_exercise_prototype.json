@@ -13,6 +13,7 @@
       "transitions": [
         {
           "id": "push_ups",
+          "name": "Flexión",
           "poses": [
             { "id": "push_up"  , "time": 1500 },
             { "id": "push_down", "time": 1500 }
@@ -20,6 +21,7 @@
         },
         {
           "id": "pull_ups",
+          "name": "Dominada",
           "poses": [
             { "id": "pull_up"  , "time": 1500 },
             { "id": "pull_down", "time": 1500 }

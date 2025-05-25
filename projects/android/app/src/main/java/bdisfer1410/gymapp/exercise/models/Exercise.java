@@ -5,9 +5,14 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSet;
+import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
@@ -16,6 +21,11 @@ public class Exercise implements ExerciseCard {
     private final Integer icon;
     private final TimerAnimationQueue queue;
     private final List<String> tags;
+    //region Repositories
+    public List<ExercisePose> repoPoses = new ArrayList<>();
+    public List<ExerciseTransitions> repoTransitions = new ArrayList<>();
+    public List<TimerAnimation> repoSets = new ArrayList<>();
+    //endregion
 
     public Exercise(String name, Integer icon, TimerAnimationQueue queue, List<String> tags) {
         this.name = name;
@@ -38,6 +48,16 @@ public class Exercise implements ExerciseCard {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    /**
+     * Repositories are list of objects that are unique, but later referenced in other site multiple
+     * times via pointer.
+     */
+    public void setRepositories(List<ExercisePose> repoPoses, List<ExerciseTransitions> repoTransitions , List<TimerAnimation> repoSets) {
+        this.repoPoses = repoPoses;
+        this.repoTransitions = repoTransitions;
+        this.repoSets = repoSets;
     }
 
     @NonNull

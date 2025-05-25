@@ -18,6 +18,7 @@ import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
@@ -122,13 +123,26 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         Log.d("ExerciseSerdeJSON", String.format("des::[?]{icon} = %d", icon));
         Log.d("ExerciseSerdeJSON", String.format("des::[?]{tags} = \"%s\"", tags));
 
-        Result<TimerAnimationQueue, Integer> queueResult = parseExercise(
+        Result<Exercise, Integer> exerciseOnlyQueueResult = parseExercise(
                 exerciseJSONObject.optJSONObject("exercise")
         );
 
-        return queueResult.isOk()
-                ? Result.ok(new Exercise(name, icon, queueResult.getValue(), tags))
-                : Result.err(queueResult.getError());
+        TimerAnimationQueue queue = exerciseOnlyQueueResult.isOk()
+                ? exerciseOnlyQueueResult.getValue().getQueue()
+                : null;
+
+        if (queue == null) {
+            return Result.err(exerciseOnlyQueueResult.getError());
+        }
+
+        Exercise exercise = new Exercise(name, icon, queue, tags);
+        exercise.setRepositories(
+                exerciseOnlyQueueResult.getValue().repoPoses,
+                exerciseOnlyQueueResult.getValue().repoTransitions,
+                exerciseOnlyQueueResult.getValue().repoSets
+        );
+
+        return Result.ok(exercise);
     }
 
     private List<String> parseTags(JSONObject exerciseJSONObject) {
@@ -147,13 +161,13 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         return tagsList;
     }
 
-    private Result<TimerAnimationQueue, Integer> parseExercise(JSONObject exerciseJSONObject) {
+    private Result<Exercise, Integer> parseExercise(JSONObject exerciseJSONObject) {
         // Prepare parsing
         if (exerciseJSONObject == null)
             return Result.err(R.string.file_json_deserialization_error_exercise);
 
         HashMap<String, ExercisePose> mapPoses = new HashMap<>();
-        HashMap<String, List<ExerciseTransition>> mapTransitions = new HashMap<>();
+        HashMap<String, ExerciseTransitions> mapTransitions = new HashMap<>();
         HashMap<String, TimerAnimation> mapSets = new HashMap<>();
         List<TimerAnimation> queue = new ArrayList<>();
 
@@ -207,7 +221,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
                 transitionsList.add(new ExerciseTransition(mapPoses.get(transitionPoseId), transitionPoseTime));
             }
-            mapTransitions.put(transitionId, transitionsList);
+            mapTransitions.put(transitionId, new ExerciseTransitions("NotYet", transitionsList));
         }
 
         // Parse sets
@@ -266,7 +280,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{sets}[%d]{data}{repetitions} = %d", i, setDataSetDynamicRepetitions));
                     if (setDataSetDynamicRepetitions < 0) continue;
 
-                    List<ExerciseTransition> let = mapTransitions.get(setDataSetDynamicTransition);
+                    List<ExerciseTransition> let = mapTransitions.get(setDataSetDynamicTransition).list;
                     let = let == null ? new ArrayList<>() : let; // Android cries if I don't do this
 
                     mapSets.put(setId, new ExerciseSetDynamic(setDataSetDynamicName, let, setDataSetDynamicRepetitions));
@@ -288,7 +302,14 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             queue.add(set);
         }
 
-        return Result.ok(new TimerAnimationQueue(queue));
+        // Build empty exercise with only queue and repos
+        Exercise repos = new Exercise("", 1, new TimerAnimationQueue(queue), null);
+        repos.setRepositories(
+                new ArrayList<>(mapPoses.values()),
+                new ArrayList<>(mapTransitions.values()),
+                new ArrayList<>(mapSets.values())
+        );
+        return Result.ok(repos);
     }
     //endregion
 }
