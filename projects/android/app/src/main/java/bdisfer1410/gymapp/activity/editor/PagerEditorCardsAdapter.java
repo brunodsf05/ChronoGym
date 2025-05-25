@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity.editor;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
 
 public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCardsAdapter.PageViewHolder> {
 
-    private final List<CardPage> pages;
+    private List<CardPage> pages;
     private final Consumer<ExerciseCard> onClick;
 
     public PagerEditorCardsAdapter(
@@ -28,6 +29,16 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     ) {
         this.pages = pages;
         this.onClick = onClick;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setPages(List<CardPage> pages) {
+        this.pages = pages;
+        notifyDataSetChanged();
+    }
+
+    public List<CardPage> getPages() {
+        return this.pages;
     }
 
     @NonNull

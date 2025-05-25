@@ -1,13 +1,11 @@
 package bdisfer1410.gymapp.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,11 +21,13 @@ import bdisfer1410.gymapp.activity.editor.CardPage;
 import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
-import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 public class EditorActivity extends AppCompatActivity {
-    private CardPage pagePoses, pageTransitions, pageSets;
+    private CardPage pagePoses, pageTransitions, pageSets, pageQueue, pageMain;
+    private List<CardPage> pagesResources;
+    private List<CardPage> pagesMain;
+    private PagerEditorCardsAdapter pagerAdapter;
     private Exercise exercise;
 
     @Override
@@ -43,6 +43,7 @@ public class EditorActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Load exercise to edit or start a new one
         if (savedInstanceState == null) {
             Object obj = getIntent().getSerializableExtra("exercise");
 
@@ -57,31 +58,39 @@ public class EditorActivity extends AppCompatActivity {
             }
         }
 
+        // Setup pages
         ViewPager2 viewPager = findViewById(R.id.pager);
 
         pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), ListTools.cast(exercise.repoPoses, ExerciseCard.class));
         pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
         pageSets = new CardPage(getString(R.string.activity_editor_page_sets), ListTools.cast(exercise.repoSets, ExerciseCard.class));
 
-        List<CardPage> pages = List.of(pagePoses, pageTransitions, pageSets);
+        pagesResources = List.of(pagePoses, pageTransitions, pageSets);
+        pagesMain = List.of(pagePoses);
 
-        PagerEditorCardsAdapter pagerAdapter = new PagerEditorCardsAdapter(
-                pages,
-                exerciseCard -> {
-                    Log.d(
-                            "EditorActivity",
-                            Arrays.toString(pagePoses.getCards().stream()
-                                    .map(ExerciseCard::getCardName)
-                                    .toArray())
-                    );
-                    Toast.makeText(
-                            this,
-                            "Clicked on: " + exerciseCard.getCardName(),
-                            Toast.LENGTH_SHORT
-                    ).show();
-                }
-        );
+        pagerAdapter = new PagerEditorCardsAdapter(pagesMain, this::handleCardClick);
 
         viewPager.setAdapter(pagerAdapter);
+    }
+
+    private void handleCardClick(ExerciseCard exerciseCard) {
+        Log.d(
+                "EditorActivity",
+                Arrays.toString(pagePoses.getCards().stream()
+                        .map(ExerciseCard::getCardName)
+                        .toArray())
+        );
+        Toast.makeText(
+                this,
+                "Clicked on: " + exerciseCard.getCardName(),
+                Toast.LENGTH_SHORT
+        ).show();
+
+        if (pagerAdapter == null) return;
+        pagerAdapter.setPages(
+                pagerAdapter.getPages().size() == 1
+                        ? pagesResources
+                        : pagesMain
+                );
     }
 }
