@@ -3,6 +3,7 @@ package bdisfer1410.gymapp.activity.editor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -35,7 +36,7 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
         return new PageViewHolder(
                 LayoutInflater
                         .from(parent.getContext())
-                        .inflate(R.layout.page_editor_card__exercise_list, parent, false)
+                        .inflate(R.layout.page_editor_card_exercise_list, parent, false)
         );
     }
 
@@ -43,8 +44,9 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
         CardPage page = pages.get(position);
         ExerciseCardAdapter adapter = new ExerciseCardAdapter(page.getCards(), onClick, null);
-        holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder.recyclerView.getContext()));
-        holder.recyclerView.setAdapter(adapter);
+        holder.title.setText(page.getTitle());
+        holder.list.setLayoutManager(new LinearLayoutManager(holder.list.getContext()));
+        holder.list.setAdapter(adapter);
 
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
@@ -68,7 +70,7 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
             }
         });
 
-        helper.attachToRecyclerView(holder.recyclerView);
+        helper.attachToRecyclerView(holder.list);
     }
 
     @Override
@@ -77,11 +79,13 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     }
 
     static class PageViewHolder extends RecyclerView.ViewHolder {
-        RecyclerView recyclerView;
+        public TextView title;
+        public RecyclerView list;
 
         public PageViewHolder(@NonNull View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.list);
+            title = itemView.findViewById(R.id.title);
+            list = itemView.findViewById(R.id.list);
         }
     }
 }

@@ -5,16 +5,16 @@ import java.util.List;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 
 public class CardPage {
-    private final String name;
+    private final String title;
     private List<ExerciseCard> cards;
 
-    public CardPage(String name, List<ExerciseCard> cards) {
-        this.name = name;
+    public CardPage(String title, List<ExerciseCard> cards) {
+        this.title = title;
         this.cards = cards;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public List<ExerciseCard> getCards() {
