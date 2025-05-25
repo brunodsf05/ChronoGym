@@ -7,12 +7,75 @@
     android:layout_height="match_parent"
     tools:context=".activity.EditorActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_padding"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/sections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:checkedButton="@id/sectionRoutine"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/sectionRoutine"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/activity_editor_section_exercise"
+                android:textAllCaps="true"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_exercise_default"
+                app:iconGravity="top"
+                app:iconSize="32dp" />
+
+            <Button
+                android:id="@+id/sectionFile"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_editor_section_file"
+                android:textAllCaps="true"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_exercise_default"
+                app:iconGravity="top"
+                app:iconSize="32dp" />
+
+            <Button
+                android:id="@+id/sectionResources"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_editor_section_resources"
+                android:textAllCaps="true"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_exercise_default"
+                app:iconGravity="top"
+                app:iconSize="32dp" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

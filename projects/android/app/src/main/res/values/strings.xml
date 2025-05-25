@@ -26,6 +26,9 @@
     <string name="activity_editor_page_poses">Poses</string>
     <string name="activity_editor_page_transitions">Transiciones</string>
     <string name="activity_editor_page_sets">Sets</string>
+    <string name="activity_editor_section_exercise">Ejercicio</string>
+    <string name="activity_editor_section_file">Archivo</string>
+    <string name="activity_editor_section_resources">Recursos</string>
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
 
     <!-- JSON: Strings: Sets -->
