@@ -50,10 +50,10 @@
     <string name="file_json_string_fullbody">Cuerpo completo</string>
 
     <!-- JSON: Strings: Poses -->
-    <string name="file_json_string_push_up">Flexión hacia arriba</string>
-    <string name="file_json_string_push_down">Flexión hacia abajo</string>
+    <string name="file_json_string_push_up">Extensión de tríceps en el suelo</string>
+    <string name="file_json_string_push_down">Flexión de tríceps en el suelo</string>
     <string name="file_json_string_pull_up">Dominada</string>
-    <string name="file_json_string_pull_down">Jalón</string>
+    <string name="file_json_string_pull_down">Colgado de la barra</string>
 
     <!-- JSON: Strings: Sets -->
     <string name="file_json_string_plank">Plancha</string>
