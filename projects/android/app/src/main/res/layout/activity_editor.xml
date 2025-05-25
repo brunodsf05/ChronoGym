@@ -25,6 +25,15 @@
 
         </androidx.viewpager2.widget.ViewPager2>
 
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:visibility="invisible"
+            app:ci_drawable="@drawable/dot_indicator_active"
+            app:ci_drawable_unselected="@drawable/dot_indicator_inactive"
+            tools:visibility="visible" />
+
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/sections"
             android:layout_width="match_parent"
@@ -46,7 +55,8 @@
                 android:textStyle="bold"
                 app:icon="@drawable/ic_section_exercise"
                 app:iconGravity="top"
-                app:iconSize="32dp" />
+                app:iconSize="32dp"
+                tools:ignore="SmallSp,VisualLintButtonSize" />
 
             <Button
                 android:id="@+id/sectionFile"
@@ -60,7 +70,8 @@
                 android:textStyle="bold"
                 app:icon="@drawable/ic_section_file"
                 app:iconGravity="top"
-                app:iconSize="32dp" />
+                app:iconSize="32dp"
+                tools:ignore="SmallSp,VisualLintButtonSize" />
 
             <Button
                 android:id="@+id/sectionResources"
@@ -74,7 +85,8 @@
                 android:textStyle="bold"
                 app:icon="@drawable/ic_section_resources"
                 app:iconGravity="top"
-                app:iconSize="32dp" />
+                app:iconSize="32dp"
+                tools:ignore="SmallSp,VisualLintButtonSize" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
     </LinearLayout>
 

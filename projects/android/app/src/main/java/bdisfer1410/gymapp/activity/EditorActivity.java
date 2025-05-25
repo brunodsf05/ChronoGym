@@ -1,8 +1,8 @@
 package bdisfer1410.gymapp.activity;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -29,6 +29,7 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.ListTools;
+import me.relex.circleindicator.CircleIndicator3;
 
 public class EditorActivity extends AppCompatActivity {
     //region Pages
@@ -36,6 +37,10 @@ public class EditorActivity extends AppCompatActivity {
     private List<CardPage> sectionExercise, sectionFiles, sectionResources;
     private PagerEditorCardsAdapter pagerAdapter;
     private Sections openedSection = Sections.EXERCISE;
+    //endregion
+    //region Views
+    private CircleIndicator3 indicator;
+    private ViewPager2 viewPager;
     //endregion
     private Exercise exercise;
 
@@ -88,11 +93,14 @@ public class EditorActivity extends AppCompatActivity {
         pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
         pageSets.setCards(ListTools.cast(exercise.repoSets, ExerciseCard.class));
 
-        ViewPager2 viewPager = findViewById(R.id.pager);
+        viewPager = findViewById(R.id.pager);
 
         pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick);
 
         viewPager.setAdapter(pagerAdapter);
+
+        indicator = findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
     }
 
     //region Setup
@@ -156,6 +164,15 @@ public class EditorActivity extends AppCompatActivity {
                         Sections.FILE, sectionFiles,
                         Sections.RESOURCES, sectionResources
                 ).getOrDefault(openedSection, List.of())
+        );
+
+        // Update indicator
+        indicator.setViewPager(viewPager);
+
+        indicator.setVisibility(
+                (pagerAdapter.getPages().size() > 1)
+                        ? View.VISIBLE
+                        : View.INVISIBLE
         );
     }
 
