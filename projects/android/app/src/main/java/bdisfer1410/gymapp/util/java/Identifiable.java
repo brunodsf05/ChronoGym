@@ -1,6 +1,8 @@
 package bdisfer1410.gymapp.util.java;
 
-public abstract class Identifiable {
+import java.io.Serializable;
+
+public abstract class Identifiable implements Serializable {
     protected String id;
 
     public String getId() {
