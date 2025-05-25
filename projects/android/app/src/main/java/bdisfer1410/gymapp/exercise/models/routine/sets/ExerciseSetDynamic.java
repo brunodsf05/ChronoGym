@@ -122,13 +122,13 @@ public class ExerciseSetDynamic extends ExerciseSet {
     @NonNull
     @Override
     public String getCardInterval() {
-        return StringUtils.formatMsIntoTime(msDuration);
+        return String.format("x%s", reps);
     }
 
     @Nullable
     @Override
     public String getCardExtra() {
-        return "";
+        return StringUtils.formatMsIntoTime(msDuration);
     }
     //endregion
 }
