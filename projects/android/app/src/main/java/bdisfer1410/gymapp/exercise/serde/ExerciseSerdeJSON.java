@@ -207,6 +207,9 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
             Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{id} = \"%s\"", i, transitionId));
             if (transitionId.isEmpty()) continue; // Transition id is obligatory
 
+            String transitionName = getString(transitionJSONObject.optString("name"));
+            Log.d("ExerciseSerdeJSON", String.format("des::[?]{exercise}{transitions}[%d]{name} = \"%s\"", i, transitionName));
+
             JSONArray transitionPosesJSONArray = transitionJSONObject.optJSONArray("poses");
             if (transitionPosesJSONArray == null) return Result.err(R.string.file_json_deserialization_error_transition_poses);
 
@@ -225,7 +228,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
                 transitionsList.add(new ExerciseTransition(mapPoses.get(transitionPoseId), transitionPoseTime));
             }
-            mapTransitions.put(transitionId, new ExerciseTransitions("NotYet", transitionsList));
+            mapTransitions.put(transitionId, new ExerciseTransitions(transitionName, transitionsList));
             if (mapTransitions.get(transitionId) != null)
                 Objects.requireNonNull(mapTransitions.get(transitionId)).setId(transitionId);
         }
