@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -94,9 +96,7 @@ public class EditorActivity extends AppCompatActivity {
         pageSets.setCards(ListTools.cast(exercise.repoSets, ExerciseCard.class));
 
         viewPager = findViewById(R.id.pager);
-
         pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick);
-
         viewPager.setAdapter(pagerAdapter);
 
         indicator = findViewById(R.id.indicator);
@@ -174,6 +174,10 @@ public class EditorActivity extends AppCompatActivity {
                         ? View.VISIBLE
                         : View.INVISIBLE
         );
+
+        // Do a little animation
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.pop);
+        viewPager.startAnimation(fadeIn);
     }
 
     private void handleCardClick(ExerciseCard exerciseCard) {
