@@ -4,15 +4,19 @@ import android.animation.ValueAnimator;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
+import bdisfer1410.gymapp.util.java.StringUtils;
 import bdisfer1410.gymapp.util.media.Beep;
 
 public class ExerciseSetDynamic extends ExerciseSet {
+    private final int DEFAULT_ICON = R.drawable.ic_exercise_default;
     private final List<ExerciseTransition> transitions;
     private final int reps;
     private final int numberOfPoses;
@@ -42,7 +46,7 @@ public class ExerciseSetDynamic extends ExerciseSet {
         boolean doesFirstPoseHasNotIcon = numberOfPoses > 0 && transitions.get(0).getPose().getIcon() == null;
 
         if (doesFirstPoseHasNotIcon) {
-            timer.setExerciseIconImage(R.drawable.ic_exercise_default);
+            timer.setExerciseIconImage(DEFAULT_ICON);
         }
 
         poseIndex = 0;
@@ -90,6 +94,41 @@ public class ExerciseSetDynamic extends ExerciseSet {
     @Override
     public int calculateDuration() {
         return msDuration;
+    }
+    //endregion
+
+    //region ExerciseCard
+    @Nullable
+    @Override
+    public Integer getCardIcon() {
+        return Objects.requireNonNullElse(
+                transitions.get(0).getPose().getIcon(),
+                DEFAULT_ICON
+        );
+    }
+
+    @NonNull
+    @Override
+    public String getCardName() {
+        return getName();
+    }
+
+    @Nullable
+    @Override
+    public String getCardTags() {
+        return String.format("%s, Set dinámico", getPrettierId());
+    }
+
+    @NonNull
+    @Override
+    public String getCardInterval() {
+        return StringUtils.formatMsIntoTime(msDuration);
+    }
+
+    @Nullable
+    @Override
+    public String getCardExtra() {
+        return "";
     }
     //endregion
 }

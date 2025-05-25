@@ -3,12 +3,14 @@ package bdisfer1410.gymapp.exercise.models.routine.sets;
 import android.animation.ValueAnimator;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
+import bdisfer1410.gymapp.util.java.StringUtils;
 import bdisfer1410.gymapp.util.media.Beep;
 
 public class ExerciseSetStatic extends ExerciseSet {
@@ -57,6 +59,38 @@ public class ExerciseSetStatic extends ExerciseSet {
     @Override
     public int calculateDuration() {
         return msDuration;
+    }
+    //endregion
+
+    //region ExerciseCard
+    @Nullable
+    @Override
+    public Integer getCardIcon() {
+        return pose.getIcon();
+    }
+
+    @NonNull
+    @Override
+    public String getCardName() {
+        return getName();
+    }
+
+    @Nullable
+    @Override
+    public String getCardTags() {
+        return String.format("%s, Set estático", getPrettierId());
+    }
+
+    @NonNull
+    @Override
+    public String getCardInterval() {
+        return StringUtils.formatMsIntoTime(msDuration);
+    }
+
+    @Nullable
+    @Override
+    public String getCardExtra() {
+        return "";
     }
     //endregion
 }

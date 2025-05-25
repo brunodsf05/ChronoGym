@@ -27,6 +27,10 @@
     <string name="activity_editor_page_transitions">Transiciones</string>
     <string name="activity_editor_page_sets">Sets</string>
 
+    <!-- JSON: Strings: Sets -->
+    <string name="card_subtext_set_static">%s, Set estático</string>
+    <string name="card_subtext_set_dynamic">%s, Set dinámico, %s</string>
+
     <!-- JSON: Serialization: Error -->
     <string name="file_json_serialization_error">Error al guardar la rutina como JSON</string>
 
