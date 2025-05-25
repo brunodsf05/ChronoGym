@@ -10,4 +10,8 @@ public abstract class Identifiable {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getPrettierId() {
+        return String.format("#%s", id);
+    }
 }
