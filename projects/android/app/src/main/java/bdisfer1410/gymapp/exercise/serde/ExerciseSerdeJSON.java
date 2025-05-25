@@ -18,7 +18,7 @@ import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
-import bdisfer1410.gymapp.exercise.models.routine.ExerciseRest;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;

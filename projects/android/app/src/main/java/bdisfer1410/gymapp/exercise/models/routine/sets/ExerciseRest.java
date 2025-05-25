@@ -1,4 +1,4 @@
-package bdisfer1410.gymapp.exercise.models.routine;
+package bdisfer1410.gymapp.exercise.models.routine.sets;
 
 import android.animation.ValueAnimator;
 
@@ -7,11 +7,12 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.media.Beep;
 
-public class ExerciseRest implements TimerAnimation, Serializable {
+public class ExerciseRest extends Identifiable implements TimerAnimation, Serializable {
     private final int msDuration;
     private final int msBeforeBeepStart = 10_000;
     private int msToEmitBeep;
