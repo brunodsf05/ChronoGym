@@ -180,12 +180,12 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
 
                 new MaterialAlertDialogBuilder(ExerciseActivity.this)
-                        .setTitle("Salir de la aplicación")
-                        .setMessage("¿Estás seguro de que quieres salir?")
-                        .setPositiveButton("Sí", (dialog, which) -> {
+                        .setTitle(R.string.activity_exercise_prompt_title_exit)
+                        .setMessage(R.string.activity_exercise_prompt_message_exit)
+                        .setPositiveButton(R.string.activity_exercise_prompt_action_exit_accept, (dialog, which) -> {
                             finish();
-                        })
-                        .setNegativeButton("No", (dialog, which) -> {
+                         })
+                        .setNegativeButton(R.string.activity_exercise_prompt_action_exit_deny, (dialog, which) -> {
                             // TODO: Fix pausing logic & math
                             if (buttonToggleReproduction.isEnabled()) {
                                 player.play();

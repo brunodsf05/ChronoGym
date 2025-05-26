@@ -18,8 +18,15 @@
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>
     <string name="activity_exercise_prompt_message_finished">Has terminado la rutina…</string>
+
+    <string name="activity_exercise_prompt_title_exit">Saliendo…</string>
+    <string name="activity_exercise_prompt_message_exit">¿Seguro que quieres salir y terminar el entrenamiento?</string>
+    <string name="activity_exercise_prompt_action_exit_accept">Sí</string>
+    <string name="activity_exercise_prompt_action_exit_deny">No</string>
+
     <string name="activity_exercise_button_pause">Pausa</string>
     <string name="activity_exercise_button_return">Volver</string>
+
     <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
 
     <!-- UI: EditorActivity -->
