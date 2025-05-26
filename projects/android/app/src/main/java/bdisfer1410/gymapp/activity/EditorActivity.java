@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -94,6 +95,7 @@ public class EditorActivity extends AppCompatActivity {
         pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
         pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
         pageSets.setCards(ListTools.cast(exercise.repoSets, ExerciseCard.class));
+        pageExerciseQueue.setCards(ListTools.cast(exercise.getQueue().list, ExerciseCard.class));
 
         viewPager = findViewById(R.id.pager);
         pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick);
@@ -101,6 +103,8 @@ public class EditorActivity extends AppCompatActivity {
 
         indicator = findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
+
+        updateCardExerciseInformation();
     }
 
     //region Setup
@@ -113,7 +117,13 @@ public class EditorActivity extends AppCompatActivity {
         sectionResources = List.of(pagePoses, pageTransitions, pageSets);
 
         // Exercise
-        sectionExercise = List.of(pagePoses);
+        pageExerciseInfo = new CardPage(getString(R.string.activity_editor_page_exercise_info), List.of(
+                new SimpleCard("name", R.drawable.ic_editor_name, "???", getString(R.string.activity_editor_action_desc_rename_exercise)),
+                new SimpleCard("icon", R.drawable.ic_missing, getString(R.string.activity_editor_action_title_reiconify_exercise), getString(R.string.activity_editor_action_desc_reiconify_exercise))
+        ));
+        pageExerciseQueue = new CardPage(getString(R.string.activity_editor_page_exercise_queue), List.of(), true);
+
+        sectionExercise = List.of(pageExerciseInfo, pageExerciseQueue);
 
         // Files
         pageExerciseFile = new CardPage(getString(R.string.activity_editor_section_file), List.of(
@@ -231,6 +241,15 @@ public class EditorActivity extends AppCompatActivity {
 
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard) {
         Toast.makeText(this, "handleCardClickOnPageResources", Toast.LENGTH_SHORT).show();
+    }
+    //endregion
+
+    //region Updaters
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateCardExerciseInformation() {
+        ((SimpleCard)pageExerciseInfo.getCards().get(0)).setText(exercise.getName());
+        ((SimpleCard)pageExerciseInfo.getCards().get(1)).setIcon(exercise.getIcon());
+        pagerAdapter.notifyDataSetChanged();
     }
     //endregion
 }

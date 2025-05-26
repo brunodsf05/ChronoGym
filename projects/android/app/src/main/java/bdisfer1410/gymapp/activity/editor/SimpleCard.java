@@ -33,6 +33,10 @@ public class SimpleCard extends Identifiable implements ExerciseCard {
         this.text = text;
     }
 
+    public void setIcon(@NonNull Integer icon) {
+        this.icon = icon;
+    }
+
     //region ExerciseCard
     @Nullable
     @Override

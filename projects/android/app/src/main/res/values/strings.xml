@@ -33,6 +33,8 @@
     <string name="activity_editor_page_poses">Poses</string>
     <string name="activity_editor_page_transitions">Transiciones</string>
     <string name="activity_editor_page_sets">Sets</string>
+    <string name="activity_editor_page_exercise_info">Información</string>
+    <string name="activity_editor_page_exercise_queue">Entrenamiento</string>
 
     <string name="activity_editor_section_exercise">Ejercicio</string>
     <string name="activity_editor_section_file">Archivo</string>
@@ -82,6 +84,10 @@
     <string name="activity_editor_action_desc_save">Si la rutina ya existía, se sobrescribirán los datos</string>
     <string name="activity_editor_action_desc_help">¿Quieres aprender a configurar tu rutina? Este es tu sitio</string>
     <string name="activity_editor_action_desc_exit">Los cambios no guardados serán olvidados para siempre…</string>
+
+    <string name="activity_editor_action_desc_rename_exercise">Pulsa para cambiar el nombre de la rutina</string>
+    <string name="activity_editor_action_title_reiconify_exercise">Ícono</string>
+    <string name="activity_editor_action_desc_reiconify_exercise">Pulsa para cambiar el ícono de la rutina</string>
 
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
     <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>
