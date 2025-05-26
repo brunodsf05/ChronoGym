@@ -30,6 +30,8 @@ import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
+import bdisfer1410.gymapp.util.android.IconPickerDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.ListTools;
 import me.relex.circleindicator.CircleIndicator3;
@@ -203,7 +205,33 @@ public class EditorActivity extends AppCompatActivity {
 
     //region Handlers: ExerciseCard
     private void handleCardClickOnPageExercise(ExerciseCard exerciseCard) {
+        // Manage Identifiable instance
+        if (exerciseCard instanceof Identifiable) {
+            Identifiable identifiable = (Identifiable) exerciseCard;
+
+            switch (identifiable.getId()) {
+                case "name":
+                    Toast.makeText(this, "TODO: Update name", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case "icon":
+                    IconPickerDialog.show(this, ExerciseSerdeJSON.ICONS, (key, iconResId) -> {
+                        exercise.iconPath = key;
+                        exercise.setIcon(iconResId);
+                        updateCardExerciseInformation();
+                    });
+                    break;
+            }
+
+            return;
+        }
+
         Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
+
+        IconPickerDialog.show(this, ExerciseSerdeJSON.ICONS, (key, iconResId) -> {
+            // Aquí recibes la clave y el recurso seleccionado
+            Log.d("ICON_PICKED", "Key: " + key + ", ResId: " + iconResId);
+        });
     }
 
     private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {

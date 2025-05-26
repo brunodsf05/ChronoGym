@@ -17,14 +17,15 @@ import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
 public class Exercise implements ExerciseCard, Serializable {
-    private final String name;
-    private final Integer icon;
+    private String name;
+    private Integer icon;
     private final TimerAnimationQueue queue;
-    private final List<String> tags;
+    private List<String> tags;
     //region Repositories
     public List<ExercisePose> repoPoses = new ArrayList<>();
     public List<ExerciseTransitions> repoTransitions = new ArrayList<>();
     public List<TimerAnimation> repoSets = new ArrayList<>();
+    public String iconPath = "";
     //endregion
 
     public Exercise(String name, Integer icon, TimerAnimationQueue queue, List<String> tags) {
@@ -40,6 +41,18 @@ public class Exercise implements ExerciseCard, Serializable {
 
     public Integer getIcon() {
         return icon;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIcon(Integer icon) {
+        this.icon = icon;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public TimerAnimationQueue getQueue() {
