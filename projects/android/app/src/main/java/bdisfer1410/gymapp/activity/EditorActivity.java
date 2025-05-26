@@ -212,7 +212,11 @@ public class EditorActivity extends AppCompatActivity {
                 break;
 
             case "help":
-                Toast.makeText(this, "TODO: Implement help", Toast.LENGTH_SHORT).show();
+                new MaterialAlertDialogBuilder(this)
+                        .setTitle(R.string.activity_editor_action_title_help)
+                        .setMessage(R.string.activity_editor_action_message_help)
+                        .setPositiveButton(R.string.activity_editor_action_button_help_confirm, null)
+                        .show();
                 break;
 
             case "exit":

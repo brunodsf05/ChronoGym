@@ -43,8 +43,39 @@
     <string name="activity_editor_action_name_exit">Salir</string>
 
     <string name="activity_editor_action_title_help">¿Cómo puedo crear/editar una rutina?</string>
-    <string name="activity_editor_action_title_exit">¿Seguro que quieres salir?</string>
+    <string name="activity_editor_action_message_help">
+        <b>RESUMEN</b>\n
+        1. Crea recursos (poses, sets, etc…).\n
+        2. Haz referencia a ellos en la lista de reproducción, una o varias veces con el orden que
+        tu quieras.\n
+        \n
+        <b>SECCIONES</b>\n
+        Accesibles desde la barra inferior, cada sección está dividida en varias páginas con
+        elementos editables:\n
+        1. <b>Ejercicio</b> Contiene los datos del ejercicio y la lista ordenada de sets a realizar.\n
+        2. <b>Archivo</b> Permite guardar los cambios y salir.\n
+        3. <b>Recursos</b> Aquí se crean los ítems necesarios para formar sets.\n
+        \n
+        <b>RECURSOS</b>\n
+        Defínelos una vez y reutilízalos tantas veces como quieras en la sección EJERCICIO:\n
+        1. <b>Poses</b> Representan una posición estática durante el entrenamiento. Son
+           imprescindibles para cualquier set, ya sea estático o dinámico.\n
+        2. <b>Transición</b> Es una secuencia de poses, que equivale a una repetición. Es necesaria
+           para los sets dinámicos.\n
+        3. <b>Sets</b> Son las unidades que se ejecutan durante el entrenamiento. Pueden ser
+           descansos, sets estáticos o sets dinámicos.\n
+        \n
+        <b>EJERCICIO</b>\n
+        1. Un entrenamiento consiste en una lista de sets que se ejecutan en orden.\n
+        2. Antes de crear un entrenamiento, necesitas haber definido uno o varios recursos de tipo
+           set.\n
+        3. Los sets se añaden mediante referencia, lo que permite reutilizar un mismo set, como por
+           ejemplo "flexiones", tantas veces como desees en la lista de reproducción.\n
+        4. Los sets que se añadan, pueden ser reordenados.
+    </string>
+    <string name="activity_editor_action_button_help_confirm">Sí</string>
 
+    <string name="activity_editor_action_title_exit">¿Seguro que quieres salir?</string>
     <string name="activity_editor_action_button_exit_confirm">Sí</string>
     <string name="activity_editor_action_button_exit_deny">No, quiero seguir editando</string>
 
