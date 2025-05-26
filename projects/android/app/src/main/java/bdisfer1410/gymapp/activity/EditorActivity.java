@@ -32,6 +32,7 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
+import bdisfer1410.gymapp.util.android.TextInputDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.ListTools;
 import me.relex.circleindicator.CircleIndicator3;
@@ -211,7 +212,10 @@ public class EditorActivity extends AppCompatActivity {
 
             switch (identifiable.getId()) {
                 case "name":
-                    Toast.makeText(this, "TODO: Update name", Toast.LENGTH_SHORT).show();
+                    TextInputDialog.show(this, getString(R.string.activity_editor_action_title_rename_exercise), exercise.getName(), text -> {
+                        exercise.setName(text);
+                        updateCardExerciseInformation();
+                    });
                     break;
 
                 case "icon":
@@ -221,6 +225,9 @@ public class EditorActivity extends AppCompatActivity {
                         updateCardExerciseInformation();
                     });
                     break;
+
+                default:
+                    return;
             }
 
             return;

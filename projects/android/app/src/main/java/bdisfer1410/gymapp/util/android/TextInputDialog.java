@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import bdisfer1410.gymapp.R;
+
 public class TextInputDialog {
 
     public interface TextInputCallback {
@@ -22,13 +24,13 @@ public class TextInputDialog {
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setText(initialText != null ? initialText : "");
-        input.setSelection(input.getText().length()); // Cursor al final
+        input.setSelection(input.getText().length());
 
         new MaterialAlertDialogBuilder(context)
                 .setTitle(title)
                 .setView(input)
-                .setNegativeButton("Cancelar", null)
-                .setPositiveButton("Aceptar", (dialog, which) -> {
+                .setNegativeButton(R.string.activity_any_deny, null)
+                .setPositiveButton(R.string.activity_any_accept, (dialog, which) -> {
                     String text = input.getText().toString();
                     callback.onTextEntered(text);
                 })

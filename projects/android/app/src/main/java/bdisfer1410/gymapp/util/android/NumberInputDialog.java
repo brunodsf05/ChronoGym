@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import bdisfer1410.gymapp.R;
+
 public class NumberInputDialog {
 
     public interface NumberInputCallback {
@@ -27,13 +29,14 @@ public class NumberInputDialog {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(title)
                 .setView(input)
-                .setNegativeButton("Cancelar", null)
-                .setPositiveButton("Aceptar", (dialog, which) -> {
+                .setNegativeButton(R.string.activity_any_deny, null)
+                .setPositiveButton(R.string.activity_any_accept, (dialog, which) -> {
                     try {
                         int value = Integer.parseInt(input.getText().toString());
                         callback.onNumberEntered(value);
-                    } catch (NumberFormatException e) {
-                        input.setError("Introduce un número válido");
+                    }
+                    catch (NumberFormatException e) {
+                        input.setError(context.getString(R.string.activity_any_please_input_valid_number));
                     }
                 })
                 .show();

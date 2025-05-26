@@ -3,6 +3,11 @@
 
     <string name="model_exercise_rest">Descanso</string>
 
+    <!-- UI: Any -->
+    <string name="activity_any_accept">Cancelar</string>
+    <string name="activity_any_deny">Aceptar</string>
+    <string name="activity_any_please_input_valid_number">Introduce un número válido</string>
+
     <!-- UI: MainActivity -->
     <string name="activity_main_settings">Configuración</string>
     <string name="activity_main_add">Añadir rutina</string>
@@ -85,6 +90,7 @@
     <string name="activity_editor_action_desc_help">¿Quieres aprender a configurar tu rutina? Este es tu sitio</string>
     <string name="activity_editor_action_desc_exit">Los cambios no guardados serán olvidados para siempre…</string>
 
+    <string name="activity_editor_action_title_rename_exercise">Escriba el nombre del ejercicio</string>
     <string name="activity_editor_action_desc_rename_exercise">Pulsa para cambiar el nombre de la rutina</string>
     <string name="activity_editor_action_title_reiconify_exercise">Ícono</string>
     <string name="activity_editor_action_desc_reiconify_exercise">Pulsa para cambiar el ícono de la rutina</string>
