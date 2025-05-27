@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -47,6 +49,8 @@ public class EditorActivity extends AppCompatActivity {
     //region Views
     private CircleIndicator3 indicator;
     private ViewPager2 viewPager;
+    private Button buttonEditionCancel, buttonEditionModify, buttonAdd;
+    private LinearLayout editionButtons;
     //endregion
     private Exercise exercise;
 
@@ -93,6 +97,12 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
+        // Set up views
+        buttonEditionCancel = findViewById(R.id.buttonEditionCancel);
+        buttonEditionModify = findViewById(R.id.buttonEditionModify);
+        buttonAdd = findViewById(R.id.buttonAdd);
+        editionButtons = findViewById(R.id.editionButtons);
+
         // Setup pages
         initPages();
         pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
@@ -100,6 +110,7 @@ public class EditorActivity extends AppCompatActivity {
         pageSets.setCards(ListTools.cast(exercise.repoSets, ExerciseCard.class));
         pageExerciseQueue.setCards(ListTools.cast(exercise.getQueue().list, ExerciseCard.class));
 
+        // Setup pager
         viewPager = findViewById(R.id.pager);
         pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick);
         viewPager.setAdapter(pagerAdapter);
@@ -153,12 +164,20 @@ public class EditorActivity extends AppCompatActivity {
     private void handleSectionClick(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
         if (!isChecked) return;
 
+        editionButtons.setVisibility(View.GONE);
+
         // Determine which section is selected
         openedSection = Map.of(
                 R.id.sectionExercise, Sections.EXERCISE,
                 R.id.sectionFile, Sections.FILE,
                 R.id.sectionResources, Sections.RESOURCES
         ).getOrDefault(checkedId, Sections.EXERCISE);
+
+        buttonAdd.setVisibility(
+                openedSection == Sections.FILE
+                        ? View.GONE
+                        : View.VISIBLE
+        );
 
         // Swap pages based on enum
         Log.d("EditorActivity", String.format("Clicked on section \"%s\"", openedSection));

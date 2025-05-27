@@ -45,6 +45,10 @@
     <string name="activity_editor_section_file">Archivo</string>
     <string name="activity_editor_section_resources">Recursos</string>
 
+    <string name="activity_editor_button_cancel">Cancelar</string>
+    <string name="activity_editor_button_modify">Confirmar</string>
+    <string name="activity_editor_button_add">Añadir</string>
+
     <string name="activity_editor_action_name_save">Guardar</string>
     <string name="activity_editor_action_name_help">Ayuda</string>
     <string name="activity_editor_action_name_exit">Salir</string>
