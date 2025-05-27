@@ -4,8 +4,8 @@
     <string name="model_exercise_rest">Descanso</string>
 
     <!-- UI: Any -->
-    <string name="activity_any_accept">Cancelar</string>
-    <string name="activity_any_deny">Aceptar</string>
+    <string name="activity_any_accept">Aceptar</string>
+    <string name="activity_any_deny">Cancelar</string>
     <string name="activity_any_please_input_valid_number">Introduce un número válido</string>
 
     <!-- UI: MainActivity -->

@@ -223,39 +223,7 @@ public class EditorActivity extends AppCompatActivity {
 
     //region Handlers: ExerciseCard
     private void handleCardClickOnPageExercise(ExerciseCard exerciseCard) {
-        // Manage Identifiable instance
-        if (exerciseCard instanceof Identifiable) {
-            Identifiable identifiable = (Identifiable) exerciseCard;
-
-            switch (identifiable.getId()) {
-                case "name":
-                    TextInputDialog.show(this, getString(R.string.activity_editor_action_title_rename_exercise), exercise.getName(), text -> {
-                        exercise.setName(text);
-                        updateCardExerciseInformation();
-                    });
-                    break;
-
-                case "icon":
-                    IconPickerDialog.show(this, ExerciseSerdeJSON.ICONS, (key, iconResId) -> {
-                        exercise.iconPath = key;
-                        exercise.setIcon(iconResId);
-                        updateCardExerciseInformation();
-                    });
-                    break;
-
-                default:
-                    return;
-            }
-
-            return;
-        }
-
         Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
-
-        IconPickerDialog.show(this, ExerciseSerdeJSON.ICONS, (key, iconResId) -> {
-            // Aquí recibes la clave y el recurso seleccionado
-            Log.d("ICON_PICKED", "Key: " + key + ", ResId: " + iconResId);
-        });
     }
 
     private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {
@@ -283,6 +251,21 @@ public class EditorActivity extends AppCompatActivity {
 
             case "exit":
                 handleExit();
+                break;
+
+            case "name":
+                TextInputDialog.show(this, getString(R.string.activity_editor_action_title_rename_exercise), exercise.getName(), text -> {
+                    exercise.setName(text);
+                    updateCardExerciseInformation();
+                });
+                break;
+
+            case "icon":
+                IconPickerDialog.show(this, ExerciseSerdeJSON.ICONS, (key, iconResId) -> {
+                    exercise.iconPath = key;
+                    exercise.setIcon(iconResId);
+                    updateCardExerciseInformation();
+                });
                 break;
 
             default:
