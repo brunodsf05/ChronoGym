@@ -137,7 +137,7 @@ public class EditorActivity extends AppCompatActivity {
         ));
         pageExerciseQueue = new CardPage(getString(R.string.activity_editor_page_exercise_queue), List.of(), true);
 
-        sectionExercise = List.of(pageExerciseInfo, pageExerciseQueue);
+        sectionExercise = List.of(pageExerciseQueue);
 
         // Files
         pageExerciseFile = new CardPage(getString(R.string.activity_editor_section_file), List.of(
@@ -146,9 +146,7 @@ public class EditorActivity extends AppCompatActivity {
                 new SimpleCard("exit", R.drawable.ic_ui_close, getString(R.string.activity_editor_action_name_exit), getString(R.string.activity_editor_action_desc_exit))
         ));
 
-        sectionFiles = List.of(
-                pageExerciseFile
-        );
+        sectionFiles = List.of(pageExerciseFile, pageExerciseInfo);
     }
     //endregion
 

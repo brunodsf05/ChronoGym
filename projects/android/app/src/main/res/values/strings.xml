@@ -63,8 +63,9 @@
         <b>SECCIONES</b>\n
         Accesibles desde la barra inferior, cada sección está dividida en varias páginas con
         elementos editables:\n
-        1. <b>Ejercicio</b> Contiene los datos del ejercicio y la lista ordenada de sets a realizar.\n
-        2. <b>Archivo</b> Permite guardar los cambios y salir.\n
+        1. <b>Ejercicio</b> La lista que define que harás en tu rutina. Aparecen los sets a realizar
+        y el orden lo eliges tú.\n
+        2. <b>Archivo</b> Permite editar los datos de la rutina, guardar los cambios y salir.\n
         3. <b>Recursos</b> Aquí se crean los ítems necesarios para formar sets.\n
         \n
         <b>RECURSOS</b>\n
@@ -83,6 +84,9 @@
         3. Los sets se añaden mediante referencia, lo que permite reutilizar un mismo set, como por
            ejemplo "flexiones", tantas veces como desees en la lista de reproducción.\n
         4. Los sets que se añadan, pueden ser reordenados.
+        <b>ARCHIVO</b>\n
+        1. En la primera página podrás guardar o salir.\n
+        2. La segunda página contiene el nombre e ícono de la rutina. Estos son modificables.
     </string>
     <string name="activity_editor_action_button_help_confirm">Sí</string>
 

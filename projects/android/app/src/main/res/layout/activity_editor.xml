@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="@dimen/activity_padding"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -57,9 +58,8 @@
             android:id="@+id/buttonAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/activity_editor_button_add"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_marginTop="@dimen/activity_padding"
+            android:text="@string/activity_editor_button_add" />
 
         <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/indicator"
