@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 
@@ -15,8 +15,6 @@ import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.color.MaterialColors;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,24 +50,23 @@ public class EditorDialog {
         TextInputEditText editTextId = dialogView.findViewById(R.id.editTextId);
         TextInputEditText editTextName = dialogView.findViewById(R.id.editTextName);
         TextInputEditText editTextNumber = dialogView.findViewById(R.id.editTextNumber);
-        Spinner spinnerIcons = dialogView.findViewById(R.id.spinnerIcons);
+        GridView gridIcons = dialogView.findViewById(R.id.gridIcons);
 
         inputLayoutId.setHint(labelId);
         inputLayoutName.setHint(labelName);
         inputLayoutNumber.setHint(labelNumber);
+        inputLayoutNumber.setVisibility(showNumber ? View.VISIBLE : View.GONE);
 
         List<Integer> iconList = getIconList();
-        IconAdapter adapter = new IconAdapter(context, iconList);
-        spinnerIcons.setAdapter(adapter);
+        final int[] selectedIconResId = {defaultIconResId};
 
-        // Set default values
+        IconAdapter adapter = new IconAdapter(context, iconList, defaultIconResId, resId -> selectedIconResId[0] = resId);
+        gridIcons.setAdapter(adapter);
+
+        // Default values
         if (defaultId != null) editTextId.setText(defaultId);
         if (defaultName != null) editTextName.setText(defaultName);
         if (defaultNumber != null) editTextNumber.setText(String.valueOf(defaultNumber));
-        inputLayoutNumber.setVisibility(showNumber ? View.VISIBLE : View.GONE);
-
-        int defaultIconIndex = iconList.indexOf(defaultIconResId);
-        if (defaultIconIndex >= 0) spinnerIcons.setSelection(defaultIconIndex);
 
         new MaterialAlertDialogBuilder(context)
                 .setTitle("Edit Item")
@@ -84,15 +81,13 @@ public class EditorDialog {
                         if (!numberText.isEmpty()) {
                             try {
                                 number = Integer.parseInt(numberText);
-                            }
-                            catch (NumberFormatException e) {
+                            } catch (NumberFormatException e) {
                                 number = null;
                             }
                         }
                     }
 
-                    int selectedIconResId = (int) spinnerIcons.getSelectedItem();
-                    listener.onFormSubmitted(id, name, selectedIconResId, number);
+                    listener.onFormSubmitted(id, name, selectedIconResId[0], number);
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
@@ -103,35 +98,62 @@ public class EditorDialog {
     }
 
     static class IconAdapter extends ArrayAdapter<Integer> {
+
+        public interface OnIconSelectedListener {
+            void onIconSelected(int resId);
+        }
+
         private final Context context;
         private final List<Integer> iconList;
+        private final OnIconSelectedListener listener;
+        private int selectedResId;
 
-        IconAdapter(Context context, List<Integer> icons) {
-            super(context, android.R.layout.simple_spinner_item, icons);
+        IconAdapter(Context context, List<Integer> icons, int defaultSelected, OnIconSelectedListener listener) {
+            super(context, 0, icons);
             this.context = context;
             this.iconList = icons;
+            this.listener = listener;
+            this.selectedResId = defaultSelected;
+        }
+
+        @Override
+        public int getCount() {
+            return iconList.size();
+        }
+
+        @Override
+        public Integer getItem(int position) {
+            return iconList.get(position);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return getIconView(position);
-        }
+            ImageView imageView;
+            if (convertView == null) {
+                imageView = new ImageView(context);
+                int size = (int) (parent.getResources().getDisplayMetrics().density * 100);
+                imageView.setLayoutParams(new ViewGroup.LayoutParams(size, size));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                imageView.setPadding(4, 4, 4, 4);
+            }
+            else {
+                imageView = (ImageView) convertView;
+            }
 
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            return getIconView(position);
-        }
+            int resId = iconList.get(position);
+            imageView.setImageResource(resId);
 
-        private View getIconView(int position) {
-            ImageView imageView = new ImageView(context);
-            imageView.setImageResource(iconList.get(position));
-
-            // Apply Material theme color tint
             int iconColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, Color.BLACK);
             imageView.setColorFilter(iconColor, android.graphics.PorterDuff.Mode.SRC_IN);
 
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(100, 100));
-            imageView.setPadding(16, 16, 16, 16);
+            imageView.setBackgroundResource(resId == selectedResId ? R.drawable.bg_icon_selected : 0);
+
+            imageView.setOnClickListener(v -> {
+                selectedResId = resId;
+                notifyDataSetChanged();
+                listener.onIconSelected(resId);
+            });
+
             return imageView;
         }
     }
