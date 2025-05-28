@@ -106,6 +106,15 @@
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
     <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>
 
+    <string name="activity_editor_dialog_pose_title">Pose</string>
+    <string name="activity_editor_dialog_any_id_label">Identificador</string>
+    <string name="activity_editor_dialog_any_id_error_required">El ID es necesario</string>
+    <string name="activity_editor_dialog_any_id_error_repeated">Ese ID ya existe</string>
+    <string name="activity_editor_dialog_any_name_label">Nombre</string>
+    <string name="activity_editor_dialog_any_name_error_required">El nombre es necesario</string>
+    <string name="activity_editor_dialog_any_number_error_invalid">Eso no es un número válido</string>
+    <string name="activity_editor_dialog_any_number_error_lower">Solo se permiten número ≥</string>
+
     <!-- JSON: Strings: Sets -->
     <string name="card_subtext_set_static">%s, Set estático</string>
     <string name="card_subtext_set_dynamic">%s, Set dinámico, %s</string>

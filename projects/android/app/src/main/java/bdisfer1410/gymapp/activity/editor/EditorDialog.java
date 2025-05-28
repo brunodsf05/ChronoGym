@@ -36,10 +36,8 @@ public class EditorDialog {
 
     public static void showEditorDialog(
             Context context,
-            String labelId,
-            String labelName,
+            String title,
             String labelNumber,
-            String labelIcon,
             boolean showNumber,
             int minNumber,
             @Nullable String defaultId,
@@ -60,8 +58,8 @@ public class EditorDialog {
         TextInputEditText editTextNumber = dialogView.findViewById(R.id.editTextNumber);
         GridView gridIcons = dialogView.findViewById(R.id.gridIcons);
 
-        inputLayoutId.setHint(labelId);
-        inputLayoutName.setHint(labelName);
+        inputLayoutId.setHint(context.getString(R.string.activity_editor_dialog_any_id_label));
+        inputLayoutName.setHint(context.getString(R.string.activity_editor_dialog_any_name_label));
         inputLayoutNumber.setHint(labelNumber);
         inputLayoutNumber.setVisibility(showNumber ? View.VISIBLE : View.GONE);
 
@@ -74,7 +72,6 @@ public class EditorDialog {
 
         IconAdapter adapter = new IconAdapter(context, iconList, defaultIconResId, resId -> {
             selectedIconResId[0] = resId;
-            // Al seleccionar icono quitamos borde de error si estaba puesto
             gridIcons.setBackground(null);
         });
         gridIcons.setAdapter(adapter);
@@ -82,10 +79,10 @@ public class EditorDialog {
         Set<String> blacklistSet = new HashSet<>(blacklistIds);
 
         androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                .setTitle("Edit Item")
+                .setTitle(title)
                 .setView(dialogView)
-                .setPositiveButton("Confirm", null)
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(R.string.activity_any_accept, null)
+                .setNegativeButton(R.string.activity_any_deny, null)
                 .show();
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
@@ -101,18 +98,18 @@ public class EditorDialog {
             inputLayoutNumber.setError(null);
 
             if (id.isEmpty()) {
-                inputLayoutId.setError("ID is required");
+                inputLayoutId.setError(context.getString(R.string.activity_editor_dialog_any_id_error_required));
                 valid = false;
             }
             else {
                 if (blacklistSet.contains(id)) {
-                    inputLayoutId.setError("ID is already used");
+                    inputLayoutId.setError(context.getString(R.string.activity_editor_dialog_any_id_error_repeated));
                     valid = false;
                 }
             }
 
             if (name.isEmpty()) {
-                inputLayoutName.setError("Name is required");
+                inputLayoutName.setError(context.getString(R.string.activity_editor_dialog_any_name_error_required));
                 valid = false;
             }
 
@@ -121,18 +118,18 @@ public class EditorDialog {
                     number = Integer.parseInt(numberText);
 
                     if (number < minNumber) {
-                        inputLayoutNumber.setError("Number must be ≥ " + minNumber);
+                        inputLayoutNumber.setError(context.getString(R.string.activity_editor_dialog_any_number_error_lower) + minNumber);
                         valid = false;
                     }
                 }
                 catch (NumberFormatException e) {
-                    inputLayoutNumber.setError("Must be a valid number");
+                    inputLayoutNumber.setError(context.getString(R.string.activity_editor_dialog_any_number_error_invalid));
                     valid = false;
                 }
             }
             else {
-                if (showNumber && numberText.isEmpty()) {
-                    inputLayoutNumber.setError("Number is required");
+                if (showNumber) {
+                    inputLayoutNumber.setError(context.getString(R.string.activity_editor_dialog_any_number_error_invalid));
                     valid = false;
                 }
             }
