@@ -28,6 +28,7 @@ import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
+import bdisfer1410.gymapp.activity.editor.EditorDialogBuilders;
 import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
@@ -224,6 +225,17 @@ public class EditorActivity extends AppCompatActivity {
     //region Handlers: ExerciseCard
     private void handleCardClickOnPageExercise(ExerciseCard exerciseCard) {
         Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
+        EditorDialogBuilders.pose(
+                this,
+                null,
+                null,
+                -1,
+                null,
+                (id, name, iconResId, number) -> {
+                    // Handle submitted data
+                    Log.d("FormResult", "ID: " + id + ", Name: " + name + ", Icon: " + iconResId + ", Number: " + number);
+                }
+        );
     }
 
     private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {
