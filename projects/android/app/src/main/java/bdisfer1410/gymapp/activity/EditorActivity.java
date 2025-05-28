@@ -28,7 +28,7 @@ import java.util.Map;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
-import bdisfer1410.gymapp.activity.editor.EditorDialogBuilders;
+import bdisfer1410.gymapp.activity.editor.EditorDialogBuilder;
 import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
@@ -226,23 +226,13 @@ public class EditorActivity extends AppCompatActivity {
     private void handleButtonAddClick() {
         int currentPageIndex = viewPager.getCurrentItem();
         Log.d("EditorActivity", "Página actual del ViewPager: " + currentPageIndex);
+        handleButtonAddPose();
     }
     //endregion
 
     //region Handlers: ExerciseCard
     private void handleCardClickOnPageExercise(ExerciseCard exerciseCard) {
         Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
-        EditorDialogBuilders.pose(
-                this,
-                null,
-                null,
-                -1,
-                null,
-                (id, name, iconResId, number) -> {
-                    // Handle submitted data
-                    Log.d("FormResult", "ID: " + id + ", Name: " + name + ", Icon: " + iconResId + ", Number: " + number);
-                }
-        );
     }
 
     private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {
@@ -299,6 +289,11 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: Add
+    private void handleButtonAddPose() {
+        EditorDialogBuilder.pose(this, List.of("sigma"), (id, name, iconResId, number) -> {
+            Log.d("EditorActivity", "ID: " + id + ", Name: " + name + ", Icon: " + iconResId + ", Number: " + number);
+        });
+    }
     //endregion
 
     //region Updaters

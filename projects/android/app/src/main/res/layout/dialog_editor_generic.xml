@@ -23,34 +23,37 @@
             android:id="@+id/inputLayoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <GridView
-            android:id="@+id/gridIcons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="5"
-            android:verticalSpacing="4dp"
-            android:horizontalSpacing="4dp"
-            android:gravity="center"
-            android:stretchMode="columnWidth" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="8dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <GridView
+            android:id="@+id/gridIcons"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:numColumns="4"
+            android:verticalSpacing="2dp"
+            android:horizontalSpacing="2dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            android:background="@drawable/bg_grid_outline"
+            android:padding="2dp" />
 
     </LinearLayout>
 </ScrollView>
