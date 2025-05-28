@@ -1,6 +1,7 @@
 package bdisfer1410.gymapp.activity.editor;
 
 import android.app.AlertDialog;
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -8,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
@@ -57,6 +61,7 @@ public class EditorDialog {
         TextInputEditText editTextName = dialogView.findViewById(R.id.editTextName);
         TextInputEditText editTextNumber = dialogView.findViewById(R.id.editTextNumber);
         GridView gridIcons = dialogView.findViewById(R.id.gridIcons);
+        TextView iconError = dialogView.findViewById(R.id.iconError);
 
         inputLayoutId.setHint(context.getString(R.string.activity_editor_dialog_any_id_label));
         inputLayoutName.setHint(context.getString(R.string.activity_editor_dialog_any_name_label));
@@ -73,7 +78,7 @@ public class EditorDialog {
         IconAdapter adapter = new IconAdapter(context, iconList, defaultIconResId, resId -> {
             selectedIconResId[0] = resId;
             gridIcons.setBackground(null);
-        });
+        }, iconError);
         gridIcons.setAdapter(adapter);
 
         Set<String> blacklistSet = new HashSet<>(blacklistIds);
@@ -145,11 +150,13 @@ public class EditorDialog {
                 errorBorder.setCornerRadius(16);
 
                 gridIcons.setBackground(errorBorder);
+                iconError.setVisibility(View.VISIBLE);
 
                 valid = false;
             }
             else {
                 gridIcons.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_grid_outline));
+                iconError.setVisibility(View.GONE);
             }
 
             if (valid) {
@@ -173,13 +180,15 @@ public class EditorDialog {
         private final List<Integer> iconList;
         private final OnIconSelectedListener listener;
         private int selectedResId;
+        private final TextView iconError;
 
-        IconAdapter(Context context, List<Integer> icons, int defaultSelected, OnIconSelectedListener listener) {
+        IconAdapter(Context context, List<Integer> icons, int defaultSelected, OnIconSelectedListener listener, TextView iconError) {
             super(context, 0, icons);
             this.context = context;
             this.iconList = icons;
             this.listener = listener;
             this.selectedResId = defaultSelected;
+            this.iconError = iconError;
         }
 
         @Override
@@ -192,8 +201,9 @@ public class EditorDialog {
             return iconList.get(position);
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             ImageView imageView;
             if (convertView == null) {
                 imageView = new ImageView(context);
@@ -222,6 +232,7 @@ public class EditorDialog {
                 View parentView = (View) v.getParent();
                 if (parentView instanceof GridView) {
                     parentView.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_grid_outline));
+                    iconError.setVisibility(View.GONE);
                 }
             });
 

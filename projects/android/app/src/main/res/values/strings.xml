@@ -113,7 +113,8 @@
     <string name="activity_editor_dialog_any_name_label">Nombre</string>
     <string name="activity_editor_dialog_any_name_error_required">El nombre es necesario</string>
     <string name="activity_editor_dialog_any_number_error_invalid">Eso no es un número válido</string>
-    <string name="activity_editor_dialog_any_number_error_lower">Solo se permiten número ≥</string>
+    <string name="activity_editor_dialog_any_number_error_lower">Solo se permiten números ≥ </string>
+    <string name="activity_editor_dialog_any_icon_error_required">Elija un ícono</string>
 
     <!-- JSON: Strings: Sets -->
     <string name="card_subtext_set_static">%s, Set estático</string>
