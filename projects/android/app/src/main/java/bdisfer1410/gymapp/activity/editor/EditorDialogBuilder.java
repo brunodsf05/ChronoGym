@@ -11,7 +11,7 @@ import bdisfer1410.gymapp.R;
 
 public class EditorDialogBuilder {
     public static void pose(Context context, @NonNull List<String> blackListIds, EditorDialog.OnFormSubmittedListener listener) {
-        pose(context, blackListIds, null, null, -1, null, listener);
+        pose(context, blackListIds, null, null, -1, listener);
     }
 
     public static void pose(
@@ -20,7 +20,6 @@ public class EditorDialogBuilder {
             @Nullable String defaultId,
             @Nullable String defaultName,
             int defaultIconResId,
-            @Nullable Integer defaultNumber,
             EditorDialog.OnFormSubmittedListener listener
     ) {
         EditorDialog.showEditorDialog(
@@ -32,7 +31,7 @@ public class EditorDialogBuilder {
                 defaultId,
                 defaultName,
                 defaultIconResId,
-                defaultNumber,
+                0,
                 blackListIds,
                 listener
         );

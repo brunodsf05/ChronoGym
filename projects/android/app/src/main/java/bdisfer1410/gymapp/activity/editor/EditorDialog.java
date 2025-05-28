@@ -68,6 +68,8 @@ public class EditorDialog {
         inputLayoutNumber.setHint(labelNumber);
         inputLayoutNumber.setVisibility(showNumber ? View.VISIBLE : View.GONE);
 
+        if (defaultId != null) inputLayoutId.setEnabled(false);
+
         if (defaultId != null) editTextId.setText(defaultId);
         if (defaultName != null) editTextName.setText(defaultName);
         if (defaultNumber != null) editTextNumber.setText(String.valueOf(defaultNumber));
@@ -107,7 +109,7 @@ public class EditorDialog {
                 valid = false;
             }
             else {
-                if (blacklistSet.contains(id)) {
+                if (blacklistSet.contains(id) && !id.equals(defaultId)) {
                     inputLayoutId.setError(context.getString(R.string.activity_editor_dialog_any_id_error_repeated));
                     valid = false;
                 }

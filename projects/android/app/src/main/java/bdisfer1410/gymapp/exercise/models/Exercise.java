@@ -87,6 +87,26 @@ public class Exercise implements ExerciseCard, Serializable {
     }
 
     //region Repositories
+    public boolean updatePoseFromRepo(ExercisePose updatedPose) {
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (ExercisePose pose : repoPoses) {
+            idsMatches = pose.getId().equals(updatedPose.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (idsMatches) {
+            repoPoses.set(i, updatedPose);
+        }
+
+        return false;
+    }
+
     public List<String> getRepoPosesIds() {
         return Identifiable.getIds(ListTools.cast(repoPoses, Identifiable.class));
     }

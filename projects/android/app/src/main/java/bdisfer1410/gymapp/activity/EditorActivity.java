@@ -227,7 +227,13 @@ public class EditorActivity extends AppCompatActivity {
     private void handleButtonAddClick() {
         int currentPageIndex = viewPager.getCurrentItem();
         Log.d("EditorActivity", "Página actual del ViewPager: " + currentPageIndex);
-        handleButtonAddPose();
+
+        switch (viewPager.getCurrentItem()) {
+            case 0: handleButtonAddPose(); break;
+            case 1: Toast.makeText(this, "TODO: addTransition", Toast.LENGTH_SHORT).show(); break;
+            case 2: Toast.makeText(this, "TODO: addSet", Toast.LENGTH_SHORT).show(); break;
+        }
+
     }
     //endregion
 
@@ -285,7 +291,17 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard) {
-        Toast.makeText(this, "handleCardClickOnPageResources", Toast.LENGTH_SHORT).show();
+        switch (viewPager.getCurrentItem()) {
+            case 0:
+                handleButtonModifyPose((ExercisePose) exerciseCard);
+                break;
+            case 1:
+                Toast.makeText(this, "TODO: modTransition", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this, "TODO: modSet", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
     //endregion
 
@@ -297,6 +313,25 @@ public class EditorActivity extends AppCompatActivity {
             ExercisePose pose = new ExercisePose(name, iconResId);
             pose.setId(id);
             exercise.repoPoses.add(pose);
+            pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
+            pagerAdapter.notifyDataSetChanged();
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void handleButtonModifyPose(ExercisePose oldPose) {
+        EditorDialogBuilder.pose(
+                this,
+                exercise.getRepoPosesIds(),
+                oldPose.getId(),
+                oldPose.getName(),
+                oldPose.getIcon(),
+                (id, name, iconResId, number
+            ) -> {
+            Log.d("EditorActivity", "Modifying pose");
+            ExercisePose pose = new ExercisePose(name, iconResId);
+            pose.setId(id);
+            exercise.updatePoseFromRepo(pose);
             pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
             pagerAdapter.notifyDataSetChanged();
         });
