@@ -104,6 +104,8 @@ public class EditorActivity extends AppCompatActivity {
         buttonAdd = findViewById(R.id.buttonAdd);
         editionButtons = findViewById(R.id.editionButtons);
 
+        buttonAdd.setOnClickListener(v -> handleButtonAddClick());
+
         // Setup pages
         initPages();
         pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
@@ -220,6 +222,11 @@ public class EditorActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.activity_editor_error_invalid_section, Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void handleButtonAddClick() {
+        int currentPageIndex = viewPager.getCurrentItem();
+        Log.d("EditorActivity", "Página actual del ViewPager: " + currentPageIndex);
+    }
     //endregion
 
     //region Handlers: ExerciseCard
@@ -289,6 +296,9 @@ public class EditorActivity extends AppCompatActivity {
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard) {
         Toast.makeText(this, "handleCardClickOnPageResources", Toast.LENGTH_SHORT).show();
     }
+    //endregion
+
+    //region Handlers: Add
     //endregion
 
     //region Updaters
