@@ -14,6 +14,8 @@ import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
+import bdisfer1410.gymapp.util.java.Identifiable;
+import bdisfer1410.gymapp.util.java.ListTools;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
 public class Exercise implements ExerciseCard, Serializable {
@@ -83,6 +85,20 @@ public class Exercise implements ExerciseCard, Serializable {
                 ", queue=" + queue +
                 '}';
     }
+
+    //region Repositories
+    public List<String> getRepoPosesIds() {
+        return Identifiable.getIds(ListTools.cast(repoPoses, Identifiable.class));
+    }
+
+    public List<String> getRepoTransitionsIds() {
+        return Identifiable.getIds(ListTools.cast(repoTransitions, Identifiable.class));
+    }
+
+    public List<String> getRepoSetsIds() {
+        return Identifiable.getIds(ListTools.cast(repoSets, Identifiable.class));
+    }
+    //endregion
 
     //region ExerciseCard
     @Nullable

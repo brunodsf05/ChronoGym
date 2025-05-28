@@ -33,6 +33,7 @@ import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
@@ -127,7 +128,7 @@ public class EditorActivity extends AppCompatActivity {
     //region Setup
     private void initPages() {
         // Resources
-        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), List.of());
+        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), List.of(), false);
         pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), List.of());
         pageSets = new CardPage(getString(R.string.activity_editor_page_sets), List.of());
 
@@ -289,9 +290,15 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: Add
+    @SuppressLint("NotifyDataSetChanged")
     private void handleButtonAddPose() {
-        EditorDialogBuilder.pose(this, List.of("sigma"), (id, name, iconResId, number) -> {
-            Log.d("EditorActivity", "ID: " + id + ", Name: " + name + ", Icon: " + iconResId + ", Number: " + number);
+        EditorDialogBuilder.pose(this, exercise.getRepoPosesIds(), (id, name, iconResId, number) -> {
+            Log.d("EditorActivity", "Creating new pose");
+            ExercisePose pose = new ExercisePose(name, iconResId);
+            pose.setId(id);
+            exercise.repoPoses.add(pose);
+            pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
+            pagerAdapter.notifyDataSetChanged();
         });
     }
     //endregion
