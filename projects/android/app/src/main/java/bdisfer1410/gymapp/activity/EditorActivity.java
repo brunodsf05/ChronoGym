@@ -305,7 +305,7 @@ public class EditorActivity extends AppCompatActivity {
     }
     //endregion
 
-    //region Handlers: Add
+    //region Handlers: ExerciseCard: Pose
     @SuppressLint("NotifyDataSetChanged")
     private void handleButtonAddPose() {
         EditorDialogBuilder.pose(this, exercise.getRepoPosesIds(), (id, name, iconResId, number) -> {
@@ -336,6 +336,9 @@ public class EditorActivity extends AppCompatActivity {
             pagerAdapter.notifyDataSetChanged();
         });
     }
+    //endregion
+
+    //region Handlers: ExerciseCard: Transitions
     //endregion
 
     //region Updaters
