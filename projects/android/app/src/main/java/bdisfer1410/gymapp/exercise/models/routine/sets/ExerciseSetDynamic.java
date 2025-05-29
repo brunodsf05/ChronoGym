@@ -18,6 +18,7 @@ import bdisfer1410.gymapp.util.media.Beep;
 public class ExerciseSetDynamic extends ExerciseSet {
     private final int DEFAULT_ICON = R.drawable.ic_exercise_default;
     private final List<ExerciseTransition> transitions;
+    public String transitionsId = "";
     private final int reps;
     private final int numberOfPoses;
     private final int msDuration;

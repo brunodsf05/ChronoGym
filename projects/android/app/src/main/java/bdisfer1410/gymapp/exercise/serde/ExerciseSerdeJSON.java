@@ -293,7 +293,9 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     List<ExerciseTransition> let = mapTransitions.get(setDataSetDynamicTransition).list;
                     let = let == null ? new ArrayList<>() : let; // Android cries if I don't do this
 
-                    mapSets.put(setId, new ExerciseSetDynamic(setDataSetDynamicName, let, setDataSetDynamicRepetitions));
+                    ExerciseSetDynamic esd = new ExerciseSetDynamic(setDataSetDynamicName, let, setDataSetDynamicRepetitions);
+                    esd.transitionsId = setDataSetDynamicTransition;
+                    mapSets.put(setId, esd);
                     break;
             }
             if (mapSets.get(setId) instanceof Identifiable)

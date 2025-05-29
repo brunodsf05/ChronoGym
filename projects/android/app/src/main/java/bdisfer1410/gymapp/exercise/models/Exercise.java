@@ -13,6 +13,7 @@ import java.util.List;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
@@ -190,7 +191,8 @@ public class Exercise implements ExerciseCard, Serializable {
         if (!idsMatches) return false;
 
         // Search if some set uses this transition
-        // TODO: IMPLEMENT WHEN NECESSARY
+        boolean isUsed = repoSets.stream().filter(es -> es instanceof ExerciseSetDynamic).map(es -> (ExerciseSetDynamic) es).anyMatch(setDynamic -> setDynamic.transitionsId.equals(transitionList.getId()));
+        if (isUsed) return false;
 
         // Remove
         repoTransitions.remove(i);
