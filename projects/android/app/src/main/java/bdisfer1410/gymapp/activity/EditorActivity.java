@@ -64,7 +64,7 @@ public class EditorActivity extends AppCompatActivity {
     private Exercise exercise;
 
     private enum Sections {
-        EXERCISE, FILE, RESOURCES;
+        EXERCISE, FILE, RESOURCES, TRANSITION_LIST;
     }
 
     @Override
@@ -364,6 +364,7 @@ public class EditorActivity extends AppCompatActivity {
         ExerciseTransitions et = searchedExerciseTransitions.get();
 
         // Switch views
+        openedSection = Sections.TRANSITION_LIST;
         indicator.setVisibility(View.GONE);
         toggleGroup.setVisibility(View.GONE);
         editionButtons.setVisibility(View.VISIBLE);
