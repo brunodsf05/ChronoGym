@@ -158,6 +158,7 @@ public class EditorActivity extends AppCompatActivity {
     private void handleExit() {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.activity_editor_action_title_exit)
+                .setMessage(R.string.activity_editor_action_message_exit)
                 .setNegativeButton(R.string.activity_editor_action_button_exit_confirm, (dialog, which) -> finish())
                 .setNeutralButton(R.string.activity_editor_action_button_exit_deny, null)
                 .show();
