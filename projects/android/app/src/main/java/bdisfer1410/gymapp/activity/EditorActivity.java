@@ -214,6 +214,8 @@ public class EditorActivity extends AppCompatActivity {
                         : View.INVISIBLE
         );
 
+        viewPager.setCurrentItem(0, false);
+
         // Do a little animation
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.pop);
         viewPager.startAnimation(fadeIn);
