@@ -315,6 +315,7 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard, boolean longPress) {
         switch (viewPager.getCurrentItem()) {
             case 0:
@@ -330,7 +331,16 @@ public class EditorActivity extends AppCompatActivity {
                                         handleButtonModifyTransitionList((ExerciseTransitions) exerciseCard);
                                         break;
                                     case 1: // Delete
-                                        Toast.makeText(this, "TODO: Implement Transitions delete", Toast.LENGTH_SHORT).show();
+                                        boolean success = exercise.removeTransitionList((ExerciseTransitions) exerciseCard);
+
+                                        if (success) {
+                                            pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
+                                            pagerAdapter.notifyDataSetChanged();
+                                        }
+                                        else {
+                                            Toast.makeText(this, R.string.activity_editor_error_remove_pose_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
+                                        }
+
                                         break;
                                 }
                             })

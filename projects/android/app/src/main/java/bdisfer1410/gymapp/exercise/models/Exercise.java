@@ -140,6 +140,35 @@ public class Exercise implements ExerciseCard, Serializable {
     public List<String> getRepoSetsIds() {
         return Identifiable.getIds(ListTools.cast(repoSets, Identifiable.class));
     }
+
+    public boolean removePose(ExercisePose pose) {
+        return false;
+    }
+
+
+    public boolean removeTransitionList(ExerciseTransitions transitionList) {
+        // Search transition
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (ExerciseTransitions pose : repoTransitions) {
+            idsMatches = pose.getId().equals(transitionList.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (!idsMatches) return false;
+
+        // Search if some set uses this transition
+        // TODO: IMPLEMENT WHEN NECESSARY
+
+        // Remove
+        repoTransitions.remove(i);
+        return true;
+    }
     //endregion
 
     //region ExerciseCard
