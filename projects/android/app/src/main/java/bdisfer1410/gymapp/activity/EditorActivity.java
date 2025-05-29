@@ -25,6 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
@@ -34,6 +35,7 @@ import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
@@ -55,6 +57,9 @@ public class EditorActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private Button buttonEditionCancel, buttonEditionModify, buttonAdd;
     private LinearLayout editionButtons;
+    //endregion
+    //region TransitionListState
+    private String transitionListId = "";
     //endregion
     private Exercise exercise;
 
@@ -238,7 +243,7 @@ public class EditorActivity extends AppCompatActivity {
 
         switch (viewPager.getCurrentItem()) {
             case 0: handleButtonAddPose(); break;
-            case 1: showTransitionListEditor(); break;
+            case 1: Toast.makeText(this, "TODO: addTransition", Toast.LENGTH_SHORT).show(); break;
             case 2: Toast.makeText(this, "TODO: addSet", Toast.LENGTH_SHORT).show(); break;
         }
     }
@@ -303,7 +308,7 @@ public class EditorActivity extends AppCompatActivity {
                 handleButtonModifyPose((ExercisePose) exerciseCard);
                 break;
             case 1:
-                Toast.makeText(this, "TODO: modTransition", Toast.LENGTH_SHORT).show();
+                showTransitionListEditor(((Identifiable)exerciseCard).getId());
                 break;
             case 2:
                 Toast.makeText(this, "TODO: modSet", Toast.LENGTH_SHORT).show();
@@ -346,20 +351,29 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: ExerciseCard: Transitions
-    private void showTransitionListEditor() {
-        Toast.makeText(this, "TODO: addTransition", Toast.LENGTH_SHORT).show();
+    private void showTransitionListEditor(String id) {
+
+        // Load transition list
+        Optional<ExerciseTransitions> searchedExerciseTransitions = exercise.repoTransitions.stream().filter(et -> et.getId().equals(id)).findFirst();
+
+        if (searchedExerciseTransitions.isEmpty()) {
+            Toast.makeText(this, R.string.activity_editor_error_invalid_transtion_list_id, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ExerciseTransitions et = searchedExerciseTransitions.get();
+
         // Switch views
         indicator.setVisibility(View.GONE);
         toggleGroup.setVisibility(View.GONE);
         editionButtons.setVisibility(View.VISIBLE);
         pagerAdapter.setPages(List.of(new CardPage(
                 getString(R.string.activity_editor_page_transition_poses),
-                List.of(new SimpleCard("name", R.drawable.ic_editor_name, "???", "???"))
+                ListTools.cast(et.list, ExerciseCard.class)
         )));
         // Do a little animation
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.pop);
         viewPager.startAnimation(fadeIn);
-        // Load transition list
     }
 
     private void showTranstionsPage() {

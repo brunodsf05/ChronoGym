@@ -24,4 +24,9 @@ public abstract class Identifiable implements Serializable {
     public static List<String> getIds(@NonNull List<Identifiable> identifiables) {
         return identifiables.stream().map(Identifiable::getId).collect(Collectors.toList());
     }
+
+    public Identifiable withId(String id) {
+        this.id = id;
+        return this;
+    }
 }

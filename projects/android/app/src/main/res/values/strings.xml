@@ -108,6 +108,7 @@
 
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
     <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>
+    <string name="activity_editor_error_invalid_transtion_list_id">No se pudo inspeccionar las poses de dicha transición</string>
 
     <string name="activity_editor_dialog_pose_title">Pose</string>
     <string name="activity_editor_dialog_any_id_label">Identificador</string>
