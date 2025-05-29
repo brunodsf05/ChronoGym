@@ -35,10 +35,12 @@ import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
+import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
+import bdisfer1410.gymapp.util.android.TextDropdownDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.ListTools;
@@ -177,6 +179,7 @@ public class EditorActivity extends AppCompatActivity {
     private void handleSectionClick(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
         if (!isChecked) return;
 
+        transitionListId = "";
         editionButtons.setVisibility(View.GONE);
 
         // Determine which section is selected
@@ -242,8 +245,10 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddClick() {
-        int currentPageIndex = viewPager.getCurrentItem();
-        Log.d("EditorActivity", "Página actual del ViewPager: " + currentPageIndex);
+        if (!transitionListId.isBlank()) {
+            handleButtonAddTransitionPose();
+            return;
+        }
 
         switch (viewPager.getCurrentItem()) {
             case 0: handleButtonAddPose(); break;
@@ -374,7 +379,6 @@ public class EditorActivity extends AppCompatActivity {
 
     //region Handlers: ExerciseCard: Transitions
     private void showTransitionListEditor(String id) {
-
         // Load transition list
         Optional<ExerciseTransitions> searchedExerciseTransitions = exercise.repoTransitions.stream().filter(et -> et.getId().equals(id)).findFirst();
 
@@ -384,6 +388,7 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         ExerciseTransitions et = searchedExerciseTransitions.get();
+        transitionListId = et.getId();
 
         // Switch views
         openedSection = Sections.TRANSITION_LIST;
@@ -399,14 +404,14 @@ public class EditorActivity extends AppCompatActivity {
         viewPager.startAnimation(fadeIn);
     }
 
-    private void showTranstionsPage() {
+    private void showTransitionsPage() {
         handleSectionClick(toggleGroup, R.id.sectionResources, true);
         toggleGroup.setVisibility(View.VISIBLE);
         viewPager.setCurrentItem(1, false);
     }
 
     private void handleButtonEditionCancel() {
-        showTranstionsPage();
+        showTransitionsPage();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -437,6 +442,49 @@ public class EditorActivity extends AppCompatActivity {
                     pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
                     pagerAdapter.notifyDataSetChanged();
                 });
+    }
+
+    private void handleButtonAddTransitionPose() {
+        Toast.makeText(this, "TODO: handleButtonAddTransitionPose()", Toast.LENGTH_SHORT).show();
+        List<String> posesIds = exercise.getRepoPosesIds();
+
+        if (posesIds.isEmpty()) {
+            Toast.makeText(this, R.string.activity_editor_error_poses_is_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_message), posesIds, poseId -> {
+            // Search ExerciseTransition
+            Optional<ExerciseTransitions> etr = exercise.repoTransitions.stream()
+                    .filter(etc -> etc.getId().equals(transitionListId))
+                    .findFirst();
+
+            if (etr.isEmpty()) {
+                Toast.makeText(this, R.string.activity_editor_error_transition_list_was_not_found, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ExerciseTransitions et = etr.get();
+
+            // Search ExercisePose
+            Optional<ExercisePose> epr = exercise.repoPoses.stream()
+                    .filter(epc -> epc.getId().equals(poseId))
+                    .findFirst();
+
+            if (epr.isEmpty()) {
+                Toast.makeText(this, R.string.activity_editor_error_pose_was_not_found, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ExercisePose ep = epr.get();
+
+            et.list.add(new ExerciseTransition(ep, 0));
+            showTransitionListEditor(transitionListId);
+        });
+    }
+
+    private void handleButtonModifyTransitionPose() {
+        Toast.makeText(this, "TODO: handleButtonModifyTransitionPose()", Toast.LENGTH_SHORT).show();
     }
     //endregion
 

@@ -109,9 +109,14 @@
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
     <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>
     <string name="activity_editor_error_invalid_transtion_list_id">No se pudo inspeccionar las poses de dicha transición</string>
+    <string name="activity_editor_error_poses_is_empty">No tienes ninguna pose creada</string>
+    <string name="activity_editor_error_pose_was_not_found">No se encontró dicha pose</string>
+    <string name="activity_editor_error_transition_list_was_not_found">No se encontró dicha lista de transiciones</string>
 
     <string name="activity_editor_dialog_pose_title">Pose</string>
     <string name="activity_editor_dialog_transition_list_title">Transiciones</string>
+
+    <string name="activity_editor_dialog_transition_pose_message">Elija una pose para añadirla a la lista de transiciones</string>
 
     <string name="activity_editor_dialog_any_id_label">Identificador</string>
     <string name="activity_editor_dialog_any_id_error_required">El ID es necesario</string>
