@@ -43,6 +43,7 @@ public class EditorDialog {
             String title,
             String labelNumber,
             boolean showNumber,
+            boolean showIcon,
             int minNumber,
             @Nullable String defaultId,
             @Nullable String defaultName,
@@ -68,6 +69,9 @@ public class EditorDialog {
         inputLayoutNumber.setHint(labelNumber);
         inputLayoutNumber.setVisibility(showNumber ? View.VISIBLE : View.GONE);
 
+        gridIcons.setVisibility(showIcon ? View.VISIBLE : View.GONE);
+        iconError.setVisibility(View.GONE);
+
         if (defaultId != null) inputLayoutId.setEnabled(false);
 
         if (defaultId != null) editTextId.setText(defaultId);
@@ -77,11 +81,13 @@ public class EditorDialog {
         List<Integer> iconList = getIconList();
         final int[] selectedIconResId = {defaultIconResId};
 
-        IconAdapter adapter = new IconAdapter(context, iconList, defaultIconResId, resId -> {
-            selectedIconResId[0] = resId;
-            gridIcons.setBackground(null);
-        }, iconError);
-        gridIcons.setAdapter(adapter);
+        if (showIcon) {
+            IconAdapter adapter = new IconAdapter(context, iconList, defaultIconResId, resId -> {
+                selectedIconResId[0] = resId;
+                gridIcons.setBackground(null);
+            }, iconError);
+            gridIcons.setAdapter(adapter);
+        }
 
         Set<String> blacklistSet = new HashSet<>(blacklistIds);
 
@@ -107,8 +113,7 @@ public class EditorDialog {
             if (id.isEmpty()) {
                 inputLayoutId.setError(context.getString(R.string.activity_editor_dialog_any_id_error_required));
                 valid = false;
-            }
-            else {
+            } else {
                 if (blacklistSet.contains(id) && !id.equals(defaultId)) {
                     inputLayoutId.setError(context.getString(R.string.activity_editor_dialog_any_id_error_repeated));
                     valid = false;
@@ -128,37 +133,36 @@ public class EditorDialog {
                         inputLayoutNumber.setError(context.getString(R.string.activity_editor_dialog_any_number_error_lower) + minNumber);
                         valid = false;
                     }
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     inputLayoutNumber.setError(context.getString(R.string.activity_editor_dialog_any_number_error_invalid));
                     valid = false;
                 }
-            }
-            else {
+            } else {
                 if (showNumber) {
                     inputLayoutNumber.setError(context.getString(R.string.activity_editor_dialog_any_number_error_invalid));
                     valid = false;
                 }
             }
 
-            if (selectedIconResId[0] <= 0) {
-                Toast.makeText(context, "Please select an icon", Toast.LENGTH_SHORT).show();
+            if (showIcon) {
+                if (selectedIconResId[0] <= 0) {
+                    Toast.makeText(context, "Por favor, selecciona un icono", Toast.LENGTH_SHORT).show();
 
-                GradientDrawable errorBorder = new GradientDrawable();
-                errorBorder.setColor(Color.TRANSPARENT);
-                errorBorder.setStroke(
-                        (int) (context.getResources().getDisplayMetrics().density * 2),
-                        MaterialColors.getColor(context, com.google.android.material.R.attr.colorError, Color.RED));
-                errorBorder.setCornerRadius(16);
+                    GradientDrawable errorBorder = new GradientDrawable();
+                    errorBorder.setColor(Color.TRANSPARENT);
+                    errorBorder.setStroke(
+                            (int) (context.getResources().getDisplayMetrics().density * 2),
+                            MaterialColors.getColor(context, com.google.android.material.R.attr.colorError, Color.RED));
+                    errorBorder.setCornerRadius(16);
 
-                gridIcons.setBackground(errorBorder);
-                iconError.setVisibility(View.VISIBLE);
+                    gridIcons.setBackground(errorBorder);
+                    iconError.setVisibility(View.VISIBLE);
 
-                valid = false;
-            }
-            else {
-                gridIcons.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_grid_outline));
-                iconError.setVisibility(View.GONE);
+                    valid = false;
+                } else {
+                    gridIcons.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_grid_outline));
+                    iconError.setVisibility(View.GONE);
+                }
             }
 
             if (valid) {
