@@ -35,6 +35,7 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
+import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
@@ -83,7 +84,7 @@ public class EditorActivity extends AppCompatActivity {
             }
             else {
                 Log.d("EditorActivity", "Creating new exercise object");
-                exercise = new Exercise("", 0, null, null);
+                exercise = new Exercise(getString(R.string.activity_editor_action_default_rename_exercise), R.drawable.ic_missing, new TimerAnimationQueue(new ArrayList<>()), new ArrayList<>());
                 exercise.setRepositories(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         }

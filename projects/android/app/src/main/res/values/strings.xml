@@ -100,6 +100,7 @@
     <string name="activity_editor_action_desc_exit">Los cambios no guardados serán olvidados para siempre…</string>
 
     <string name="activity_editor_action_title_rename_exercise">Escriba el nombre del ejercicio</string>
+    <string name="activity_editor_action_default_rename_exercise">Nueva rutina</string>
     <string name="activity_editor_action_desc_rename_exercise">Pulsa para cambiar el nombre de la rutina</string>
     <string name="activity_editor_action_title_reiconify_exercise">Ícono</string>
     <string name="activity_editor_action_desc_reiconify_exercise">Pulsa para cambiar el ícono de la rutina</string>
