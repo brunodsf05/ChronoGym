@@ -128,7 +128,7 @@ public class EditorActivity extends AppCompatActivity {
     //region Setup
     private void initPages() {
         // Resources
-        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), List.of(), false);
+        pagePoses = new CardPage(getString(R.string.activity_editor_page_poses), List.of());
         pageTransitions = new CardPage(getString(R.string.activity_editor_page_transitions), List.of());
         pageSets = new CardPage(getString(R.string.activity_editor_page_sets), List.of());
 

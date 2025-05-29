@@ -23,10 +23,7 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     private List<CardPage> pages;
     private final Consumer<ExerciseCard> onClick;
 
-    public PagerEditorCardsAdapter(
-            List<CardPage> pages,
-            Consumer<ExerciseCard> onClick
-    ) {
+    public PagerEditorCardsAdapter(List<CardPage> pages, Consumer<ExerciseCard> onClick) {
         this.pages = pages;
         this.onClick = onClick;
     }
@@ -41,6 +38,7 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
         return this.pages;
     }
 
+    //region Android
     @NonNull
     @Override
     public PageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,45 +53,55 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
         CardPage page = pages.get(position);
         ExerciseCardAdapter adapter = new ExerciseCardAdapter(page.getCards(), onClick, null);
+
         holder.title.setText(page.getTitle());
         holder.list.setLayoutManager(new LinearLayoutManager(holder.list.getContext()));
         holder.list.setAdapter(adapter);
 
-        if (!page.isReorderEnabled()) return;
+        // Clear any previous ItemTouchHelper to avoid unexpected reordering behaviour
+        if (holder.touchHelper != null) {
+            holder.touchHelper.attachToRecyclerView(null);
+            holder.touchHelper = null;
+        }
 
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView,
-                                  @NonNull RecyclerView.ViewHolder viewHolder,
-                                  @NonNull RecyclerView.ViewHolder target) {
-                int from = viewHolder.getAdapterPosition();
-                int to = target.getAdapterPosition();
-                if (from < 0 || to < 0 || from == to) return false;
-                List<ExerciseCard> cards = page.getCards();
-                ExerciseCard moved = cards.remove(from);
-                cards.add(to, moved);
-                adapter.notifyItemMoved(from, to);
-                return true;
-            }
+        if (page.isReorderEnabled()) {
+            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                    ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView,
+                                      @NonNull RecyclerView.ViewHolder viewHolder,
+                                      @NonNull RecyclerView.ViewHolder target) {
+                    int from = viewHolder.getAdapterPosition();
+                    int to = target.getAdapterPosition();
+                    if (from < 0 || to < 0 || from == to) return false;
+                    List<ExerciseCard> cards = page.getCards();
+                    ExerciseCard moved = cards.remove(from);
+                    cards.add(to, moved);
+                    adapter.notifyItemMoved(from, to);
+                    return true;
+                }
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // No swipe actions
-            }
-        });
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    // No swipe actions
+                }
+            });
 
-        helper.attachToRecyclerView(holder.list);
+            helper.attachToRecyclerView(holder.list);
+            holder.touchHelper = helper;
+        }
     }
 
     @Override
     public int getItemCount() {
         return pages.size();
     }
+    //endregion
 
     static class PageViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public RecyclerView list;
+        public ItemTouchHelper touchHelper = null;
 
         public PageViewHolder(@NonNull View itemView) {
             super(itemView);
