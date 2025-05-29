@@ -116,7 +116,7 @@ public class EditorActivity extends AppCompatActivity {
 
         // Setup pager
         viewPager = findViewById(R.id.pager);
-        pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick);
+        pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick, exerciseCard -> Toast.makeText(this, "TODO: LongPress delete dialog", Toast.LENGTH_SHORT).show());
         viewPager.setAdapter(pagerAdapter);
 
         indicator = findViewById(R.id.indicator);

@@ -22,10 +22,18 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
 
     private List<CardPage> pages;
     private final Consumer<ExerciseCard> onClick;
+    private final Consumer<ExerciseCard> onLongClick;
 
     public PagerEditorCardsAdapter(List<CardPage> pages, Consumer<ExerciseCard> onClick) {
         this.pages = pages;
         this.onClick = onClick;
+        this.onLongClick = null;
+    }
+
+    public PagerEditorCardsAdapter(List<CardPage> pages, Consumer<ExerciseCard> onClick, Consumer<ExerciseCard> onLongClick) {
+        this.pages = pages;
+        this.onClick = onClick;
+        this.onLongClick = onLongClick;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -52,13 +60,13 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     @Override
     public void onBindViewHolder(@NonNull PageViewHolder holder, int position) {
         CardPage page = pages.get(position);
-        ExerciseCardAdapter adapter = new ExerciseCardAdapter(page.getCards(), onClick, null);
+
+        ExerciseCardAdapter adapter = getExerciseCardAdapter(page);
 
         holder.title.setText(page.getTitle());
         holder.list.setLayoutManager(new LinearLayoutManager(holder.list.getContext()));
         holder.list.setAdapter(adapter);
 
-        // Clear any previous ItemTouchHelper to avoid unexpected reordering behaviour
         if (holder.touchHelper != null) {
             holder.touchHelper.attachToRecyclerView(null);
             holder.touchHelper = null;
@@ -90,6 +98,29 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
             helper.attachToRecyclerView(holder.list);
             holder.touchHelper = helper;
         }
+    }
+
+    @NonNull
+    private ExerciseCardAdapter getExerciseCardAdapter(CardPage page) {
+        ExerciseCardAdapter adapter;
+
+        if (page.isReorderEnabled()) {
+            adapter = new ExerciseCardAdapter(page.getCards(), onClick, null);
+        }
+        else {
+            adapter = new ExerciseCardAdapter(
+                    page.getCards(),
+                    onClick,
+                    onLongClick == null
+                            ? null
+                            : (view, pos) -> {
+                                if (pos >= 0 && pos < page.getCards().size()) {
+                                    onLongClick.accept(page.getCards().get(pos));
+                                }
+                            }
+            );
+        }
+        return adapter;
     }
 
     @Override
