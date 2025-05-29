@@ -23,6 +23,7 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     private List<CardPage> pages;
     private final Consumer<ExerciseCard> onClick;
     private final Consumer<ExerciseCard> onLongClick;
+    private int lastClickedPos = 0;
 
     public PagerEditorCardsAdapter(List<CardPage> pages, Consumer<ExerciseCard> onClick) {
         this.pages = pages;
@@ -115,6 +116,7 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
                             ? null
                             : (view, pos) -> {
                                 if (pos >= 0 && pos < page.getCards().size()) {
+                                    lastClickedPos = pos;
                                     onLongClick.accept(page.getCards().get(pos));
                                 }
                             }
@@ -128,6 +130,10 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
         return pages.size();
     }
     //endregion
+
+    public int getLastClickedPos() {
+        return lastClickedPos;
+    }
 
     static class PageViewHolder extends RecyclerView.ViewHolder {
         public TextView title;

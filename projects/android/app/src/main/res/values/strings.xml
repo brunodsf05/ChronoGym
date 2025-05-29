@@ -118,8 +118,8 @@
 
     <string name="activity_editor_dialog_transition_title">Transición</string>
     <string name="activity_editor_dialog_transition_pose_message_add">Elija una pose para añadirla a la lista de transiciones</string>
-    <string name="activity_editor_dialog_transition_pose_hint_poseId">Seleccione la pose</string>
-    <string name="activity_editor_dialog_transition_pose_hint_msToNext">Milisegundos para pasar a la siguiente pose</string>
+    <string name="activity_editor_dialog_transition_pose_message_delete">¿Estás seguro de quitar esta pose de la lista?</string>
+    <string name="activity_editor_dialog_transition_pose_hint_msToNext">Ms para la siguiente pose</string>
 
 
     <string name="activity_editor_dialog_any_id_label">Identificador</string>

@@ -499,22 +499,25 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonModifyTransitionPose(ExerciseTransition oldTransition) {
-        Toast.makeText(this, "TODO: handleButtonModifyTransitionPose()", Toast.LENGTH_SHORT).show();
         new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.activity_editor_dialog_longpress_title)
-                .setItems(new String[]{getString(R.string.activity_editor_dialog_longpress_edit_info), getString(R.string.activity_editor_dialog_longpress_delete)}, (dialog, which) -> {
-                    switch (which) {
-                        case 0: // Edit
-                            NumberInputDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_hint_msToNext), 0, number -> {
-                                Log.d("aaaaaaaaaaaaaaaa", String.valueOf(number));
-                            });
-                            break;
-                        case 1: // Delete
-                            Toast.makeText(this, "TODO: Implement Transitions delete", Toast.LENGTH_SHORT).show();
-                            break;
+                .setTitle(R.string.activity_editor_dialog_transition_title)
+                .setMessage(R.string.activity_editor_dialog_transition_pose_message_delete)
+                .setNegativeButton(R.string.activity_any_deny, null)
+                .setPositiveButton(R.string.activity_any_accept, (dialog, which) -> {
+                    // Load transition list
+                    Optional<ExerciseTransitions> searchedExerciseTransitions = exercise.repoTransitions.stream().filter(et -> et.getId().equals(transitionListId)).findFirst();
+
+                    if (searchedExerciseTransitions.isEmpty()) {
+                        Toast.makeText(this, R.string.activity_editor_error_invalid_transtion_list_id, Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    ExerciseTransitions et = searchedExerciseTransitions.get();
+
+                    // Delete pose from transition list
+                    et.list.remove(pagerAdapter.getLastClickedPos());
+                    showTransitionListEditor(transitionListId);
                 })
-                .setPositiveButton(R.string.activity_editor_dialog_longpress_cancel, null)
                 .show();
     }
     //endregion
