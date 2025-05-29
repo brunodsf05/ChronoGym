@@ -39,7 +39,7 @@ public class EditorDialogBuilder {
     }
 
     public static void transitions(Context context, @NonNull List<String> blackListIds, EditorDialog.OnFormSubmittedListener listener) {
-        transitions(context, blackListIds, null, null, -1, listener);
+        transitions(context, blackListIds, null, null, listener);
     }
 
     public static void transitions(
@@ -47,7 +47,6 @@ public class EditorDialogBuilder {
             @NonNull List<String> blackListIds,
             @Nullable String defaultId,
             @Nullable String defaultName,
-            int defaultIconResId,
             EditorDialog.OnFormSubmittedListener listener
     ) {
         EditorDialog.showEditorDialog(
@@ -59,7 +58,7 @@ public class EditorDialogBuilder {
                 0,
                 defaultId,
                 defaultName,
-                defaultIconResId,
+                -1,
                 0,
                 blackListIds,
                 listener
