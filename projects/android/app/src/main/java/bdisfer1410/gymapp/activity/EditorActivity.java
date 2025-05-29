@@ -40,6 +40,7 @@ import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
+import bdisfer1410.gymapp.util.android.NumberInputDialog;
 import bdisfer1410.gymapp.util.android.TextDropdownDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
@@ -240,7 +241,12 @@ public class EditorActivity extends AppCompatActivity {
             case RESOURCES: handleCardClickOnPageResources(exerciseCard, longPress); break;
 
             default:
-                Toast.makeText(this, R.string.activity_editor_error_invalid_section, Toast.LENGTH_SHORT).show();
+                if (transitionListId.isEmpty()) {
+                    Toast.makeText(this, R.string.activity_editor_error_invalid_section, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                handleButtonModifyTransitionPose((ExerciseTransition) exerciseCard);
         }
     }
 
@@ -330,7 +336,7 @@ public class EditorActivity extends AppCompatActivity {
                                         break;
                                 }
                             })
-                            .setNeutralButton(R.string.activity_editor_dialog_longpress_cancel, null)
+                            .setPositiveButton(R.string.activity_editor_dialog_longpress_cancel, null)
                             .show();
                 }
                 else {
@@ -453,7 +459,7 @@ public class EditorActivity extends AppCompatActivity {
             return;
         }
 
-        TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_message), posesIds, poseId -> {
+        TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_message_add), posesIds, true, (poseId, msToNext) -> {
             // Search ExerciseTransition
             Optional<ExerciseTransitions> etr = exercise.repoTransitions.stream()
                     .filter(etc -> etc.getId().equals(transitionListId))
@@ -478,13 +484,29 @@ public class EditorActivity extends AppCompatActivity {
 
             ExercisePose ep = epr.get();
 
-            et.list.add(new ExerciseTransition(ep, 0));
+            et.list.add(new ExerciseTransition(ep, msToNext));
             showTransitionListEditor(transitionListId);
         });
     }
 
-    private void handleButtonModifyTransitionPose() {
+    private void handleButtonModifyTransitionPose(ExerciseTransition oldTransition) {
         Toast.makeText(this, "TODO: handleButtonModifyTransitionPose()", Toast.LENGTH_SHORT).show();
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.activity_editor_dialog_longpress_title)
+                .setItems(new String[]{getString(R.string.activity_editor_dialog_longpress_edit_info), getString(R.string.activity_editor_dialog_longpress_delete)}, (dialog, which) -> {
+                    switch (which) {
+                        case 0: // Edit
+                            NumberInputDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_hint_msToNext), 0, number -> {
+                                Log.d("aaaaaaaaaaaaaaaa", String.valueOf(number));
+                            });
+                            break;
+                        case 1: // Delete
+                            Toast.makeText(this, "TODO: Implement Transitions delete", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                })
+                .setPositiveButton(R.string.activity_editor_dialog_longpress_cancel, null)
+                .show();
     }
     //endregion
 
