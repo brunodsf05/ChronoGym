@@ -37,6 +37,7 @@
     <!-- UI: EditorActivity -->
     <string name="activity_editor_page_poses">Poses</string>
     <string name="activity_editor_page_transitions">Transiciones</string>
+    <string name="activity_editor_page_transition_poses">Transición</string>
     <string name="activity_editor_page_sets">Sets</string>
     <string name="activity_editor_page_exercise_info">Información</string>
     <string name="activity_editor_page_exercise_queue">Entrenamiento</string>

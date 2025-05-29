@@ -50,6 +50,7 @@ public class EditorActivity extends AppCompatActivity {
     private Sections openedSection = Sections.EXERCISE;
     //endregion
     //region Views
+    private MaterialButtonToggleGroup toggleGroup;
     private CircleIndicator3 indicator;
     private ViewPager2 viewPager;
     private Button buttonEditionCancel, buttonEditionModify, buttonAdd;
@@ -90,7 +91,7 @@ public class EditorActivity extends AppCompatActivity {
         }
 
         // Setup sections
-        MaterialButtonToggleGroup toggleGroup = findViewById(R.id.sections);
+        toggleGroup = findViewById(R.id.sections);
         toggleGroup.addOnButtonCheckedListener(this::handleSectionClick);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -107,6 +108,9 @@ public class EditorActivity extends AppCompatActivity {
         editionButtons = findViewById(R.id.editionButtons);
 
         buttonAdd.setOnClickListener(v -> handleButtonAddClick());
+        buttonEditionCancel.setOnClickListener(v -> handleButtonEditionCancel());
+        buttonEditionModify.setOnClickListener(v -> handleButtonAddClick());
+
 
         // Setup pages
         initPages();
@@ -177,6 +181,8 @@ public class EditorActivity extends AppCompatActivity {
                 R.id.sectionResources, Sections.RESOURCES
         ).getOrDefault(checkedId, Sections.EXERCISE);
 
+        editionButtons.setVisibility(View.GONE);
+
         buttonAdd.setVisibility(
                 openedSection == Sections.FILE
                         ? View.GONE
@@ -232,10 +238,9 @@ public class EditorActivity extends AppCompatActivity {
 
         switch (viewPager.getCurrentItem()) {
             case 0: handleButtonAddPose(); break;
-            case 1: Toast.makeText(this, "TODO: addTransition", Toast.LENGTH_SHORT).show(); break;
+            case 1: showTransitionListEditor(); break;
             case 2: Toast.makeText(this, "TODO: addSet", Toast.LENGTH_SHORT).show(); break;
         }
-
     }
     //endregion
 
@@ -341,6 +346,31 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: ExerciseCard: Transitions
+    private void showTransitionListEditor() {
+        Toast.makeText(this, "TODO: addTransition", Toast.LENGTH_SHORT).show();
+        // Switch views
+        indicator.setVisibility(View.GONE);
+        toggleGroup.setVisibility(View.GONE);
+        editionButtons.setVisibility(View.VISIBLE);
+        pagerAdapter.setPages(List.of(new CardPage(
+                getString(R.string.activity_editor_page_transition_poses),
+                List.of(new SimpleCard("name", R.drawable.ic_editor_name, "???", "???"))
+        )));
+        // Do a little animation
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.pop);
+        viewPager.startAnimation(fadeIn);
+        // Load transition list
+    }
+
+    private void showTranstionsPage() {
+        handleSectionClick(toggleGroup, R.id.sectionResources, true);
+        toggleGroup.setVisibility(View.VISIBLE);
+        viewPager.setCurrentItem(1, false);
+    }
+
+    private void handleButtonEditionCancel() {
+        showTranstionsPage();
+    }
     //endregion
 
     //region Updaters
