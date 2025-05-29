@@ -243,7 +243,7 @@ public class EditorActivity extends AppCompatActivity {
 
         switch (viewPager.getCurrentItem()) {
             case 0: handleButtonAddPose(); break;
-            case 1: Toast.makeText(this, "TODO: addTransition", Toast.LENGTH_SHORT).show(); break;
+            case 1: handleButtonAddTransitionList(); break;
             case 2: Toast.makeText(this, "TODO: addSet", Toast.LENGTH_SHORT).show(); break;
         }
     }
@@ -385,6 +385,18 @@ public class EditorActivity extends AppCompatActivity {
 
     private void handleButtonEditionCancel() {
         showTranstionsPage();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void handleButtonAddTransitionList() {
+        EditorDialogBuilder.transitions(this, exercise.getRepoTransitionsIds(), (id, name, iconResId, number) -> {
+            Log.d("EditorActivity", "Creating new transition list");
+            ExerciseTransitions transitions = new ExerciseTransitions(name, new ArrayList<>());
+            transitions.setId(id);
+            exercise.repoTransitions.add(transitions);
+            pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
+            pagerAdapter.notifyDataSetChanged();
+        });
     }
     //endregion
 
