@@ -319,7 +319,35 @@ public class EditorActivity extends AppCompatActivity {
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard, boolean longPress) {
         switch (viewPager.getCurrentItem()) {
             case 0:
-                handleButtonModifyPose((ExercisePose) exerciseCard);
+
+                if (longPress) {
+                    new MaterialAlertDialogBuilder(this)
+                            .setTitle(R.string.activity_editor_dialog_longpress_title)
+                            .setItems(new String[]{getString(R.string.activity_editor_dialog_longpress_edit_info), getString(R.string.activity_editor_dialog_longpress_delete)}, (dialog, which) -> {
+                                switch (which) {
+                                    case 0: // Edit
+                                        handleButtonModifyPose((ExercisePose) exerciseCard);
+                                        break;
+                                    case 1: // Delete
+                                        boolean success = exercise.removePose((ExercisePose) exerciseCard);
+
+                                        if (success) {
+                                            pagePoses.setCards(ListTools.cast(exercise.repoPoses, ExerciseCard.class));
+                                            pagerAdapter.notifyDataSetChanged();
+                                        }
+                                        else {
+                                            Toast.makeText(this, R.string.activity_editor_error_remove_pose_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        break;
+                                }
+                            })
+                            .setPositiveButton(R.string.activity_editor_dialog_longpress_cancel, null)
+                            .show();
+                }
+                else {
+                    handleButtonModifyPose((ExercisePose) exerciseCard);
+                }
                 break;
             case 1:
                 if (longPress) {
@@ -338,7 +366,7 @@ public class EditorActivity extends AppCompatActivity {
                                             pagerAdapter.notifyDataSetChanged();
                                         }
                                         else {
-                                            Toast.makeText(this, R.string.activity_editor_error_remove_pose_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, R.string.activity_editor_error_remove_transition_list_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
                                         }
 
                                         break;

@@ -23,6 +23,10 @@ public class ExerciseSetStatic extends ExerciseSet {
         this.msDuration = msDuration;
     }
 
+    public ExercisePose getPose() {
+        return pose;
+    }
+
     //region TimerAnimation
     @Override
     public int onStart(@NonNull TimerFragment timer) {

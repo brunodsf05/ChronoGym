@@ -1,6 +1,7 @@
 package bdisfer1410.gymapp.exercise.models;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import java.util.List;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.Identifiable;
@@ -142,7 +144,32 @@ public class Exercise implements ExerciseCard, Serializable {
     }
 
     public boolean removePose(ExercisePose pose) {
-        return false;
+        // Search pose
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (ExercisePose p : repoPoses) {
+            idsMatches = p.getId().equals(pose.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (!idsMatches) return false;
+
+        // Search if some transition or set uses this pose
+        boolean isUsed = false;
+        isUsed = repoTransitions.stream().flatMap(et -> et.list.stream()).anyMatch(etl -> etl.getPose().getId().equals(pose.getId()));
+        if (isUsed) return false;
+
+        isUsed = repoSets.stream().filter(es -> es instanceof ExerciseSetStatic).map(es -> (ExerciseSetStatic) es).anyMatch(setStatic -> setStatic.getPose().getId().equals(pose.getId()));
+        if (isUsed) return false;
+
+        // Remove
+        repoPoses.remove(i);
+        return true;
     }
 
 
@@ -151,8 +178,8 @@ public class Exercise implements ExerciseCard, Serializable {
         int i = 0;
         boolean idsMatches = false;
 
-        for (ExerciseTransitions pose : repoTransitions) {
-            idsMatches = pose.getId().equals(transitionList.getId());
+        for (ExerciseTransitions t : repoTransitions) {
+            idsMatches = t.getId().equals(transitionList.getId());
 
             if (idsMatches)
                 break;
