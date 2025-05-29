@@ -126,7 +126,7 @@ public class EditorActivity extends AppCompatActivity {
 
         // Setup pager
         viewPager = findViewById(R.id.pager);
-        pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, this::handleCardClick, exerciseCard -> Toast.makeText(this, "TODO: LongPress delete dialog", Toast.LENGTH_SHORT).show());
+        pagerAdapter = new PagerEditorCardsAdapter(sectionExercise, ec -> handleCardClick(ec, false), ec -> handleCardClick(ec, true));
         viewPager.setAdapter(pagerAdapter);
 
         indicator = findViewById(R.id.indicator);
@@ -219,7 +219,7 @@ public class EditorActivity extends AppCompatActivity {
         viewPager.startAnimation(fadeIn);
     }
 
-    private void handleCardClick(ExerciseCard exerciseCard) {
+    private void handleCardClick(ExerciseCard exerciseCard, boolean longPress) {
         if (exerciseCard == null || pagerAdapter == null) {
             Log.e("EditorActivity", "Can't handle click because \"exerciseCard\" or \"pagerAdapter\" is null");
             return;
@@ -227,10 +227,12 @@ public class EditorActivity extends AppCompatActivity {
 
         Log.d("EditorActivity", String.format("Clicked on card from section \"%s\" with name \"%s\"", openedSection, exerciseCard.getCardName()));
 
+        Toast.makeText(this, "TODO: LongPress may not be implemented correctly everywhere", Toast.LENGTH_SHORT).show();
+
         switch (openedSection) {
-            case EXERCISE : handleCardClickOnPageExercise (exerciseCard); break;
-            case FILE     : handleCardClickOnPageFile     (exerciseCard); break;
-            case RESOURCES: handleCardClickOnPageResources(exerciseCard); break;
+            case EXERCISE : handleCardClickOnPageExercise (exerciseCard, longPress); break;
+            case FILE     : handleCardClickOnPageFile     (exerciseCard, longPress); break;
+            case RESOURCES: handleCardClickOnPageResources(exerciseCard, longPress); break;
 
             default:
                 Toast.makeText(this, R.string.activity_editor_error_invalid_section, Toast.LENGTH_SHORT).show();
@@ -250,11 +252,11 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: ExerciseCard
-    private void handleCardClickOnPageExercise(ExerciseCard exerciseCard) {
+    private void handleCardClickOnPageExercise(ExerciseCard exerciseCard, boolean longPress) {
         Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
     }
 
-    private void handleCardClickOnPageFile(ExerciseCard exerciseCard) {
+    private void handleCardClickOnPageFile(ExerciseCard exerciseCard, boolean longPress) {
         // Manage Identifiable instance
         if (!(exerciseCard instanceof Identifiable)) {
             Log.e("EditorActivity", "Selected card is not an instance of \"Identifiable\"");
@@ -302,13 +304,31 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
-    private void handleCardClickOnPageResources(ExerciseCard exerciseCard) {
+    private void handleCardClickOnPageResources(ExerciseCard exerciseCard, boolean longPress) {
         switch (viewPager.getCurrentItem()) {
             case 0:
                 handleButtonModifyPose((ExercisePose) exerciseCard);
                 break;
             case 1:
-                showTransitionListEditor(((Identifiable)exerciseCard).getId());
+                if (longPress) {
+                    new MaterialAlertDialogBuilder(this)
+                            .setTitle(R.string.activity_editor_dialog_longpress_title)
+                            .setItems(new String[]{getString(R.string.activity_editor_dialog_longpress_edit_info), getString(R.string.activity_editor_dialog_longpress_delete)}, (dialog, which) -> {
+                                switch (which) {
+                                    case 0: // Edit
+                                        handleButtonModifyTransitionList((ExerciseTransitions) exerciseCard);
+                                        break;
+                                    case 1: // Delete
+                                        Toast.makeText(this, "TODO: Implement Transitions delete", Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
+                            })
+                            .setNeutralButton(R.string.activity_editor_dialog_longpress_cancel, null)
+                            .show();
+                }
+                else {
+                    showTransitionListEditor(((Identifiable)exerciseCard).getId());
+                }
                 break;
             case 2:
                 Toast.makeText(this, "TODO: modSet", Toast.LENGTH_SHORT).show();
@@ -397,6 +417,24 @@ public class EditorActivity extends AppCompatActivity {
             pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
             pagerAdapter.notifyDataSetChanged();
         });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void handleButtonModifyTransitionList(ExerciseTransitions oldTransitionList) {
+        EditorDialogBuilder.transitions(
+                this,
+                exercise.getRepoPosesIds(),
+                oldTransitionList.getId(),
+                oldTransitionList.getName(),
+                (id, name, iconResId, number
+                ) -> {
+                    Log.d("EditorActivity", "Modifying transition list");
+                    ExerciseTransitions transitionList = new ExerciseTransitions(name, new ArrayList<>());
+                    transitionList.setId(id);
+                    exercise.updateTransitionFromRepo(transitionList);
+                    pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
+                    pagerAdapter.notifyDataSetChanged();
+                });
     }
     //endregion
 

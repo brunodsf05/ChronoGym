@@ -27,6 +27,10 @@ public class ExerciseTransitions extends Identifiable implements Serializable, E
         this.list = list;
     }
 
+    public String getName() {
+        return name;
+    }
+
     //region ExerciseCard
     @Nullable
     @Override

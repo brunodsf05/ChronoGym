@@ -111,6 +111,28 @@ public class Exercise implements ExerciseCard, Serializable {
         return Identifiable.getIds(ListTools.cast(repoPoses, Identifiable.class));
     }
 
+    public boolean updateTransitionFromRepo(ExerciseTransitions updatedTransitionList) {
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (ExerciseTransitions pose : repoTransitions) {
+            idsMatches = pose.getId().equals(updatedTransitionList.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (idsMatches) {
+            ExerciseTransitions originalTransitionList = repoTransitions.get(i);
+            updatedTransitionList.list = originalTransitionList.list;
+            repoTransitions.set(i, updatedTransitionList);
+        }
+
+        return false;
+    }
+
     public List<String> getRepoTransitionsIds() {
         return Identifiable.getIds(ListTools.cast(repoTransitions, Identifiable.class));
     }

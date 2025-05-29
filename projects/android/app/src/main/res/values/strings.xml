@@ -122,6 +122,11 @@
     <string name="activity_editor_dialog_any_number_error_lower">Solo se permiten números ≥ </string>
     <string name="activity_editor_dialog_any_icon_error_required">Elija un ícono</string>
 
+    <string name="activity_editor_dialog_longpress_title">Opciones</string>
+    <string name="activity_editor_dialog_longpress_delete">Borrar</string>
+    <string name="activity_editor_dialog_longpress_edit_info">Editar información</string>
+    <string name="activity_editor_dialog_longpress_cancel">Cerrar</string>
+
     <!-- JSON: Strings: Sets -->
     <string name="card_subtext_set_static">%s, Set estático</string>
     <string name="card_subtext_set_dynamic">%s, Set dinámico, %s</string>
