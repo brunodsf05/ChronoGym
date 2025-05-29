@@ -15,8 +15,8 @@ import bdisfer1410.gymapp.util.java.StringUtils;
  * Stores information about an static pose that's done during any exercise.
  */
 public class ExercisePose extends Identifiable implements Serializable, ExerciseCard {
-    private final String name;
-    private final Integer icon;
+    private String name;
+    private Integer icon;
 
     public ExercisePose(String name, Integer icon) {
         this.name = name;
@@ -30,6 +30,14 @@ public class ExercisePose extends Identifiable implements Serializable, Exercise
 
     public Integer getIcon() {
         return icon;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIcon(Integer icon) {
+        this.icon = icon;
     }
 
     //region ExerciseCard

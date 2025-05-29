@@ -101,7 +101,8 @@ public class Exercise implements ExerciseCard, Serializable {
         }
 
         if (idsMatches) {
-            repoPoses.set(i, updatedPose);
+            repoPoses.get(i).setIcon(updatedPose.getIcon());
+            repoPoses.get(i).setName(updatedPose.getName());
         }
 
         return false;
@@ -126,8 +127,7 @@ public class Exercise implements ExerciseCard, Serializable {
 
         if (idsMatches) {
             ExerciseTransitions originalTransitionList = repoTransitions.get(i);
-            updatedTransitionList.list = originalTransitionList.list;
-            repoTransitions.set(i, updatedTransitionList);
+            originalTransitionList.name = updatedTransitionList.name;
         }
 
         return false;
