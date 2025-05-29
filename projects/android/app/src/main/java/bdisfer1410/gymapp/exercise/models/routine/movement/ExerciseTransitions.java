@@ -1,5 +1,7 @@
 package bdisfer1410.gymapp.exercise.models.routine.movement;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -9,6 +11,7 @@ import java.util.List;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.util.java.Identifiable;
+import bdisfer1410.gymapp.util.java.StringUtils;
 
 /**
  * Bundles an {@link List<ExerciseTransition>} with other data.
@@ -42,19 +45,24 @@ public class ExerciseTransitions extends Identifiable implements Serializable, E
     @Nullable
     @Override
     public String getCardTags() {
-        return getPrettierId();
+        return String.format("%s%s", getPrettierId(), list != null ? list.isEmpty() ? " (Pulse para añadir poses)" : "" : "");
     }
 
     @NonNull
     @Override
     public String getCardInterval() {
-        return "";
+        return StringUtils.formatMsIntoTime(
+                list == null
+                        ? 0
+                        : list.stream().mapToInt(ExerciseTransition::getMsToNext).sum()
+        );
     }
 
+    @SuppressLint("DefaultLocale")
     @Nullable
     @Override
     public String getCardExtra() {
-        return "";
+        return String.format("%d poses", list == null ? 0 : list.size());
     }
     //endregion
 }
