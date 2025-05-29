@@ -58,7 +58,7 @@ public class EditorActivity extends AppCompatActivity {
     private MaterialButtonToggleGroup toggleGroup;
     private CircleIndicator3 indicator;
     private ViewPager2 viewPager;
-    private Button buttonEditionCancel, buttonEditionModify, buttonAdd;
+    private Button buttonEditionModify, buttonAdd;
     private LinearLayout editionButtons;
     //endregion
     //region TransitionListState
@@ -110,14 +110,12 @@ public class EditorActivity extends AppCompatActivity {
         });
 
         // Set up views
-        buttonEditionCancel = findViewById(R.id.buttonEditionCancel);
         buttonEditionModify = findViewById(R.id.buttonEditionModify);
         buttonAdd = findViewById(R.id.buttonAdd);
         editionButtons = findViewById(R.id.editionButtons);
 
         buttonAdd.setOnClickListener(v -> handleButtonAddClick());
-        buttonEditionCancel.setOnClickListener(v -> handleButtonEditionCancel());
-        buttonEditionModify.setOnClickListener(v -> handleButtonAddClick());
+        buttonEditionModify.setOnClickListener(v -> handleButtonEditionModify());
 
 
         // Setup pages
@@ -403,7 +401,8 @@ public class EditorActivity extends AppCompatActivity {
         editionButtons.setVisibility(View.VISIBLE);
         pagerAdapter.setPages(List.of(new CardPage(
                 getString(R.string.activity_editor_page_transition_poses),
-                ListTools.cast(et.list, ExerciseCard.class)
+                ListTools.cast(et.list, ExerciseCard.class),
+                true
         )));
         // Do a little animation
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.pop);
@@ -416,7 +415,17 @@ public class EditorActivity extends AppCompatActivity {
         viewPager.setCurrentItem(1, false);
     }
 
-    private void handleButtonEditionCancel() {
+    private void handleButtonEditionModify() {
+        // Load transition list
+        Optional<ExerciseTransitions> searchedExerciseTransitions = exercise.repoTransitions.stream().filter(et -> et.getId().equals(transitionListId)).findFirst();
+
+        if (searchedExerciseTransitions.isEmpty()) {
+            Toast.makeText(this, R.string.activity_editor_error_invalid_transtion_list_id, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ExerciseTransitions et = searchedExerciseTransitions.get();
+        et.list = ListTools.cast(pagerAdapter.getPages().get(0).getCards(), ExerciseTransition.class);
         showTransitionsPage();
     }
 

@@ -25,26 +25,20 @@
 
         </androidx.viewpager2.widget.ViewPager2>
 
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_padding"
+            android:text="@string/activity_editor_button_add" />
+
         <LinearLayout
             android:id="@+id/editionButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/activity_padding"
             android:visibility="gone"
             tools:visibility="visible">
-
-            <Button
-                android:id="@+id/buttonEditionCancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/activity_editor_button_cancel" />
-
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0" />
 
             <Button
                 android:id="@+id/buttonEditionModify"
@@ -53,13 +47,6 @@
                 android:layout_weight="1"
                 android:text="@string/activity_editor_button_modify" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonAdd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_padding"
-            android:text="@string/activity_editor_button_add" />
 
         <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/indicator"
