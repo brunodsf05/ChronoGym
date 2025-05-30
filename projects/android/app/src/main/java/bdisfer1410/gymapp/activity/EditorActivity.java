@@ -235,8 +235,6 @@ public class EditorActivity extends AppCompatActivity {
 
         Log.d("EditorActivity", String.format("Clicked on card from section \"%s\" with name \"%s\"", openedSection, exerciseCard.getCardName()));
 
-        Toast.makeText(this, "TODO: LongPress may not be implemented correctly everywhere", Toast.LENGTH_SHORT).show();
-
         switch (openedSection) {
             case EXERCISE : handleCardClickOnPageExercise (exerciseCard, longPress); break;
             case FILE     : handleCardClickOnPageFile     (exerciseCard, longPress); break;
@@ -252,7 +250,30 @@ public class EditorActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void handleButtonAddClick() {
+        if (openedSection == Sections.EXERCISE) {
+            TextDropdownDialog.show(this, "TODO: TITLE", exercise.getRepoSetsIds(), 0, false, (selectedItem, numberInput) -> {
+                // Load transition list
+                Optional<TimerAnimation> searchedTimerAnimation = exercise.repoSets.stream()
+                        .filter(set -> set instanceof Identifiable)
+                        .filter(set -> ((Identifiable) set).getId().equals(selectedItem))
+                        .findFirst();
+
+                if (searchedTimerAnimation.isEmpty()) {
+                    Toast.makeText(this, R.string.activity_editor_error_set_was_not_found, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                TimerAnimation ta = searchedTimerAnimation.get();
+
+                exercise.getQueue().list.add(ta);
+                pageExerciseQueue.setCards(ListTools.cast(exercise.getQueue().list, ExerciseCard.class));
+                pagerAdapter.notifyDataSetChanged();
+            });
+            return;
+        }
+
         if (!transitionListId.isBlank()) {
             handleButtonAddTransitionPose();
             return;
@@ -267,8 +288,19 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: ExerciseCard
+    @SuppressLint("NotifyDataSetChanged")
     private void handleCardClickOnPageExercise(ExerciseCard exerciseCard, boolean longPress) {
-        Toast.makeText(this, "handleCardClickOnPageExercise", Toast.LENGTH_SHORT).show();
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.activity_editor_dialog_queue_title)
+                .setMessage(R.string.activity_editor_dialog_queue_message_delete)
+                .setNegativeButton(R.string.activity_any_deny, null)
+                .setPositiveButton(R.string.activity_any_accept, (dialog, which) -> {
+                    exercise.getQueue().list = ListTools.cast(pageExerciseQueue.getCards(), TimerAnimation.class);
+                    exercise.getQueue().list.remove(pagerAdapter.getLastClickedPos());
+                    pageExerciseQueue.setCards(ListTools.cast(exercise.getQueue().list, ExerciseCard.class));
+                    pagerAdapter.notifyDataSetChanged();
+                })
+                .show();
     }
 
     private void handleCardClickOnPageFile(ExerciseCard exerciseCard, boolean longPress) {

@@ -23,6 +23,7 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
     private final List<ExerciseCard> items;
     private final Consumer<ExerciseCard> onClick;
     private final BiConsumer<View, Integer> onLongClick; // May be null if no long click needed
+    private Consumer<Integer> retrieveLastPos = null;
 
     /**
      * Constructor.
@@ -34,6 +35,13 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
         this.items = items;
         this.onClick = onClick;
         this.onLongClick = onLongClick;
+    }
+
+    public ExerciseCardAdapter(List<ExerciseCard> items, Consumer<ExerciseCard> onClick, BiConsumer<View, Integer> onLongClick, Consumer<Integer> retrieveLastPos) {
+        this.items = items;
+        this.onClick = onClick;
+        this.onLongClick = onLongClick;
+        this.retrieveLastPos = retrieveLastPos;
     }
 
     @NonNull
@@ -76,7 +84,12 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
         }
 
         public void bind(ExerciseCard card) {
-            itemView.setOnClickListener(v -> onClick.accept(card));
+            itemView.setOnClickListener(v -> {
+                onClick.accept(card);
+                if (retrieveLastPos != null)
+                    retrieveLastPos.accept(getAdapterPosition());
+            });
+
             if (onLongClick != null) {
                 itemView.setOnLongClickListener(v -> {
                     onLongClick.accept(v, getAdapterPosition());

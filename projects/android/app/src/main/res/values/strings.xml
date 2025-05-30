@@ -114,12 +114,16 @@
     <string name="activity_editor_error_poses_is_empty">No tienes ninguna pose creada</string>
     <string name="activity_editor_error_pose_was_not_found">No se encontró dicha pose</string>
     <string name="activity_editor_error_transition_list_was_not_found">No se encontró dicha lista de transiciones</string>
+    <string name="activity_editor_error_set_was_not_found">No se encontró dicha serie</string>
     <string name="activity_editor_error_remove_pose_failed_because_items_depend_on_it">No se pudo eliminar por que está siendo usado en otro recurso</string>
     <string name="activity_editor_error_remove_transition_list_failed_because_items_depend_on_it">No se pudo eliminar por que está siendo usado en otro recurso</string>
     <string name="activity_editor_error_remove_set_failed_because_items_depend_on_it">No se pudo eliminar por que está siendo usado en otro recurso</string>
 
     <string name="activity_editor_dialog_pose_title">Pose</string>
     <string name="activity_editor_dialog_transition_list_title">Transiciones</string>
+
+    <string name="activity_editor_dialog_queue_title">Entrenamiento</string>
+    <string name="activity_editor_dialog_queue_message_delete">¿Estás seguro de quitar esta serie de la lista?</string>
 
     <string name="activity_editor_dialog_transition_title">Transición</string>
     <string name="activity_editor_dialog_transition_pose_message_add">Elija una pose para añadirla a la lista de transiciones</string>

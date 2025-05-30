@@ -32,7 +32,7 @@ public class TextDropdownDialog {
 
         Spinner spinner = dialogView.findViewById(R.id.spinner);
         EditText numberInput = dialogView.findViewById(R.id.number_input);
-        numberInput.setHint(numberHint);
+        if (numberHint > 0) numberInput.setHint(numberHint);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, options);

@@ -108,7 +108,14 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
         ExerciseCardAdapter adapter;
 
         if (page.isReorderEnabled()) {
-            adapter = new ExerciseCardAdapter(page.getCards(), onClick, null);
+            adapter = new ExerciseCardAdapter(
+                    page.getCards(),
+                    (exerciseCard) -> {
+                        onClick.accept(exerciseCard);
+                    },
+                    null,
+                    integer -> lastClickedPos = integer == null ? 0 : integer
+            );
         }
         else {
             adapter = new ExerciseCardAdapter(
