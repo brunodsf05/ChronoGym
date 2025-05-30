@@ -13,6 +13,8 @@ import java.util.List;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSet;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
@@ -173,7 +175,6 @@ public class Exercise implements ExerciseCard, Serializable {
         return true;
     }
 
-
     public boolean removeTransitionList(ExerciseTransitions transitionList) {
         // Search transition
         int i = 0;
@@ -197,6 +198,31 @@ public class Exercise implements ExerciseCard, Serializable {
         // Remove
         repoTransitions.remove(i);
         return true;
+    }
+
+    public boolean updateSetRestFromRepo(ExerciseRest updatedRest) {
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (TimerAnimation set : repoSets) {
+            if (set == null || !(set instanceof Identifiable)) continue;
+
+            idsMatches = ((Identifiable) set).getId().equals(updatedRest.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (!idsMatches) return false;
+
+        if (repoSets.get(i) instanceof ExerciseRest) {
+            ((ExerciseRest) repoSets.get(i)).setMsDuration(updatedRest.getMsDuration());
+            return true;
+        }
+
+        return false;
     }
     //endregion
 

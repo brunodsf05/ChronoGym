@@ -38,6 +38,8 @@ import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
@@ -319,7 +321,6 @@ public class EditorActivity extends AppCompatActivity {
     private void handleCardClickOnPageResources(ExerciseCard exerciseCard, boolean longPress) {
         switch (viewPager.getCurrentItem()) {
             case 0:
-
                 if (longPress) {
                     new MaterialAlertDialogBuilder(this)
                             .setTitle(R.string.activity_editor_dialog_longpress_title)
@@ -380,7 +381,39 @@ public class EditorActivity extends AppCompatActivity {
                 }
                 break;
             case 2:
-                Toast.makeText(this, "TODO: modSet", Toast.LENGTH_SHORT).show();
+                if (longPress) {
+                    new MaterialAlertDialogBuilder(this)
+                            .setTitle(R.string.activity_editor_dialog_longpress_title)
+                            .setItems(new String[]{getString(R.string.activity_editor_dialog_longpress_edit_info), getString(R.string.activity_editor_dialog_longpress_delete)}, (dialog, which) -> {
+                                switch (which) {
+                                    case 0: // Edit
+                                        handleCardClickOnPageResources(exerciseCard, false);
+                                        break;
+                                    case 1: // Delete
+                                        boolean success = exercise.removeTransitionList((ExerciseTransitions) exerciseCard);
+
+                                        if (success) {
+                                            pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
+                                            pagerAdapter.notifyDataSetChanged();
+                                        }
+                                        else {
+                                            Toast.makeText(this, R.string.activity_editor_error_remove_transition_list_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        break;
+                                }
+                            })
+                            .setPositiveButton(R.string.activity_editor_dialog_longpress_cancel, null)
+                            .show();
+
+                    updateSetsPage();
+                }
+                else {
+                    if      (exerciseCard instanceof ExerciseRest      ) handleButtonModifySetRest((ExerciseRest) exerciseCard);
+                    else if (exerciseCard instanceof ExerciseSetStatic ) Toast.makeText(this, "TODO: modSetStatic", Toast.LENGTH_SHORT).show();
+                    else if (exerciseCard instanceof ExerciseSetDynamic) Toast.makeText(this, "TODO: modSetDynamic", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
@@ -595,6 +628,14 @@ public class EditorActivity extends AppCompatActivity {
             exercise.repoSets.add((ExerciseRest)(new ExerciseRest(ms).withId(id)));
             updateSetsPage();
         }));
+    }
+
+    private void handleButtonModifySetRest(ExerciseRest oldRest) {
+        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), oldRest.getId(), oldRest.getMsDuration(), (id, name, iconResId, number) -> {
+            int ms = number == null ? 0 : number;
+            exercise.updateSetRestFromRepo((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+            updateSetsPage();
+        });
     }
     //endregion
 

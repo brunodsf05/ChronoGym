@@ -18,13 +18,21 @@ import bdisfer1410.gymapp.util.media.Beep;
 
 public class ExerciseRest extends Identifiable implements TimerAnimation, Serializable, ExerciseCard {
     private final int DEFAULT_ICON = R.drawable.ic_exercise_rest;
-    private final int msDuration;
+    private int msDuration;
     private final int msBeforeBeepStart = 10_000;
     private int msToEmitBeep;
     private boolean hasToEmitBeep;
 
     public ExerciseRest(int msDuration) {
         this.msDuration = Math.max(msDuration, 0);
+    }
+
+    public int getMsDuration() {
+        return msDuration;
+    }
+
+    public void setMsDuration(int msDuration) {
+        this.msDuration = msDuration;
     }
 
     //region TimerAnimation

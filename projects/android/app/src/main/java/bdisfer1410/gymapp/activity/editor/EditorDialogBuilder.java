@@ -73,13 +73,14 @@ public class EditorDialogBuilder {
 
     //region Set: Rest
     public static void setRest(Context context, @NonNull List<String> blackListIds, EditorDialog.OnFormSubmittedListener listener) {
-        setRest(context, blackListIds, null, listener);
+        setRest(context, blackListIds, null, 0, listener);
     }
 
     public static void setRest(
             Context context,
             @NonNull List<String> blackListIds,
             @Nullable String defaultId,
+            int defaultNumber,
             EditorDialog.OnFormSubmittedListener listener
     ) {
         EditorDialog.showEditorDialog(
@@ -93,7 +94,7 @@ public class EditorDialogBuilder {
                 defaultId,
                 "",
                 -1,
-                0,
+                defaultNumber,
                 blackListIds,
                 listener
         );
