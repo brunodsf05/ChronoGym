@@ -134,6 +134,8 @@
     <string name="activity_editor_dialog_set_rest_title">Descanso</string>
     <string name="activity_editor_dialog_set_static_title">Serie estática</string>
     <string name="activity_editor_dialog_set_dynamic_title">Seri dinámica</string>
+    <string name="activity_editor_dialog_set_static_number_hint">Ms de duración</string>
+    <string name="activity_editor_dialog_set_dynamic_number_hint">Número de repeticiones</string>
 
     <string name="activity_editor_dialog_any_id_label">Identificador</string>
     <string name="activity_editor_dialog_any_id_error_required">El ID es necesario</string>

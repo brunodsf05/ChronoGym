@@ -24,7 +24,7 @@ public class TextDropdownDialog {
      * @param withNumberInput If true, show a number input field for positive integers.
      * @param listener Callback to handle the selected string and optional number.
      */
-    public static void show(Context context, String title, List<String> options, /* TODO: IMPLEMENT CUSTOM NUMBER HINT*/ boolean withNumberInput,
+    public static void show(Context context, String title, List<String> options, int numberHint, boolean withNumberInput,
                             OnItemSelectedListener listener) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -32,6 +32,7 @@ public class TextDropdownDialog {
 
         Spinner spinner = dialogView.findViewById(R.id.spinner);
         EditText numberInput = dialogView.findViewById(R.id.number_input);
+        numberInput.setHint(numberHint);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item, options);

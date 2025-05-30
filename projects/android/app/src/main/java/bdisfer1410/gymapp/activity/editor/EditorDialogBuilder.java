@@ -115,8 +115,8 @@ public class EditorDialogBuilder {
     ) {
         EditorDialog.showEditorDialog(
                 context,
-                context.getString(R.string.activity_editor_dialog_set_rest_title),
-                context.getString(R.string.activity_editor_dialog_set_rest_label_time),
+                context.getString(R.string.activity_editor_dialog_set_static_title),
+                "",
                 true,
                 false,
                 false,

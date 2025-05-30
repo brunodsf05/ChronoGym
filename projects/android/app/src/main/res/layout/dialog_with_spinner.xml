@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:visibility="gone"
-            android:hint="@string/activity_editor_dialog_transition_pose_hint_msToNext" />
+            android:visibility="gone" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

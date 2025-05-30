@@ -540,7 +540,7 @@ public class EditorActivity extends AppCompatActivity {
             return;
         }
 
-        TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_message_add), posesIds, true, (poseId, msToNext) -> {
+        TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_transition_pose_message_add), posesIds, R.string.activity_editor_dialog_transition_pose_hint_msToNext, true, (poseId, msToNext) -> {
             // Search ExerciseTransition
             Optional<ExerciseTransitions> etr = exercise.repoTransitions.stream()
                     .filter(etc -> etc.getId().equals(transitionListId))
@@ -639,7 +639,7 @@ public class EditorActivity extends AppCompatActivity {
 
     private void handleButtonAddSetStatic() {
         EditorDialogBuilder.setAny(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
-            TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_static_title), exercise.getRepoPosesIds(), true, (selectedItem, numberInput) -> {
+            TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_static_title), exercise.getRepoPosesIds(), R.string.activity_editor_dialog_set_static_number_hint, true, (selectedItem, numberInput) -> {
                 // Search ExercisePose
                 Optional<ExercisePose> epr = exercise.repoPoses.stream()
                         .filter(epc -> epc.getId().equals(selectedItem))
@@ -651,7 +651,6 @@ public class EditorActivity extends AppCompatActivity {
                 }
 
                 ExercisePose ep = epr.get();
-
                 exercise.repoSets.add((ExerciseSetStatic)(new ExerciseSetStatic(name, ep, numberInput).withId(id)));
                 updateSetsPage();
             });
