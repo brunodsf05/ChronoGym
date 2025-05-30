@@ -636,7 +636,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddSetStatic() {
-        EditorDialogBuilder.setAny(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
+        EditorDialogBuilder.setStatic(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
             TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_static_title), exercise.getRepoPosesIds(), R.string.activity_editor_dialog_set_static_number_hint, true, (selectedItem, numberInput) -> {
                 // Search ExercisePose
                 Optional<ExercisePose> epr = exercise.repoPoses.stream()
@@ -665,7 +665,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddSetDynamic() {
-        EditorDialogBuilder.setAny(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
+        EditorDialogBuilder.setDynamic(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
             TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_dynamic_title), exercise.getRepoTransitionsIds(), R.string.activity_editor_dialog_set_dynamic_number_hint, true, (selectedItem, numberInput) -> {
                 // Search ExercisePose
                 Optional<ExerciseTransitions> etr = exercise.repoTransitions.stream()
