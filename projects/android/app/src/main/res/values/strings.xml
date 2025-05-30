@@ -38,7 +38,7 @@
     <string name="activity_editor_page_poses">Poses</string>
     <string name="activity_editor_page_transitions">Transiciones</string>
     <string name="activity_editor_page_transition_poses">Transición</string>
-    <string name="activity_editor_page_sets">Sets</string>
+    <string name="activity_editor_page_sets">Series</string>
     <string name="activity_editor_page_exercise_info">Información</string>
     <string name="activity_editor_page_exercise_queue">Entrenamiento</string>
 
@@ -59,34 +59,34 @@
     <string name="activity_editor_action_title_help">¿Cómo puedo crear/editar una rutina?</string>
     <string name="activity_editor_action_message_help">
         <b>RESUMEN</b>\n
-        1. Crea recursos (poses, sets, etc…).\n
+        1. Crea recursos (poses, series, etc…).\n
         2. Haz referencia a ellos en la lista de reproducción, una o varias veces con el orden que
         tu quieras.\n
         \n
         <b>SECCIONES</b>\n
         Accesibles desde la barra inferior, cada sección está dividida en varias páginas con
         elementos editables:\n
-        1. <b>Ejercicio</b> La lista que define que harás en tu rutina. Aparecen los sets a realizar
-        y el orden lo eliges tú.\n
+        1. <b>Ejercicio</b> La lista que define que harás en tu rutina. Aparecen los series a
+        realizar y el orden lo eliges tú.\n
         2. <b>Archivo</b> Permite editar los datos de la rutina, guardar los cambios y salir.\n
-        3. <b>Recursos</b> Aquí se crean los ítems necesarios para formar sets.\n
+        3. <b>Recursos</b> Aquí se crean los ítems necesarios para formar series.\n
         \n
         <b>RECURSOS</b>\n
         Defínelos una vez y reutilízalos tantas veces como quieras en la sección EJERCICIO:\n
         1. <b>Poses</b> Representan una posición estática durante el entrenamiento. Son
-           imprescindibles para cualquier set, ya sea estático o dinámico.\n
+           imprescindibles para cualquier serie, ya sea estática o dinámica.\n
         2. <b>Transición</b> Es una secuencia de poses, que equivale a una repetición. Es necesaria
-           para los sets dinámicos.\n
-        3. <b>Sets</b> Son las unidades que se ejecutan durante el entrenamiento. Pueden ser
-           descansos, sets estáticos o sets dinámicos.\n
+           para los series dinámicas.\n
+        3. <b>Series</b> Son las unidades que se ejecutan durante el entrenamiento. Pueden ser
+           descansos, series estáticas o sets dinámicas.\n
         \n
         <b>EJERCICIO</b>\n
-        1. Un entrenamiento consiste en una lista de sets que se ejecutan en orden.\n
+        1. Un entrenamiento consiste en una lista de series que se ejecutan en orden.\n
         2. Antes de crear un entrenamiento, necesitas haber definido uno o varios recursos de tipo
-           set.\n
-        3. Los sets se añaden mediante referencia, lo que permite reutilizar un mismo set, como por
-           ejemplo "flexiones", tantas veces como desees en la lista de reproducción.\n
-        4. Los sets que se añadan, pueden ser reordenados.
+           serie.\n
+        3. Las series se añaden mediante referencia, lo que permite reutilizar una misma serie, como
+           por ejemplo "flexiones", tantas veces como desees en la lista de reproducción.\n
+        4. Las series que se añadan, pueden ser reordenadas.
         <b>ARCHIVO</b>\n
         1. En la primera página podrás guardar o salir.\n
         2. La segunda página contiene el nombre e ícono de la rutina. Estos son modificables.
@@ -125,6 +125,8 @@
     <string name="activity_editor_dialog_transition_pose_message_delete">¿Estás seguro de quitar esta pose de la lista?</string>
     <string name="activity_editor_dialog_transition_pose_hint_msToNext">Ms para la siguiente pose</string>
 
+    <string name="activity_editor_dialog_set_any_title">Serie</string>
+
     <string name="activity_editor_dialog_any_id_label">Identificador</string>
     <string name="activity_editor_dialog_any_id_error_required">El ID es necesario</string>
     <string name="activity_editor_dialog_any_id_error_repeated">Ese ID ya existe</string>
@@ -140,8 +142,8 @@
     <string name="activity_editor_dialog_longpress_cancel">Cerrar</string>
 
     <!-- JSON: Strings: Sets -->
-    <string name="card_subtext_set_static">%s, Set estático</string>
-    <string name="card_subtext_set_dynamic">%s, Set dinámico, %s</string>
+    <string name="card_subtext_set_static">%s, Serie estática</string>
+    <string name="card_subtext_set_dynamic">%s, Serie dinámica, %s</string>
 
     <!-- JSON: Serialization: Error -->
     <string name="file_json_serialization_error">Error al guardar la rutina como JSON</string>
