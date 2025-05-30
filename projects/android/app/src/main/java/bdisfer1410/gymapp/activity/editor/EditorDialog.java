@@ -42,6 +42,7 @@ public class EditorDialog {
             Context context,
             String title,
             String labelNumber,
+            boolean showName,
             boolean showNumber,
             boolean showIcon,
             int minNumber,
@@ -67,6 +68,7 @@ public class EditorDialog {
         inputLayoutId.setHint(context.getString(R.string.activity_editor_dialog_any_id_label));
         inputLayoutName.setHint(context.getString(R.string.activity_editor_dialog_any_name_label));
         inputLayoutNumber.setHint(labelNumber);
+        inputLayoutName.setVisibility(showName ? View.VISIBLE : View.GONE);
         inputLayoutNumber.setVisibility(showNumber ? View.VISIBLE : View.GONE);
 
         gridIcons.setVisibility(showIcon ? View.VISIBLE : View.GONE);
@@ -120,7 +122,7 @@ public class EditorDialog {
                 }
             }
 
-            if (name.isEmpty()) {
+            if (name.isEmpty() && showName) {
                 inputLayoutName.setError(context.getString(R.string.activity_editor_dialog_any_name_error_required));
                 valid = false;
             }

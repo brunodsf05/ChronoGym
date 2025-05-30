@@ -37,6 +37,7 @@ import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
@@ -256,7 +257,7 @@ public class EditorActivity extends AppCompatActivity {
         switch (viewPager.getCurrentItem()) {
             case 0: handleButtonAddPose(); break;
             case 1: handleButtonAddTransitionList(); break;
-            case 2: handleButtonAddSetList(); break;
+            case 2: handleButtonAddSet(); break;
         }
     }
     //endregion
@@ -560,7 +561,7 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     //region Handlers: ExerciseCard: Set
-    private void handleButtonAddSetList() {
+    private void handleButtonAddSet() {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.activity_editor_dialog_set_any_title)
                 .setItems(new String[]{
@@ -569,9 +570,7 @@ public class EditorActivity extends AppCompatActivity {
                         getString(R.string.activity_editor_dialog_set_dynamic_title)
                 }, (dialog, which) -> {
                     switch (which) {
-                        case 0: // Rest
-                            Toast.makeText(this, R.string.activity_editor_dialog_set_rest_title, Toast.LENGTH_SHORT).show();
-                            break;
+                        case 0: handleButtonAddSetRest(); break;
                         case 1: // Static
                             Toast.makeText(this, R.string.activity_editor_dialog_set_static_title, Toast.LENGTH_SHORT).show();
                             break;
@@ -581,6 +580,21 @@ public class EditorActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateSetsPage() {
+        pageSets.setCards(ListTools.cast(exercise.repoSets, ExerciseCard.class));
+        pagerAdapter.notifyDataSetChanged();
+    }
+
+    private void handleButtonAddSetRest() {
+        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
+            int ms = number == null ? 0 : number;
+
+            exercise.repoSets.add((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+            updateSetsPage();
+        }));
     }
     //endregion
 

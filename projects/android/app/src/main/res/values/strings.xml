@@ -127,6 +127,9 @@
 
     <string name="activity_editor_dialog_set_any_title">Serie</string>
     <string name="activity_editor_dialog_set_any_message">¿Que tipo de serie quieres añadir?</string>
+    <string name="activity_editor_dialog_set_rest_label_time">Duración (Milisegundos)</string>
+    <string name="activity_editor_dialog_set_rest_label_reps">Repeticiones</string>
+
     <string name="activity_editor_dialog_set_rest_title">Descanso</string>
     <string name="activity_editor_dialog_set_static_title">Serie estática</string>
     <string name="activity_editor_dialog_set_dynamic_title">Seri dinámica</string>
