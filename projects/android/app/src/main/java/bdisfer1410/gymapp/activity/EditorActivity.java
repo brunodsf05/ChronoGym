@@ -605,9 +605,7 @@ public class EditorActivity extends AppCompatActivity {
                 }, (dialog, which) -> {
                     switch (which) {
                         case 0: handleButtonAddSetRest(); break;
-                        case 1: // Static
-                            Toast.makeText(this, R.string.activity_editor_dialog_set_static_title, Toast.LENGTH_SHORT).show();
-                            break;
+                        case 1: handleButtonAddSetStatic(); break;
                         case 2: // Dynamic
                             Toast.makeText(this, R.string.activity_editor_dialog_set_dynamic_title, Toast.LENGTH_SHORT).show();
                             break;
@@ -632,6 +630,55 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonModifySetRest(ExerciseRest oldRest) {
+        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), oldRest.getId(), oldRest.getMsDuration(), (id, name, iconResId, number) -> {
+            int ms = number == null ? 0 : number;
+            exercise.updateSetRestFromRepo((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+            updateSetsPage();
+        });
+    }
+
+    private void handleButtonAddSetStatic() {
+        EditorDialogBuilder.setAny(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
+            TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_static_title), exercise.getRepoPosesIds(), true, (selectedItem, numberInput) -> {
+                // Search ExercisePose
+                Optional<ExercisePose> epr = exercise.repoPoses.stream()
+                        .filter(epc -> epc.getId().equals(selectedItem))
+                        .findFirst();
+
+                if (epr.isEmpty()) {
+                    Toast.makeText(this, R.string.activity_editor_error_pose_was_not_found, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ExercisePose ep = epr.get();
+
+                exercise.repoSets.add((ExerciseSetStatic)(new ExerciseSetStatic(name, ep, numberInput).withId(id)));
+                updateSetsPage();
+            });
+        }));
+    }
+
+    private void handleButtonModifySetStatic(ExerciseRest oldRest) {
+        //TODO
+        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), oldRest.getId(), oldRest.getMsDuration(), (id, name, iconResId, number) -> {
+            int ms = number == null ? 0 : number;
+            exercise.updateSetRestFromRepo((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+            updateSetsPage();
+        });
+    }
+
+    private void handleButtonAddSetDynamic() {
+        //TODO
+        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
+            int ms = number == null ? 0 : number;
+
+            exercise.repoSets.add((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+            updateSetsPage();
+        }));
+    }
+
+    private void handleButtonModifySetDynamic(ExerciseRest oldRest) {
+        //TODO
         EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), oldRest.getId(), oldRest.getMsDuration(), (id, name, iconResId, number) -> {
             int ms = number == null ? 0 : number;
             exercise.updateSetRestFromRepo((ExerciseRest)(new ExerciseRest(ms).withId(id)));
