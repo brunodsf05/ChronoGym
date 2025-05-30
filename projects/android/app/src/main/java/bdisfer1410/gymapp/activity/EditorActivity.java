@@ -606,9 +606,7 @@ public class EditorActivity extends AppCompatActivity {
                     switch (which) {
                         case 0: handleButtonAddSetRest(); break;
                         case 1: handleButtonAddSetStatic(); break;
-                        case 2: // Dynamic
-                            Toast.makeText(this, R.string.activity_editor_dialog_set_dynamic_title, Toast.LENGTH_SHORT).show();
-                            break;
+                        case 2: handleButtonAddSetDynamic(); break;
                     }
                 })
                 .show();
@@ -667,12 +665,22 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddSetDynamic() {
-        //TODO
-        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
-            int ms = number == null ? 0 : number;
+        EditorDialogBuilder.setAny(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
+            TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_dynamic_title), exercise.getRepoTransitionsIds(), R.string.activity_editor_dialog_set_dynamic_number_hint, true, (selectedItem, numberInput) -> {
+                // Search ExercisePose
+                Optional<ExerciseTransitions> etr = exercise.repoTransitions.stream()
+                        .filter(etc -> etc.getId().equals(selectedItem))
+                        .findFirst();
 
-            exercise.repoSets.add((ExerciseRest)(new ExerciseRest(ms).withId(id)));
-            updateSetsPage();
+                if (etr.isEmpty()) {
+                    Toast.makeText(this, R.string.activity_editor_error_transition_list_was_not_found, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ExerciseTransitions et = etr.get();
+                exercise.repoSets.add((ExerciseSetDynamic)(new ExerciseSetDynamic(name, et.list, numberInput).withId(id)));
+                updateSetsPage();
+            });
         }));
     }
 
