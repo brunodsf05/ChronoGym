@@ -15,7 +15,15 @@ import bdisfer1410.gymapp.util.media.Beep;
 
 public class ExerciseSetStatic extends ExerciseSet {
     private final ExercisePose pose;
-    private final int msDuration;
+    private int msDuration;
+
+    public int getMsDuration() {
+        return msDuration;
+    }
+
+    public void setMsDuration(int msDuration) {
+        this.msDuration = msDuration;
+    }
 
     public ExerciseSetStatic(String name, ExercisePose pose, int msDuration) {
         super(name);

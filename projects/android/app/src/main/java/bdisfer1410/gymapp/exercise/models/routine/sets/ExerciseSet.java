@@ -7,7 +7,7 @@ import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 
 public abstract class ExerciseSet extends Identifiable implements TimerAnimation, Serializable, ExerciseCard {
-    protected final String name;
+    protected String name;
 
     public ExerciseSet(String name) {
         this.name = name;
@@ -15,5 +15,9 @@ public abstract class ExerciseSet extends Identifiable implements TimerAnimation
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

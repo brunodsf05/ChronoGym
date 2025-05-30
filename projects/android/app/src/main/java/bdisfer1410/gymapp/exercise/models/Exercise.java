@@ -205,7 +205,7 @@ public class Exercise implements ExerciseCard, Serializable {
         boolean idsMatches = false;
 
         for (TimerAnimation set : repoSets) {
-            if (set == null || !(set instanceof Identifiable)) continue;
+            if (!(set instanceof Identifiable)) continue;
 
             idsMatches = ((Identifiable) set).getId().equals(updatedRest.getId());
 
@@ -225,6 +225,57 @@ public class Exercise implements ExerciseCard, Serializable {
         return false;
     }
 
+    public boolean updateSetStaticFromRepo(ExerciseSetStatic updatedStatic) {
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (TimerAnimation set : repoSets) {
+            if (!(set instanceof Identifiable)) continue;
+
+            idsMatches = ((Identifiable) set).getId().equals(updatedStatic.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (!idsMatches) return false;
+
+        if (repoSets.get(i) instanceof ExerciseSetStatic) {
+            ((ExerciseSetStatic) repoSets.get(i)).setMsDuration(updatedStatic.getMsDuration());
+            ((ExerciseSetStatic) repoSets.get(i)).setName(updatedStatic.getName());
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateSetDynamicFromRepo(ExerciseSetDynamic updatedDynamic) {
+        int i = 0;
+        boolean idsMatches = false;
+
+        for (TimerAnimation set : repoSets) {
+            if (!(set instanceof Identifiable)) continue;
+
+            idsMatches = ((Identifiable) set).getId().equals(updatedDynamic.getId());
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (!idsMatches) return false;
+
+        if (repoSets.get(i) instanceof ExerciseSetDynamic) {
+            ((ExerciseSetDynamic) repoSets.get(i)).setReps(updatedDynamic.getReps());
+            ((ExerciseSetDynamic) repoSets.get(i)).setName(updatedDynamic.getName());
+            return true;
+        }
+
+        return false;
+    }
 
     public boolean removeSet(TimerAnimation targetSet) {
         // Search set

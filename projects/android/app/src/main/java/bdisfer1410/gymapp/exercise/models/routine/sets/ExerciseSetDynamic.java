@@ -19,7 +19,7 @@ public class ExerciseSetDynamic extends ExerciseSet {
     private final int DEFAULT_ICON = R.drawable.ic_exercise_default;
     private final List<ExerciseTransition> transitions;
     public String transitionsId = "";
-    private final int reps;
+    private int reps;
     private final int numberOfPoses;
     private final int msDuration;
     private int poseIndex = 0;
@@ -33,8 +33,16 @@ public class ExerciseSetDynamic extends ExerciseSet {
         this.numberOfPoses = transitions.size();
 
         int oneRepMsDuration = transitions.stream().mapToInt(ExerciseTransition::getMsToNext).sum();
-        int lastPoseMsDuration = transitions.get(this.numberOfPoses - 1).getMsToNext();
+        int lastPoseMsDuration = transitions.isEmpty() ? 0 : transitions.get(this.numberOfPoses - 1).getMsToNext();
         this.msDuration = oneRepMsDuration * reps - lastPoseMsDuration;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
     }
 
     //region TimerAnimation

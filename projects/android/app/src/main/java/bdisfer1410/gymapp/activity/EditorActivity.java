@@ -411,8 +411,8 @@ public class EditorActivity extends AppCompatActivity {
                 }
                 else {
                     if      (exerciseCard instanceof ExerciseRest      ) handleButtonModifySetRest((ExerciseRest) exerciseCard);
-                    else if (exerciseCard instanceof ExerciseSetStatic ) Toast.makeText(this, "TODO: modSetStatic", Toast.LENGTH_SHORT).show();
-                    else if (exerciseCard instanceof ExerciseSetDynamic) Toast.makeText(this, "TODO: modSetDynamic", Toast.LENGTH_SHORT).show();
+                    else if (exerciseCard instanceof ExerciseSetStatic ) handleButtonModifySetStatic((ExerciseSetStatic) exerciseCard);
+                    else if (exerciseCard instanceof ExerciseSetDynamic) handleButtonModifySetDynamic((ExerciseSetDynamic) exerciseCard);
                 }
 
                 break;
@@ -655,11 +655,10 @@ public class EditorActivity extends AppCompatActivity {
         }));
     }
 
-    private void handleButtonModifySetStatic(ExerciseRest oldRest) {
-        //TODO
-        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), oldRest.getId(), oldRest.getMsDuration(), (id, name, iconResId, number) -> {
+    private void handleButtonModifySetStatic(ExerciseSetStatic oldStatic) {
+        EditorDialogBuilder.setStatic(this, exercise.getRepoSetsIds(), oldStatic.getId(), oldStatic.getName(), oldStatic.getMsDuration(), (id, name, iconResId, number) -> {
             int ms = number == null ? 0 : number;
-            exercise.updateSetRestFromRepo((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+            exercise.updateSetStaticFromRepo((ExerciseSetStatic) (new ExerciseSetStatic(name, null, ms).withId(id)));
             updateSetsPage();
         });
     }
@@ -684,11 +683,10 @@ public class EditorActivity extends AppCompatActivity {
         }));
     }
 
-    private void handleButtonModifySetDynamic(ExerciseRest oldRest) {
-        //TODO
-        EditorDialogBuilder.setRest(this, exercise.getRepoSetsIds(), oldRest.getId(), oldRest.getMsDuration(), (id, name, iconResId, number) -> {
-            int ms = number == null ? 0 : number;
-            exercise.updateSetRestFromRepo((ExerciseRest)(new ExerciseRest(ms).withId(id)));
+    private void handleButtonModifySetDynamic(ExerciseSetDynamic oldDynamic) {
+        EditorDialogBuilder.setDynamic(this, exercise.getRepoSetsIds(), oldDynamic.getId(), oldDynamic.getName(), oldDynamic.getReps(), (id, name, iconResId, number) -> {
+            int safeReps = number == null ? 0 : number;
+            exercise.updateSetDynamicFromRepo((ExerciseSetDynamic) (new ExerciseSetDynamic(name, List.of(), safeReps).withId(id)));
             updateSetsPage();
         });
     }
