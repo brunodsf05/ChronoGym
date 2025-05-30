@@ -100,9 +100,12 @@ public class EditorDialogBuilder {
         );
     }
     //endregion
-
-    //region
-    public static void setAny(Context context, @NonNull List<String> blackListIds, String title, EditorDialog.OnFormSubmittedListener listener) {
+    public static void setAny(
+            Context context,
+            @NonNull List<String> blackListIds,
+            String title,
+            EditorDialog.OnFormSubmittedListener listener
+    ) {
         EditorDialog.showEditorDialog(
                 context,
                 title,
@@ -120,10 +123,40 @@ public class EditorDialogBuilder {
         );
     }
 
+    public static void setAny(
+            Context context,
+            @NonNull List<String> blackListIds,
+            String title,
+            @Nullable String defaultId,
+            @Nullable String defaultName,
+            int defaultNumber,
+            @Nullable String numberLabel,
+            EditorDialog.OnFormSubmittedListener listener) {
+        EditorDialog.showEditorDialog(
+                context,
+                title,
+                numberLabel,
+                true,
+                true,
+                false,
+                0,
+                defaultId,
+                defaultName,
+                -1,
+                defaultNumber,
+                blackListIds,
+                listener
+        );
+    }
+
+    //region Set: Static
     public static void setStatic(Context context, @NonNull List<String> blackListIds, EditorDialog.OnFormSubmittedListener listener) {
         setAny(context, blackListIds, context.getString(R.string.activity_editor_dialog_set_static_title), listener);
     }
 
+    //endregion
+
+    //region Set: Dynamic
     public static void setDynamic(Context context, @NonNull List<String> blackListIds, EditorDialog.OnFormSubmittedListener listener) {
         setAny(context, blackListIds, context.getString(R.string.activity_editor_dialog_set_dynamic_title), listener);
     }
