@@ -40,7 +40,6 @@ import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
-import bdisfer1410.gymapp.util.android.NumberInputDialog;
 import bdisfer1410.gymapp.util.android.TextDropdownDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
@@ -257,7 +256,7 @@ public class EditorActivity extends AppCompatActivity {
         switch (viewPager.getCurrentItem()) {
             case 0: handleButtonAddPose(); break;
             case 1: handleButtonAddTransitionList(); break;
-            case 2: Toast.makeText(this, "TODO: addSet", Toast.LENGTH_SHORT).show(); break;
+            case 2: handleButtonAddSetList(); break;
         }
     }
     //endregion
@@ -555,6 +554,31 @@ public class EditorActivity extends AppCompatActivity {
                     // Delete pose from transition list
                     et.list.remove(pagerAdapter.getLastClickedPos());
                     showTransitionListEditor(transitionListId);
+                })
+                .show();
+    }
+    //endregion
+
+    //region Handlers: ExerciseCard: Set
+    private void handleButtonAddSetList() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.activity_editor_dialog_set_any_title)
+                .setItems(new String[]{
+                        getString(R.string.activity_editor_dialog_set_rest_title),
+                        getString(R.string.activity_editor_dialog_set_static_title),
+                        getString(R.string.activity_editor_dialog_set_dynamic_title)
+                }, (dialog, which) -> {
+                    switch (which) {
+                        case 0: // Rest
+                            Toast.makeText(this, R.string.activity_editor_dialog_set_rest_title, Toast.LENGTH_SHORT).show();
+                            break;
+                        case 1: // Static
+                            Toast.makeText(this, R.string.activity_editor_dialog_set_static_title, Toast.LENGTH_SHORT).show();
+                            break;
+                        case 2: // Dynamic
+                            Toast.makeText(this, R.string.activity_editor_dialog_set_dynamic_title, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
                 })
                 .show();
     }
