@@ -224,6 +224,38 @@ public class Exercise implements ExerciseCard, Serializable {
 
         return false;
     }
+
+
+    public boolean removeSet(TimerAnimation targetSet) {
+        // Search set
+        int i = 0;
+        boolean idsMatches = false;
+
+        if (!(targetSet instanceof Identifiable)) return false;
+        String targetId = ((Identifiable) targetSet).getId();
+
+        for (TimerAnimation set : repoSets) {
+            if (set == null || !(set instanceof Identifiable)) continue;
+
+            idsMatches = ((Identifiable) set).getId().equals(targetId);
+
+            if (idsMatches)
+                break;
+
+            i++;
+        }
+
+        if (!idsMatches) return false;
+
+        // Search if the queue uses this set
+        boolean isUsed = queue.list.stream().filter(ta -> ta instanceof Identifiable).map(ta -> (Identifiable) ta).anyMatch(identifiable -> identifiable.getId().equals(targetId));
+        if (isUsed) return false;
+
+        // Remove
+        repoSets.remove(i);
+        return true;
+    }
+
     //endregion
 
     //region ExerciseCard

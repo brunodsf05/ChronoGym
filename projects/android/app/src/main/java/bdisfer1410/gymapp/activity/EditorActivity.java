@@ -38,9 +38,11 @@ import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSet;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
+import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
 import bdisfer1410.gymapp.util.android.TextDropdownDialog;
@@ -390,14 +392,13 @@ public class EditorActivity extends AppCompatActivity {
                                         handleCardClickOnPageResources(exerciseCard, false);
                                         break;
                                     case 1: // Delete
-                                        boolean success = exercise.removeTransitionList((ExerciseTransitions) exerciseCard);
+                                        boolean success = exercise.removeSet((TimerAnimation) exerciseCard);
 
                                         if (success) {
-                                            pageTransitions.setCards(ListTools.cast(exercise.repoTransitions, ExerciseCard.class));
-                                            pagerAdapter.notifyDataSetChanged();
+                                            updateSetsPage();
                                         }
                                         else {
-                                            Toast.makeText(this, R.string.activity_editor_error_remove_transition_list_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, R.string.activity_editor_error_remove_set_failed_because_items_depend_on_it, Toast.LENGTH_SHORT).show();
                                         }
 
                                         break;

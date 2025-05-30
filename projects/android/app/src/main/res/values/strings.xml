@@ -116,6 +116,7 @@
     <string name="activity_editor_error_transition_list_was_not_found">No se encontró dicha lista de transiciones</string>
     <string name="activity_editor_error_remove_pose_failed_because_items_depend_on_it">No se pudo eliminar por que está siendo usado en otro recurso</string>
     <string name="activity_editor_error_remove_transition_list_failed_because_items_depend_on_it">No se pudo eliminar por que está siendo usado en otro recurso</string>
+    <string name="activity_editor_error_remove_set_failed_because_items_depend_on_it">No se pudo eliminar por que está siendo usado en otro recurso</string>
 
     <string name="activity_editor_dialog_pose_title">Pose</string>
     <string name="activity_editor_dialog_transition_list_title">Transiciones</string>
