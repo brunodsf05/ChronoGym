@@ -19,5 +19,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:paddingVertical="8dp"
+        android:text="@string/activity_editor_hint_reorder"
+        android:textAlignment="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
 </LinearLayout>

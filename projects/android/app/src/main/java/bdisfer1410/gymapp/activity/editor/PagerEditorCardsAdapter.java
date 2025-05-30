@@ -73,6 +73,8 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
             holder.touchHelper = null;
         }
 
+        holder.hint.setVisibility(page.isReorderEnabled() ? View.VISIBLE : View.GONE);
+
         if (page.isReorderEnabled()) {
             ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                     ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
@@ -136,14 +138,16 @@ public class PagerEditorCardsAdapter extends RecyclerView.Adapter<PagerEditorCar
     }
 
     static class PageViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
+        public TextView title, hint;
         public RecyclerView list;
+
         public ItemTouchHelper touchHelper = null;
 
         public PageViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             list = itemView.findViewById(R.id.list);
+            hint = itemView.findViewById(R.id.hint);
         }
     }
 }
