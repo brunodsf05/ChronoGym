@@ -58,4 +58,45 @@ public class ExerciseSerdeHelper {
                 ? Result.ok(null)
                 : Result.err(R.string.file_json_serialization_error);
     }
+
+
+    public static Result<Void, Integer> replaceOne(Context context, Exercise exercise, int indexToOverwrite) {
+        // Get serialized input
+        String jsonString = QuickFileManager
+                .with(context)
+                .file(FILENAME)
+                .read();
+
+        if (jsonString == null) return Result.err(R.string.file_json_deserialization_error);
+
+        // Deserialize file
+        ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(context, jsonString);
+        Result<List<Exercise>, Integer> resultDes = exerciseSerdeJSON.deserialize();
+        if (resultDes.isErr()) return Result.err(resultDes.getError());
+
+        List<Exercise> exerciseList = resultDes.getValue();
+
+        // Overwrite
+        boolean isIndexInside = indexToOverwrite >= 0 && indexToOverwrite <exerciseList.size();
+        if (!isIndexInside) {
+            return Result.err(R.string.file_json_serialization_error_overwrite);
+        }
+
+        exerciseList.set(indexToOverwrite, exercise);
+
+        // Serialize into string
+        Result<String, Integer> resultSer = exerciseSerdeJSON.serialize(exerciseList);
+        if (resultSer.isErr()) return Result.err(resultSer.getError());
+        String serialized = resultSer.getValue();
+
+        // Save serialized output
+        boolean writeSuccess = QuickFileManager
+                .with(context)
+                .file(FILENAME)
+                .save(serialized);
+
+        return writeSuccess
+                ? Result.ok(null)
+                : Result.err(R.string.file_json_serialization_error_overwrite);
+    }
 }

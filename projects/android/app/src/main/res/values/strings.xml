@@ -165,6 +165,7 @@
 
     <!-- JSON: Serialization: Error -->
     <string name="file_json_serialization_error">Error al guardar la rutina como JSON</string>
+    <string name="file_json_serialization_error_overwrite">Error al guardar la rutina como JSON</string>
 
     <!-- JSON: Deserialization: Error -->
     <string name="file_json_deserialization_error">Error al leer la rutina del JSON</string>

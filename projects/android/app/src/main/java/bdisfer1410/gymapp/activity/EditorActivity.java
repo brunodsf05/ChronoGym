@@ -70,6 +70,7 @@ public class EditorActivity extends AppCompatActivity {
     private String transitionListId = "";
     //endregion
     private Exercise exercise;
+    private int indexToOverwrite = -1;
 
     private enum Sections {
         EXERCISE, FILE, RESOURCES, TRANSITION_LIST;
@@ -90,6 +91,8 @@ public class EditorActivity extends AppCompatActivity {
 
         // Load exercise to edit or start a new one
         if (savedInstanceState == null) {
+            indexToOverwrite = getIntent().getIntExtra("indexToOverwrite", -1);
+
             Object obj = getIntent().getSerializableExtra("exercise");
 
             if (obj instanceof Exercise){
@@ -739,14 +742,26 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     private void saveExercise() {
+        // Make sure the queue order is correct
         exercise.getQueue().list = ListTools.cast(pageExerciseQueue.getCards(), TimerAnimation.class);
-        Result<Void, Integer> result = ExerciseSerdeHelper.addOne(EditorActivity.this, exercise);
+
+        // Update exercise storage
+        boolean isCreatingNewOne = (indexToOverwrite < 0);
+
+        Result<Void, Integer> result = isCreatingNewOne
+                ? ExerciseSerdeHelper.addOne(EditorActivity.this, exercise)
+                : ExerciseSerdeHelper.replaceOne(EditorActivity.this, exercise, indexToOverwrite);
 
         if (result.isErr()) {
             Toast.makeText(this, getString(result.getError()), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Toast.makeText(this, R.string.activity_editor_save_new_success, Toast.LENGTH_SHORT).show();
+        // Display success
+        int successMessage = isCreatingNewOne
+                ? R.string.activity_editor_save_new_success
+                : R.string.activity_editor_save_overwrite_success;
+
+        Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show();
     }
 }

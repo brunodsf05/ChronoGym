@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             .save(rawJsonString);
                 }),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
-                        startEditorActivity(null)
+                        startEditorActivity(null, -1)
                 )
         );
 
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            startEditorActivity(exercise);
+                            startEditorActivity(exercise, position);
                             break;
                         case 1:
                             Toast.makeText(this, "TODO: Export exercise", Toast.LENGTH_SHORT).show();
@@ -206,9 +206,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void startEditorActivity(Exercise exercise) {
+    private void startEditorActivity(Exercise exercise, int indexToOverwrite) {
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("exercise", exercise);
+        intent.putExtra("indexToOverwrite", indexToOverwrite);
         startActivity(intent);
     }
     //endregion
