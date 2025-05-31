@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.exercise.card;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.activity.editor.CardPage;
 
 /**
  * Adapter for displaying a list of ExerciseCard items.
  */
 public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapter.ViewHolder> {
 
-    private final List<ExerciseCard> items;
+    private List<ExerciseCard> items;
     private final Consumer<ExerciseCard> onClick;
     private final BiConsumer<View, Integer> onLongClick; // May be null if no long click needed
     private Consumer<Integer> retrieveLastPos = null;
@@ -42,6 +44,12 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
         this.onClick = onClick;
         this.onLongClick = onLongClick;
         this.retrieveLastPos = retrieveLastPos;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setItems(List<ExerciseCard> items) {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @NonNull

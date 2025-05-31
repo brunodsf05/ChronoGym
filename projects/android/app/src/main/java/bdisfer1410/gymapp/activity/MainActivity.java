@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.os.Bundle;
@@ -56,42 +57,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Load exercises from file
+        // Prepare exercises
         cardList = new ArrayList<>();
         exerciseList = new ArrayList<>();
-
-        String jsonString = QuickFileManager
-                .with(MainActivity.this)
-                .file(ExerciseSerdeHelper.FILENAME)
-                .read();
-
-        if (jsonString == null) {
-            jsonString = ExerciseSerdeHelper.JSON_EMPTY;
-            boolean success = ExerciseSerdeHelper.restart(MainActivity.this);
-            if (!success) {
-                throw new RuntimeException("JSON couldn't be restarted");
-            }
-        }
-
-        //region TEMP
-        /*
-        new MaterialAlertDialogBuilder(MainActivity.this)
-                .setMessage(jsonString)
-                .show();
-        */
-        //endregion
-        ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(MainActivity.this, jsonString);
-        Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
-        Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
-
-        if (result.isOk()) {
-            exerciseList = result.getValue();
-            cardList = ListTools.cast(exerciseList, ExerciseCard.class);
-            Toast.makeText(this, String.valueOf(result.getValue().size()), Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();
-        }
 
         // Init views
         initExercisesListRecyclerView(cardList);
@@ -101,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        reloadExercises();
         canStartExercise = true;
     }
 
@@ -142,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onCardLongPress(View anchor, int position) {
+        if (!canStartExercise) {
+            Log.d("MainActivity", "Can't open card options because \"canStartExercise\" is false...");
+            return;
+        }
+
         Exercise exercise;
 
         try {
@@ -231,6 +205,41 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("exercise", exercise);
         startActivity(intent);
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void reloadExercises() {
+        // Load JSON from file
+        String jsonString = QuickFileManager
+                .with(MainActivity.this)
+                .file(ExerciseSerdeHelper.FILENAME)
+                .read();
+
+        if (jsonString == null) {
+            jsonString = ExerciseSerdeHelper.JSON_EMPTY;
+            boolean success = ExerciseSerdeHelper.restart(MainActivity.this);
+            if (!success) {
+                throw new RuntimeException("JSON couldn't be restarted");
+            }
+        }
+
+        // Deserialize from JSON
+        ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(MainActivity.this, jsonString);
+        Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
+        Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
+
+        if (result.isOk()) {
+            exerciseList = result.getValue();
+            cardList = ListTools.cast(exerciseList, ExerciseCard.class);
+        }
+        else {
+            Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();
+        }
+
+        // Update items if adapter exists
+        if (adapter != null)
+            adapter.setItems(cardList);
+    }
+
 
     private void deleteExercise(int index) {
         adapter.removeItem(index);
