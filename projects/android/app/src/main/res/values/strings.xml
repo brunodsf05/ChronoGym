@@ -145,6 +145,8 @@
     <string name="activity_editor_dialog_set_static_number_hint">Ms de duración</string>
     <string name="activity_editor_dialog_set_dynamic_number_hint">Número de repeticiones</string>
 
+    <string name="activity_editor_dialog_queue">¿Qué serie quieres añadir?</string>
+
     <string name="activity_editor_dialog_any_id_label">Identificador</string>
     <string name="activity_editor_dialog_any_id_error_required">El ID es necesario</string>
     <string name="activity_editor_dialog_any_id_error_repeated">Ese ID ya existe</string>
