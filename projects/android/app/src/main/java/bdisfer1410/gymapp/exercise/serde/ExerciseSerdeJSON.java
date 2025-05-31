@@ -76,14 +76,21 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
     /**
      * Reads a {@code line} and tries to transform it into a translatable string.
-     * @param line A string that might be translatable.
+     * @param line The line to assure its storage as translation.
      * @return The translatable that starts with "@"
      */
-    private String getTranslation(String line) {
-        if (!line.startsWith("@"))
+    private String serializeString(String line) {
+        // Already a translation
+        if (line.startsWith("@"))
             return line;
-        // TODO: Translate
-        return line;
+
+        // Search string key from value
+        String stringResId = ResourceUtils.findKey(context, line, NAME_RESOURCE_KEY_PREFIX);
+        if (stringResId == null)
+            return line;
+
+
+        return "@"+stringResId.replace(NAME_RESOURCE_KEY_PREFIX,"");
     }
 
     /**
@@ -120,9 +127,9 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 JSONObject exerciseAllJSONObject = new JSONObject();
                 exercisesJSONArray.put(exerciseAllJSONObject);
                 // Add information
-                exerciseAllJSONObject.put("name", getTranslation(exercise.getName()));
+                exerciseAllJSONObject.put("name", serializeString(exercise.getName()));
                 exerciseAllJSONObject.put("icon", iconToPath(exercise.getIcon()));
-                exerciseAllJSONObject.put("tags", exercise.getTags().stream().map(this::getTranslation).collect(Collectors.toList()));
+                exerciseAllJSONObject.put("tags", exercise.getTags().stream().map(this::serializeString).collect(Collectors.toList()));
                 // Initialize exercise resources
                 JSONObject exerciseJSONObject = new JSONObject();
                 JSONArray exercisePoseJSONArray = new JSONArray();
@@ -137,7 +144,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     JSONObject exercisePoseJSONObject = new JSONObject();
                     exercisePoseJSONArray.put(exercisePoseJSONObject);
                     exercisePoseJSONObject.put("id", pose.getId());
-                    exercisePoseJSONObject.put("name", getTranslation(pose.getName()));
+                    exercisePoseJSONObject.put("name", serializeString(pose.getName()));
                     exercisePoseJSONObject.put("icon", iconToPath(pose.getIcon()));
                 }
                 // Add transitions
@@ -146,7 +153,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     exerciseTransitionsJSONArray.put(exerciseTransitionsJSONObject);
 
                     exerciseTransitionsJSONObject.put("id", transitions.getId());
-                    exerciseTransitionsJSONObject.put("name", getTranslation(transitions.getName()));
+                    exerciseTransitionsJSONObject.put("name", serializeString(transitions.getName()));
 
                     JSONArray exerciseTransitionListJSONArray = new JSONArray();
                     exerciseTransitionsJSONObject.put("poses", exerciseTransitionListJSONArray);
@@ -201,13 +208,13 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                             break;
 
                         case "set_static":
-                            exerciseSetDataJSONObject.put("name", getTranslation(((ExerciseSetStatic) timerAnimation).getName()));
+                            exerciseSetDataJSONObject.put("name", serializeString(((ExerciseSetStatic) timerAnimation).getName()));
                             exerciseSetDataJSONObject.put("pose", ((ExerciseSetStatic) timerAnimation).getPose().getId());
                             exerciseSetDataJSONObject.put("duration", ((ExerciseSetStatic) timerAnimation).getMsDuration());
                             break;
 
                         case "set_dynamic":
-                            exerciseSetDataJSONObject.put("name", getTranslation(((ExerciseSetDynamic) timerAnimation).getName()));
+                            exerciseSetDataJSONObject.put("name", serializeString(((ExerciseSetDynamic) timerAnimation).getName()));
                             exerciseSetDataJSONObject.put("transition", ((ExerciseSetDynamic) timerAnimation).transitionsId);
                             exerciseSetDataJSONObject.put("repetitions", ((ExerciseSetDynamic) timerAnimation).getReps());
                             break;

@@ -2,6 +2,7 @@ package bdisfer1410.gymapp.util.android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -67,7 +68,10 @@ public class ResourceUtils {
         Field[] fields = R.string.class.getDeclaredFields();
 
         return Arrays.stream(fields)
-                .filter(f -> f.getName().startsWith(prefix))
+                .filter(f -> {
+                    Log.d("aaa", f.getName());
+                    return f.getName().startsWith(prefix);
+                })
                 .map(f -> {
                     try {
                         int resId = f.getInt(null);
