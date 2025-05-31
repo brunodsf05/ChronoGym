@@ -735,6 +735,7 @@ public class EditorActivity extends AppCompatActivity {
     //endregion
 
     private void saveExercise() {
+        exercise.getQueue().list = ListTools.cast(pageExerciseQueue.getCards(), TimerAnimation.class);
         Result<Void, Integer> result = ExerciseSerdeHelper.addOne(EditorActivity.this, exercise);
 
         if (result.isErr()) {
