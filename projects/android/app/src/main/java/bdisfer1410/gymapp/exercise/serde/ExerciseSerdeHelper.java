@@ -22,16 +22,18 @@ public class ExerciseSerdeHelper {
 
         // Deserialize file
         ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(context, jsonString);
-        Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
-        if (result.isErr()) return Result.err(result.getError());
+        Result<List<Exercise>, Integer> resultDes = exerciseSerdeJSON.deserialize();
+        if (resultDes.isErr()) return Result.err(resultDes.getError());
 
-        List<Exercise> exerciseList = result.getValue();
+        List<Exercise> exerciseList = resultDes.getValue();
 
         // Add one
         exerciseList.add(exercise);
 
         // Serialize into string
-        String serialized = "";
+        Result<String, Integer> resultSer = exerciseSerdeJSON.serialize(exerciseList);
+        if (resultSer.isErr()) return Result.err(resultSer.getError());
+        String serialized = resultSer.getValue();
 
         // Save serialized output
         boolean writeSuccess = QuickFileManager
