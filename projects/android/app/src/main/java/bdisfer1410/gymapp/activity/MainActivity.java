@@ -39,6 +39,7 @@ import bdisfer1410.gymapp.util.java.ListTools;
 
 public class MainActivity extends AppCompatActivity {
     private List<ExerciseCard> cardList;
+    private List<Exercise> exerciseList;
     private ExerciseCardAdapter adapter;
     private boolean canStartExercise = false;
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Load exercises from file
         cardList = new ArrayList<>();
+        exerciseList = new ArrayList<>();
 
         String jsonString = QuickFileManager
                 .with(MainActivity.this)
@@ -83,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
 
         if (result.isOk()) {
-            cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
+            exerciseList = result.getValue();
+            cardList = ListTools.cast(exerciseList, ExerciseCard.class);
             Toast.makeText(this, String.valueOf(result.getValue().size()), Toast.LENGTH_SHORT).show();
         }
         else {
@@ -166,9 +169,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(this, "TODO: Export exercise", Toast.LENGTH_SHORT).show();
                             break;
                         case 2:
-                            adapter.removeItem(position);
-
-                            Toast.makeText(this, "TODO: Delete exercise", Toast.LENGTH_SHORT).show();
+                            deleteExercise(position);
                             break;
                     }
                 })
@@ -229,5 +230,24 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("exercise", exercise);
         startActivity(intent);
+    }
+
+    private void deleteExercise(int index) {
+        adapter.removeItem(index);
+        exerciseList.remove(index);
+
+        Result<String, Integer> serializeResult = new ExerciseSerdeJSON(MainActivity.this, "")
+                .serialize(exerciseList);
+
+        if (serializeResult.isOk()) {
+            QuickFileManager
+                    .with(MainActivity.this)
+                    .file(ExerciseSerdeHelper.FILENAME)
+                    .save(serializeResult.getValue());
+            Toast.makeText(this, R.string.activity_main_delete_success, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, serializeResult.getError(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

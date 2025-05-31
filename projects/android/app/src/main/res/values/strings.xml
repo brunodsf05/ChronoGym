@@ -19,6 +19,7 @@
     <string name="activity_main_menu_delete">Borrar</string>
     <string name="activity_main_menu_export">Exportar</string>
     <string name="activity_main_error_cant_play_queue">No se puede iniciar la rutina</string>
+    <string name="activity_main_delete_success">La rutina ha sido borrada</string>
 
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>
