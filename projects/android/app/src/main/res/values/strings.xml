@@ -35,6 +35,9 @@
     <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
 
     <!-- UI: EditorActivity -->
+    <string name="activity_editor_save_new_success">La rutina se ha creado</string>
+    <string name="activity_editor_save_overwrite_success">Los cambios han sido guardados</string>
+
     <string name="activity_editor_page_poses">Poses</string>
     <string name="activity_editor_page_transitions">Transiciones</string>
     <string name="activity_editor_page_transition_poses">Transición</string>

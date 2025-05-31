@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,7 @@ import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeHelper;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.Result;
@@ -56,15 +60,34 @@ public class MainActivity extends AppCompatActivity {
 
         String jsonString = QuickFileManager
                 .with(MainActivity.this)
-                .file("user_exercises.json")
+                .file(ExerciseSerdeHelper.FILENAME)
                 .read();
 
-        if (jsonString != null) {
-            ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(MainActivity.this, jsonString);
-            Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
-            Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
+        if (jsonString == null) {
+            jsonString = ExerciseSerdeHelper.JSON_EMPTY;
+            boolean success = ExerciseSerdeHelper.restart(MainActivity.this);
+            if (!success) {
+                throw new RuntimeException("JSON couldn't be restarted");
+            }
+        }
 
+        //region TEMP
+        /*
+        new MaterialAlertDialogBuilder(MainActivity.this)
+                .setMessage(jsonString)
+                .show();
+        */
+        //endregion
+        ExerciseSerdeJSON exerciseSerdeJSON = new ExerciseSerdeJSON(MainActivity.this, jsonString);
+        Result<List<Exercise>, Integer> result = exerciseSerdeJSON.deserialize();
+        Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
+
+        if (result.isOk()) {
             cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
+            Toast.makeText(this, String.valueOf(result.getValue().size()), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();
         }
 
         // Init views

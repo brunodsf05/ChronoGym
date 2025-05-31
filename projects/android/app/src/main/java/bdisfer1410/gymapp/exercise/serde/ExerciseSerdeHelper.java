@@ -5,12 +5,25 @@ import android.content.Context;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.activity.MainActivity;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.data.QuickFileManager;
 
 public class ExerciseSerdeHelper {
     public static final String FILENAME = "user_exercises.json";
+    public static final String JSON_EMPTY = "[]";
+
+    /**
+     * @return If the file was restarted into an empty list
+     */
+    public static boolean restart(Context context) {
+        return QuickFileManager
+                .with(context)
+                .file(FILENAME)
+                .save(JSON_EMPTY);
+    }
+
     public static Result<Void, Integer> addOne(Context context, Exercise exercise) {
         // Get serialized input
         String jsonString = QuickFileManager

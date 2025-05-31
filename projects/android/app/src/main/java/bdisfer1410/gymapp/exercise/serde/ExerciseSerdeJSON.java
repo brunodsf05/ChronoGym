@@ -129,7 +129,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 // Add information
                 exerciseAllJSONObject.put("name", serializeString(exercise.getName()));
                 exerciseAllJSONObject.put("icon", iconToPath(exercise.getIcon()));
-                exerciseAllJSONObject.put("tags", exercise.getTags().stream().map(this::serializeString).collect(Collectors.toList()));
+                exerciseAllJSONObject.put("tags", new JSONArray(exercise.getTags().stream().map(this::serializeString).collect(Collectors.toList())));
                 // Initialize exercise resources
                 JSONObject exerciseJSONObject = new JSONObject();
                 JSONArray exercisePoseJSONArray = new JSONArray();
@@ -224,11 +224,11 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                             continue;
                     }
 
-                    exerciseJSONObject.put("queue", exercise.getQueue().list.stream()
+                    exerciseJSONObject.put("queue", new JSONArray(exercise.getQueue().list.stream()
                             .filter(ta -> ta instanceof Identifiable)
                             .map(ta -> ((Identifiable) ta).getId())
                             .collect(Collectors.toList())
-                    );
+                    ));
 
                     // Add object to array
                     exerciseSetsJSONArray.put(exerciseSetJSONObject);

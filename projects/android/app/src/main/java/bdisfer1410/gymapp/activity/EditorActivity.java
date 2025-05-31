@@ -38,12 +38,13 @@ import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
-import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSet;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetDynamic;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseSetStatic;
+import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeHelper;
 import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
+import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
 import bdisfer1410.gymapp.util.android.TextDropdownDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
@@ -315,7 +316,7 @@ public class EditorActivity extends AppCompatActivity {
         // Execute based of id
         switch (identifiable.getId()) {
             case "save":
-                Toast.makeText(this, "TODO: Implement save", Toast.LENGTH_SHORT).show();
+                saveExercise();
                 break;
 
             case "help":
@@ -732,4 +733,15 @@ public class EditorActivity extends AppCompatActivity {
         pagerAdapter.notifyDataSetChanged();
     }
     //endregion
+
+    private void saveExercise() {
+        Result<Void, Integer> result = ExerciseSerdeHelper.addOne(EditorActivity.this, exercise);
+
+        if (result.isErr()) {
+            Toast.makeText(this, getString(result.getError()), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(this, R.string.activity_editor_save_new_success, Toast.LENGTH_SHORT).show();
+    }
 }
