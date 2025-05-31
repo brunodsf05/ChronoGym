@@ -157,6 +157,68 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                         exerciseTransitionPoseJSONObject.put("time", transition.getMsToNext());
                     }
                 }
+                // Add sets
+                for (TimerAnimation timerAnimation : exercise.repoSets) {
+                    // Prepare object to add
+                    JSONObject exerciseSetJSONObject = new JSONObject();
+                    String type, id;
+
+                    // Get id
+                    if (timerAnimation instanceof Identifiable) {
+                        id = ((Identifiable) timerAnimation).getId();
+                    }
+                    else {
+                        Log.w("ExerciseSerdeJSON", "ser::[?]{exercise}{sets][?]{id} Not found :(");
+                        continue;
+                    }
+
+                    // Get information
+                    if (timerAnimation instanceof ExerciseRest) {
+                        type = "rest";
+                    }
+                    else if (timerAnimation instanceof ExerciseSetStatic) {
+                        type = "set_static";
+                    }
+                    else if (timerAnimation instanceof ExerciseSetDynamic) {
+                        type = "set_dynamic";
+                    }
+                    else {
+                        Log.w("ExerciseSerdeJSON", "ser::[?]{exercise}{sets][?]{type} Not valid :(");
+                        continue;
+                    }
+
+                    exerciseSetJSONObject.put("id", id);
+                    exerciseSetJSONObject.put("type", type);
+
+                    // Get data
+                    JSONObject exerciseSetDataJSONObject = new JSONObject();
+                    exerciseSetJSONObject.put("data", exerciseSetDataJSONObject);
+
+                    switch (type) {
+                        case "rest":
+                            exerciseSetDataJSONObject.put("duration", ((ExerciseRest) timerAnimation).getMsDuration());
+                            break;
+
+                        case "set_static":
+                            exerciseSetDataJSONObject.put("name", getTranslation(((ExerciseSetStatic) timerAnimation).getName()));
+                            exerciseSetDataJSONObject.put("pose", ((ExerciseSetStatic) timerAnimation).getPose().getId());
+                            exerciseSetDataJSONObject.put("duration", ((ExerciseSetStatic) timerAnimation).getMsDuration());
+                            break;
+
+                        case "set_dynamic":
+                            exerciseSetDataJSONObject.put("name", getTranslation(((ExerciseSetDynamic) timerAnimation).getName()));
+                            exerciseSetDataJSONObject.put("transition", ((ExerciseSetDynamic) timerAnimation).transitionsId);
+                            exerciseSetDataJSONObject.put("repetitions", ((ExerciseSetDynamic) timerAnimation).getReps());
+                            break;
+
+                        default:
+                            Log.w("ExerciseSerdeJSON", "ser::[?]{exercise}{sets][?]{type} Not valid :(");
+                            continue;
+                    }
+
+                    // Add object to array
+                    exerciseSetsJSONArray.put(exerciseSetJSONObject);
+                }
             }
             return Result.ok(exercisesJSONArray.toString(1)); // TODO: Temporal
         }
