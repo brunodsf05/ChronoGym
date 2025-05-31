@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
@@ -54,6 +55,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         this.jsonString = jsonString;
     }
 
+    //region Utils
     /**
      * Reads a {@code line} and decides if it has to be read as a string resource key.
      * @param line A string that can be a resource key
@@ -69,6 +71,17 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         return ResourceUtils.fromKeyOrDefault(context, string_resource_key, line);
     }
 
+    /**
+     * Reads a {@code line} and tries to transform it into a translatable string.
+     * @param line A string that might be translatable.
+     * @return The translatable that starts with "@"
+     */
+    private String getTranslation(String line) {
+        if (!line.startsWith("@"))
+            return line;
+        // TODO: Translate
+        return line;
+    }
 
     /**
      * Gets some icon res id from a string.
@@ -82,10 +95,36 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 : foundResId;
     }
 
+    /**
+     * Gets some icon path from res id.
+     * @param icon The res id to transform into a icon path.
+     * @return The icon path.
+     */
+    private String iconToPath(int icon) {
+        // TODO: Resolve path
+        return "";
+    }
+    //endregion
+
     @NonNull
     @Override
     public Result<String, Integer> serialize(List<Exercise> exercises) {
         JSONArray exercisesJSONArray = new JSONArray();
+
+        try {
+            for (Exercise exercise : exercises) {
+                // Add object to JSON
+                JSONObject exerciseJSONObject = new JSONObject();
+                exercisesJSONArray.put(exerciseJSONObject);
+                // Add information
+                exerciseJSONObject.put("name", getTranslation(exercise.getName()));
+                exerciseJSONObject.put("icon", iconToPath(exercise.getIcon()));
+                exerciseJSONObject.put("tags", exercise.getTags().stream().map(this::getTranslation).collect(Collectors.toList()));
+            }
+        }
+        catch (JSONException e) {
+            Log.e("ExerciseSerdeJSON", e.toString());
+        }
 
         return Result.ok(exercisesJSONArray.toString());
     }
