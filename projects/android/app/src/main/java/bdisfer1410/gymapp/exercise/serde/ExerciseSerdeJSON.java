@@ -131,6 +131,14 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 exerciseJSONObject.put("transitions", exerciseTransitionsJSONArray);
                 exerciseJSONObject.put("sets", exerciseSetsJSONArray);
                 exerciseJSONObject.put("queue", exerciseQueueSetsIds);
+                // Add poses
+                for (ExercisePose pose: exercise.repoPoses) {
+                    JSONObject exercisePoseJSONObject = new JSONObject();
+                    exercisePoseJSONArray.put(exercisePoseJSONObject);
+                    exercisePoseJSONObject.put("id", pose.getId());
+                    exercisePoseJSONObject.put("name", getTranslation(pose.getName()));
+                    exercisePoseJSONObject.put("icon", iconToPath(pose.getIcon()));
+                }
             }
         }
         catch (JSONException e) {
