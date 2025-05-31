@@ -125,12 +125,10 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                 JSONArray exercisePoseJSONArray = new JSONArray();
                 JSONArray exerciseTransitionsJSONArray = new JSONArray();
                 JSONArray exerciseSetsJSONArray = new JSONArray();
-                List<String> exerciseQueueSetsIds = new ArrayList<>();
                 exerciseAllJSONObject.put("exercise", exerciseJSONObject);
                 exerciseJSONObject.put("poses", exercisePoseJSONArray);
                 exerciseJSONObject.put("transitions", exerciseTransitionsJSONArray);
                 exerciseJSONObject.put("sets", exerciseSetsJSONArray);
-                exerciseJSONObject.put("queue", exerciseQueueSetsIds);
                 // Add poses
                 for (ExercisePose pose: exercise.repoPoses) {
                     JSONObject exercisePoseJSONObject = new JSONObject();
@@ -215,6 +213,12 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                             Log.w("ExerciseSerdeJSON", "ser::[?]{exercise}{sets][?]{type} Not valid :(");
                             continue;
                     }
+
+                    exerciseJSONObject.put("queue", exercise.getQueue().list.stream()
+                            .filter(ta -> ta instanceof Identifiable)
+                            .map(ta -> ((Identifiable) ta).getId())
+                            .collect(Collectors.toList())
+                    );
 
                     // Add object to array
                     exerciseSetsJSONArray.put(exerciseSetJSONObject);
