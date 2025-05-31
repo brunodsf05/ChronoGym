@@ -568,7 +568,6 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddTransitionPose() {
-        Toast.makeText(this, "TODO: handleButtonAddTransitionPose()", Toast.LENGTH_SHORT).show();
         List<String> posesIds = exercise.getRepoPosesIds();
 
         if (posesIds.isEmpty()) {
