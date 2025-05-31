@@ -717,7 +717,10 @@ public class EditorActivity extends AppCompatActivity {
                 }
 
                 ExerciseTransitions et = etr.get();
-                exercise.repoSets.add((ExerciseSetDynamic)(new ExerciseSetDynamic(name, et.list, numberInput).withId(id)));
+                ExerciseSetDynamic exerciseSetDynamic = new ExerciseSetDynamic(name, et.list, numberInput);
+                exerciseSetDynamic.transitionsId = et.getId();
+                exerciseSetDynamic.setId(id);
+                exercise.repoSets.add(exerciseSetDynamic);
                 updateSetsPage();
             });
         }));
