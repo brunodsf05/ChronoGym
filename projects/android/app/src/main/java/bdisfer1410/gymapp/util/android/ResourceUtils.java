@@ -69,7 +69,6 @@ public class ResourceUtils {
 
         return Arrays.stream(fields)
                 .filter(f -> {
-                    Log.d("aaa", f.getName());
                     return f.getName().startsWith(prefix);
                 })
                 .map(f -> {
