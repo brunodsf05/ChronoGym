@@ -65,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("ExerciseSerdeJSON", result.isOk() ? result.toString() : getString(result.getError()));
 
             cardList = ListTools.cast(result.getValue(), ExerciseCard.class);
-            //region TEMP
-            Result<String, Integer> tmpResult = exerciseSerdeJSON.serialize(result.getValue());
-            new MaterialAlertDialogBuilder(MainActivity.this)
-                    .setMessage(tmpResult.getValue())
-                    .show();
-            //endregion
         }
 
         // Init views
