@@ -2,6 +2,7 @@ package bdisfer1410.gymapp.util.java;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class for list operations.
@@ -32,5 +33,14 @@ public class ListTools {
         }
 
         return result;
+    }
+
+    public static <K, V> K getKeyByValue(Map<K, V> map, V value) {
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            if ((value == null && entry.getValue() == null) || (value != null && value.equals(entry.getValue()))) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

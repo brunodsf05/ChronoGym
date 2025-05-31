@@ -31,13 +31,16 @@ import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.android.ResourceUtils;
 import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.java.Identifiable;
+import bdisfer1410.gymapp.util.java.ListTools;
 
 /**
  * Serializes/deserializes an {@link Exercise} to/from JSON.
  */
 public class ExerciseSerdeJSON implements ExerciseSerde {
+    public final static String ICON_MISSING_PATH = "/generic/unknown";
+
     public final static Map<String, Integer> ICONS = Map.of(
-            "/generic/unknown", R.drawable.ic_missing,
+            ICON_MISSING_PATH, R.drawable.ic_missing,
             "/generic/fullbody", R.drawable.ic_exercise_generic_full_body,
             "/pose/push_up_from_flat_floor", R.drawable.ic_exercise_pose_push_up,
             "/pose/push_down_from_flat_floor", R.drawable.ic_exercise_pose_push_down,
@@ -101,8 +104,8 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
      * @return The icon path.
      */
     private String iconToPath(int icon) {
-        // TODO: Resolve path
-        return "";
+        String path = ListTools.getKeyByValue(ICONS, icon);
+        return Objects.requireNonNullElse(path, ICON_MISSING_PATH);
     }
     //endregion
 
