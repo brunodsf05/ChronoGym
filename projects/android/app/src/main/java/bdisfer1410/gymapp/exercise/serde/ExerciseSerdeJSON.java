@@ -139,6 +139,24 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     exercisePoseJSONObject.put("name", getTranslation(pose.getName()));
                     exercisePoseJSONObject.put("icon", iconToPath(pose.getIcon()));
                 }
+                // Add transitions
+                for (ExerciseTransitions transitions : exercise.repoTransitions) {
+                    JSONObject exerciseTransitionsJSONObject = new JSONObject();
+                    exerciseTransitionsJSONArray.put(exerciseTransitionsJSONObject);
+
+                    exerciseTransitionsJSONObject.put("id", transitions.getId());
+                    exerciseTransitionsJSONObject.put("name", getTranslation(transitions.getName()));
+
+                    JSONArray exerciseTransitionListJSONArray = new JSONArray();
+                    exerciseTransitionsJSONObject.put("poses", exerciseTransitionListJSONArray);
+                    for (ExerciseTransition transition : transitions.list) {
+                        JSONObject exerciseTransitionPoseJSONObject = new JSONObject();
+                        exerciseTransitionListJSONArray.put(exerciseTransitionPoseJSONObject);
+
+                        exerciseTransitionPoseJSONObject.put("id", transition.getPose().getId());
+                        exerciseTransitionPoseJSONObject.put("time", transition.getMsToNext());
+                    }
+                }
             }
             return Result.ok(exercisesJSONArray.toString(1)); // TODO: Temporal
         }
