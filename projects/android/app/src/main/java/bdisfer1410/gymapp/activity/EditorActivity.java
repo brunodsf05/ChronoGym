@@ -598,6 +598,10 @@ public class EditorActivity extends AppCompatActivity {
 
             ExercisePose ep = epr.get();
 
+            // Fix transition list order
+            et.list = ListTools.cast(pagerAdapter.getPages().get(0).getCards(), ExerciseTransition.class);
+
+            // Add new item
             et.list.add(new ExerciseTransition(ep, msToNext));
             showTransitionListEditor(transitionListId);
         });
