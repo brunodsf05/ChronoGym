@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ExerciseCardAdapter adapter;
     private boolean canStartExercise = false;
 
-
+    //region Android
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
         reloadExercises();
         canStartExercise = true;
     }
+    //endregion
 
+    //region UI initializers
     private void initExercisesListRecyclerView(List<ExerciseCard> cards) {
         RecyclerView exercisesList = findViewById(R.id.exercisesList);
         exercisesList.setLayoutManager(new LinearLayoutManager(this));
@@ -81,6 +83,52 @@ public class MainActivity extends AppCompatActivity {
         exercisesList.setAdapter(adapter);
     }
 
+    private void initFabMenu() {
+        ConstraintLayout fabLayout = findViewById(R.id.fabLayout);
+        Button fabMain = findViewById(R.id.fab_main);
+
+        List<FabMenuBuilder.FabAction> fabActions = List.of(
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->
+                        Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
+                ),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
+                    Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
+                    String rawJsonString = QuickFileManager
+                            .with(MainActivity.this)
+                            .rawRes(R.raw.serialized_exercise_prototype)
+                            .read();
+
+                    QuickFileManager
+                            .with(MainActivity.this)
+                            .file("user_exercises.json")
+                            .save(rawJsonString);
+                }),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
+                        startEditorActivity(null)
+                )
+        );
+
+        FabMenuBuilder.addFabButtons(this, fabLayout, fabMain, fabActions);
+
+        fabMain.setOnClickListener(view -> {
+            boolean isOpen = fabActions.get(0).generatedButton.getVisibility() == View.VISIBLE;
+
+            fabMain.animate().rotation(isOpen ? 0f : 45f).setDuration(200).start();
+            for (FabMenuBuilder.FabAction action : fabActions) {
+                if (!isOpen) action.generatedButton.setVisibility(View.VISIBLE);
+                action.generatedButton.setOnClickListener(action.onClickListener);
+                action.generatedButton.setAlpha(isOpen ? 1f : 0f);
+                action.generatedButton.animate().alpha(isOpen ? 0f : 1f).setDuration(200).withEndAction(
+                        () -> {
+                            if (isOpen) action.generatedButton.setVisibility(View.GONE);
+                        }
+                ).start();
+            }
+        });
+    }
+    //endregion
+
+    //region Card functions
     private void onCardClick(ExerciseCard card) {
         if (!canStartExercise) {
             Log.d("MainActivity", "Can't start exercise because \"canStartExercise\" is false...");
@@ -149,51 +197,9 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .show();
     }
+    //endregion
 
-    private void initFabMenu() {
-        ConstraintLayout fabLayout = findViewById(R.id.fabLayout);
-        Button fabMain = findViewById(R.id.fab_main);
-
-        List<FabMenuBuilder.FabAction> fabActions = List.of(
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->
-                        Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
-                ),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
-                    Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
-                    String rawJsonString = QuickFileManager
-                            .with(MainActivity.this)
-                            .rawRes(R.raw.serialized_exercise_prototype)
-                            .read();
-
-                    QuickFileManager
-                            .with(MainActivity.this)
-                            .file("user_exercises.json")
-                            .save(rawJsonString);
-                }),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
-                        startEditorActivity(null)
-                )
-        );
-
-        FabMenuBuilder.addFabButtons(this, fabLayout, fabMain, fabActions);
-
-        fabMain.setOnClickListener(view -> {
-            boolean isOpen = fabActions.get(0).generatedButton.getVisibility() == View.VISIBLE;
-
-            fabMain.animate().rotation(isOpen ? 0f : 45f).setDuration(200).start();
-            for (FabMenuBuilder.FabAction action : fabActions) {
-                if (!isOpen) action.generatedButton.setVisibility(View.VISIBLE);
-                action.generatedButton.setOnClickListener(action.onClickListener);
-                action.generatedButton.setAlpha(isOpen ? 1f : 0f);
-                action.generatedButton.animate().alpha(isOpen ? 0f : 1f).setDuration(200).withEndAction(
-                        () -> {
-                            if (isOpen) action.generatedButton.setVisibility(View.GONE);
-                        }
-                ).start();
-            }
-        });
-    }
-
+    //region Activity launcher
     private void startExerciseActivity(TimerAnimationQueue animationQueue) {
         Intent intent = new Intent(this, ExerciseActivity.class);
         intent.putExtra("queue", animationQueue);
@@ -205,7 +211,9 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("exercise", exercise);
         startActivity(intent);
     }
+    //endregion
 
+    //region Exercise storage
     @SuppressLint("NotifyDataSetChanged")
     private void reloadExercises() {
         // Load JSON from file
@@ -240,7 +248,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.setItems(cardList);
     }
 
-
     private void deleteExercise(int index) {
         adapter.removeItem(index);
         exerciseList.remove(index);
@@ -259,4 +266,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, serializeResult.getError(), Toast.LENGTH_SHORT).show();
         }
     }
+    //endregion
 }
