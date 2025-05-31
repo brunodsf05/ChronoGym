@@ -224,15 +224,15 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                             continue;
                     }
 
-                    exerciseJSONObject.put("queue", new JSONArray(exercise.getQueue().list.stream()
-                            .filter(ta -> ta instanceof Identifiable)
-                            .map(ta -> ((Identifiable) ta).getId())
-                            .collect(Collectors.toList())
-                    ));
-
                     // Add object to array
                     exerciseSetsJSONArray.put(exerciseSetJSONObject);
                 }
+                // Add queue
+                exerciseJSONObject.put("queue", new JSONArray(exercise.getQueue().list.stream()
+                        .filter(ta -> ta instanceof Identifiable)
+                        .map(ta -> ((Identifiable) ta).getId())
+                        .collect(Collectors.toList())
+                ));
             }
         }
         catch (JSONException e) {
