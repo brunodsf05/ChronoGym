@@ -140,6 +140,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
                     exercisePoseJSONObject.put("icon", iconToPath(pose.getIcon()));
                 }
             }
+            return Result.ok(exercisesJSONArray.toString(1)); // TODO: Temporal
         }
         catch (JSONException e) {
             Log.e("ExerciseSerdeJSON", e.toString());
