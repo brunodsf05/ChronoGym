@@ -114,12 +114,23 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         try {
             for (Exercise exercise : exercises) {
                 // Add object to JSON
-                JSONObject exerciseJSONObject = new JSONObject();
-                exercisesJSONArray.put(exerciseJSONObject);
+                JSONObject exerciseAllJSONObject = new JSONObject();
+                exercisesJSONArray.put(exerciseAllJSONObject);
                 // Add information
-                exerciseJSONObject.put("name", getTranslation(exercise.getName()));
-                exerciseJSONObject.put("icon", iconToPath(exercise.getIcon()));
-                exerciseJSONObject.put("tags", exercise.getTags().stream().map(this::getTranslation).collect(Collectors.toList()));
+                exerciseAllJSONObject.put("name", getTranslation(exercise.getName()));
+                exerciseAllJSONObject.put("icon", iconToPath(exercise.getIcon()));
+                exerciseAllJSONObject.put("tags", exercise.getTags().stream().map(this::getTranslation).collect(Collectors.toList()));
+                // Initialize exercise resources
+                JSONObject exerciseJSONObject = new JSONObject();
+                JSONArray exercisePoseJSONArray = new JSONArray();
+                JSONArray exerciseTransitionsJSONArray = new JSONArray();
+                JSONArray exerciseSetsJSONArray = new JSONArray();
+                List<String> exerciseQueueSetsIds = new ArrayList<>();
+                exerciseAllJSONObject.put("exercise", exerciseJSONObject);
+                exerciseJSONObject.put("poses", exercisePoseJSONArray);
+                exerciseJSONObject.put("transitions", exerciseTransitionsJSONArray);
+                exerciseJSONObject.put("sets", exerciseSetsJSONArray);
+                exerciseJSONObject.put("queue", exerciseQueueSetsIds);
             }
         }
         catch (JSONException e) {
