@@ -84,8 +84,10 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
 
     @NonNull
     @Override
-    public Result<Void, Integer> serialize(List<Exercise> exercises) {
-        return null;
+    public Result<String, Integer> serialize(List<Exercise> exercises) {
+        JSONArray exercisesJSONArray = new JSONArray();
+
+        return Result.ok(exercisesJSONArray.toString());
     }
 
     //region Deserialization

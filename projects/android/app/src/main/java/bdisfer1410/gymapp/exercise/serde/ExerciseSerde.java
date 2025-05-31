@@ -17,11 +17,11 @@ public interface ExerciseSerde {
      * internally define the destination where the serialized file will be saved.
      *
      * @param exercise The {@link Exercise} instance to serialize.
-     * @return A {@link Result} where {@code Ok<Void>} indicates success,
+     * @return A {@link Result} where {@code Ok<String>} contains the serialized exercise list,
      *         and {@code Err<Integer>} contains a string resource ID from
      *         {@link bdisfer1410.gymapp.R.string} describing the error.
      */
-    @NonNull Result<Void, Integer> serialize(List<Exercise> exercises);
+    @NonNull Result<String, Integer> serialize(List<Exercise> exercises);
 
     /**
      * Deserializes an {@link Exercise}. The implementing object must
