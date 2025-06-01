@@ -281,10 +281,23 @@ public class MainActivity extends AppCompatActivity {
         */
         FileDialog.readFile(this, result -> {
             if (result.isOk()) {
-                Toast.makeText(this, "FileDialog.readFile.result.isOk()", Toast.LENGTH_SHORT).show();
+                // Parse exercises from string
+                Result<List<Exercise>, Integer> importedExercises = new ExerciseSerdeJSON(MainActivity.this, result.getValue()).deserialize();
+                if (importedExercises.isErr()) {
+                    Toast.makeText(this, importedExercises.getError(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Add it
+                Result<Void, Integer> addResult = ExerciseSerdeHelper.addMultiple(MainActivity.this, importedExercises.getValue());
+
+                if (addResult.isOk())
+                    reloadExercises();
+                else
+                    Toast.makeText(this, addResult.getError(), Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(this, "FileDialog.readFile.result.isErr()", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();
             }
         });
     }
