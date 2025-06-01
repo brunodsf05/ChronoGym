@@ -267,7 +267,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void importExercises() {
-        Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
         /*
         String rawJsonString = QuickFileManager
                 .with(MainActivity.this)
