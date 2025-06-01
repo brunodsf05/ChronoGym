@@ -23,20 +23,36 @@ public class ExerciseSerdeHelper {
                 .save(JSON_EMPTY);
     }
 
+    /**
+     * Adds one exercise to the user's exercise list file.
+     * @return Result.getError() gives string resId.
+     */
     public static Result<Void, Integer> addOne(Context context, Exercise exercise) {
+        return addMultiple(context, List.of(exercise));
+    }
+
+    /**
+     * Adds multiple exercises to the user's exercise list file.
+     * @return Result.getError() gives string resId.
+     */
+    public static Result<Void, Integer> addMultiple(Context context, List<Exercise> exercises) {
         // Load exercise from JSON
         Result<List<Exercise>, Integer> resultDes = loadExercisesFromJSON(context);
         if (resultDes.isErr()) return Result.err(resultDes.getError());
         List<Exercise> exerciseList = resultDes.getValue();
 
         // Add one
-        exerciseList.add(exercise);
+        exerciseList.addAll(exercises);
 
         // Serialize into string
         return saveExercisesIntoJSON(context, exerciseList, R.string.file_json_serialization_error);
     }
 
-
+    /**
+     * Replaces one exercise from the user's exercise list file with another one.
+     * The exercise to replace is selected via an {@code indexToOverwrite}.
+     * @return Result.getError() gives string resId.
+     */
     public static Result<Void, Integer> replaceOne(Context context, Exercise exercise, int indexToOverwrite) {
         // Load exercise from JSON
         Result<List<Exercise>, Integer> resultDes = loadExercisesFromJSON(context);
