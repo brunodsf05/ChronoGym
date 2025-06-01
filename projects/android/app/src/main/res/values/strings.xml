@@ -194,4 +194,9 @@
     <string name="file_json_string_push_ups">Flexiones</string>
     <string name="file_json_string_pull_ups">Dominadas</string>
 
+    <!-- Utils: File -->
+    <string name="utils_file_dialog_error_file_not_found">utils_file_dialog_error_file_not_found</string>
+    <string name="utils_file_dialog_error_reading_file">utils_file_dialog_error_reading_file</string>
+    <string name="utils_file_dialog_error_saving_file">utils_file_dialog_error_saving_file</string>
+    <string name="utils_file_dialog_success_saving_file">utils_file_dialog_success_saving_file</string>
 </resources>

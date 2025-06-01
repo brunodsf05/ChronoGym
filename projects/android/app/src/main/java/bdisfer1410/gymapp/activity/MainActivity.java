@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
@@ -35,8 +36,10 @@ import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeJSON;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.android.FabMenuBuilder;
+import bdisfer1410.gymapp.util.android.FileDialog;
 import bdisfer1410.gymapp.util.data.QuickFileManager;
 import bdisfer1410.gymapp.util.java.ListTools;
+import bdisfer1410.gymapp.util.java.StringUtils;
 
 public class MainActivity extends AppCompatActivity {
     private List<ExerciseCard> cardList;
@@ -72,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
         reloadExercises();
         canStartExercise = true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FileDialog.handleActivityResult(this, requestCode, resultCode, data);
+    }
     //endregion
 
     //region UI initializers
@@ -91,18 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->
                         Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
                 ),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> {
-                    Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
-                    String rawJsonString = QuickFileManager
-                            .with(MainActivity.this)
-                            .rawRes(R.raw.serialized_exercise_prototype)
-                            .read();
-
-                    QuickFileManager
-                            .with(MainActivity.this)
-                            .file("user_exercises.json")
-                            .save(rawJsonString);
-                }),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> importExercises()),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
                         startEditorActivity(null, -1)
                 )
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                             startEditorActivity(exercise, position);
                             break;
                         case 1:
-                            Toast.makeText(this, "TODO: Export exercise", Toast.LENGTH_SHORT).show();
+                            exportExercises(List.of(exercise));
                             break;
                         case 2:
                             deleteExercise(position);
@@ -266,6 +264,56 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, serializeResult.getError(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void importExercises() {
+        Toast.makeText(this, "TEST: Importar rutina", Toast.LENGTH_SHORT).show();
+        /*
+        String rawJsonString = QuickFileManager
+                .with(MainActivity.this)
+                .rawRes(R.raw.serialized_exercise_prototype)
+                .read();
+
+        QuickFileManager
+                .with(MainActivity.this)
+                .file("user_exercises.json")
+                .save(rawJsonString);
+        */
+        FileDialog.readFile(this, result -> {
+            if (result.isOk()) {
+                Toast.makeText(this, "FileDialog.readFile.result.isOk()", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "FileDialog.readFile.result.isErr()", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void exportExercises(List<Exercise> exercises) {
+        // Serialize
+        Result<String, Integer> resultSerialization = new ExerciseSerdeJSON(this, "").serialize(exercises);
+
+        if (resultSerialization.isErr()) {
+            Toast.makeText(this, resultSerialization.getError(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String filename = StringUtils.generateFileName(
+                exercises.size() == 1 ? exercises.get(0).getName() : "rutina",
+                new Date(),
+                "json"
+        );
+
+        // Save
+        FileDialog.saveFile(this, filename, resultSerialization.getValue(), result -> {
+            Toast.makeText(
+                    this,
+                    result.isOk()
+                            ? R.string.utils_file_dialog_success_saving_file
+                            : result.getError(),
+                    Toast.LENGTH_SHORT
+            ).show();
+        });
     }
     //endregion
 }
