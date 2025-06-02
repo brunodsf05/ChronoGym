@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             queue = exercise.getQueue();
         }
 
-        if (queue == null) {
+        if (queue == null || queue.list == null || queue.list.isEmpty()) {
             Log.e("MainActivity", "Exercise does not have valid TimerAnimationQueue to play :(");
             Toast.makeText(this, R.string.activity_main_error_cant_play_queue, Toast.LENGTH_SHORT).show();
         }
