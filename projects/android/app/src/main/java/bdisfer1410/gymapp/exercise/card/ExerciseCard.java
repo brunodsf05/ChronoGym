@@ -42,4 +42,11 @@ public interface ExerciseCard {
      * @return Extra text as a string, or null if the extra TextView should be hidden.
      */
     @Nullable String getCardExtra();
+
+    /**
+     * Applies some style to the card.
+     *
+     * @return An enum describing the state of the card.
+     */
+    @NonNull ExerciseCardState getCardState();
 }
