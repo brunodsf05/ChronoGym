@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.Serializable;
@@ -35,10 +36,11 @@ import bdisfer1410.gymapp.util.java.ListTools;
 
 public class ImportActivity extends AppCompatActivity {
     private Button buttonAdd, buttonClose;
-    private CheckBox checkboxSelectAll;
+    private MaterialCheckBox checkboxSelectAll;
     private List<ExerciseCard> cardList;
     private List<Exercise> exerciseList;
     private ExerciseCardAdapter adapter;
+    private int selectedCounter = 0;
 
     //region Android
     @Override
@@ -97,6 +99,16 @@ public class ImportActivity extends AppCompatActivity {
         cardList = ListTools.cast(exerciseList, ExerciseCard.class);
         adapter.notifyDataSetChanged();
     }
+
+    private void updateCheckboxStyle() {
+        checkboxSelectAll.setCheckedState(
+                selectedCounter == 0
+                        ? MaterialCheckBox.STATE_UNCHECKED
+                : selectedCounter == exerciseList.size()
+                        ? MaterialCheckBox.STATE_CHECKED
+                        : MaterialCheckBox.STATE_INDETERMINATE
+        );
+    }
     //endregion
 
     //region UI initializers
@@ -111,6 +123,8 @@ public class ImportActivity extends AppCompatActivity {
     private void initClickable() {
         buttonAdd = findViewById(R.id.buttonAdd);
         buttonClose = findViewById(R.id.buttonClose);
+        checkboxSelectAll = findViewById(R.id.checkboxSelectAll);
+
         buttonAdd.setOnClickListener(v -> saveExercises());
         buttonClose.setOnClickListener(v -> handleExit());
     }
@@ -120,17 +134,31 @@ public class ImportActivity extends AppCompatActivity {
     //region Card functions
     private void onCardClick(ExerciseCard card) {
         Log.d("ImportActivity", "Toggling enabled state of pressed card");
-        toggleExerciseSelection((Exercise) card);
+        Boolean isSelected = toggleExerciseSelection((Exercise) card);
+        if (isSelected == null) return;
+
+        // Update UI
+        selectedCounter += isSelected ? 1 : -1;
+        updateCheckboxStyle();
         updateCardList();
     }
 
-    private void toggleExerciseSelection(Exercise exercise) {
+    /**
+     * Toggles the selected style of an exercise.
+     * @param exercise The exercise to un/selected
+     * @return If the exercise ended up being selected (true) unselected (false) or it couldn't do it (null)
+     */
+    private Boolean toggleExerciseSelection(Exercise exercise) {
         if (exercise.cardState == ExerciseCardState.DISABLED)
-            return;
+            return null;
 
-        exercise.cardState = exercise.cardState == ExerciseCardState.NORMAL
+
+        boolean isUnselected = exercise.cardState == ExerciseCardState.NORMAL;
+        exercise.cardState = isUnselected
                 ? ExerciseCardState.SELECTED
                 : ExerciseCardState.NORMAL;
+
+        return isUnselected;
     }
     //endregion
 

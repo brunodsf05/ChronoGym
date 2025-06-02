@@ -70,7 +70,7 @@
             android:layout_marginVertical="@dimen/activity_padding"
             android:layout_weight="1" />
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkboxSelectAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
