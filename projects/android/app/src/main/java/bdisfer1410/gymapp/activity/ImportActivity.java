@@ -29,6 +29,8 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
 import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.exercise.serde.ExerciseSerdeHelper;
+import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 
@@ -187,7 +189,12 @@ public class ImportActivity extends AppCompatActivity {
     //region Exercise storage
     private void saveExercises() {
         Log.d("ImportActivity", "Saving selected exercises into storage");
-        Toast.makeText(this, "saveExercises()", Toast.LENGTH_SHORT).show();
+        Result<Void, Integer> addResult = ExerciseSerdeHelper.addMultiple(this, exerciseList);
+
+        if (addResult.isOk())
+            finish();
+        else
+            Toast.makeText(this, addResult.getError(), Toast.LENGTH_SHORT).show();
     }
     //endregion
 }
