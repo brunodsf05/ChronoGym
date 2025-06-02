@@ -20,9 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -210,6 +208,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("indexToOverwrite", indexToOverwrite);
         startActivity(intent);
     }
+
+    private void startImportActivity(List<Exercise> exercises) {
+        Intent intent = new Intent(this, ImportActivity.class);
+        intent.putExtra("exercises", (Serializable) exercises);
+        startActivity(intent);
+    }
     //endregion
 
     //region Exercise storage
@@ -287,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                startImportActivity(importedExercises.getValue());
+                /*
                 // Add it
                 Result<Void, Integer> addResult = ExerciseSerdeHelper.addMultiple(MainActivity.this, importedExercises.getValue());
 
@@ -294,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     reloadExercises();
                 else
                     Toast.makeText(this, addResult.getError(), Toast.LENGTH_SHORT).show();
+                 */
             }
             else {
                 Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();

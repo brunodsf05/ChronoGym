@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ExerciseActivity" />
+        <activity android:name=".activity.ImportActivity" />
     </application>
 
 </manifest>
