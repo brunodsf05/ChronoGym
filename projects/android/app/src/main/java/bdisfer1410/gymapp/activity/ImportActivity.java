@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,7 +29,6 @@ import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
 import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.exercise.models.Exercise;
-import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.ListTools;
 
 
@@ -100,7 +98,7 @@ public class ImportActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void updateCheckboxStyle() {
+    private void updateButtonsBySelectedCounter() {
         checkboxSelectAll.setCheckedState(
                 selectedCounter == 0
                         ? MaterialCheckBox.STATE_UNCHECKED
@@ -108,6 +106,8 @@ public class ImportActivity extends AppCompatActivity {
                         ? MaterialCheckBox.STATE_CHECKED
                         : MaterialCheckBox.STATE_INDETERMINATE
         );
+
+        buttonAdd.setEnabled(selectedCounter > 0);
     }
     //endregion
 
@@ -140,7 +140,7 @@ public class ImportActivity extends AppCompatActivity {
 
         // Update UI
         selectedCounter += isSelected ? 1 : -1;
-        updateCheckboxStyle();
+        updateButtonsBySelectedCounter();
         updateCardList();
     }
 
