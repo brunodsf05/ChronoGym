@@ -127,6 +127,7 @@ public class ImportActivity extends AppCompatActivity {
 
         buttonAdd.setOnClickListener(v -> saveExercises());
         buttonClose.setOnClickListener(v -> handleExit());
+        checkboxSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> makeAllExercisesSelected(isChecked));
     }
 
     //endregion
@@ -159,6 +160,18 @@ public class ImportActivity extends AppCompatActivity {
                 : ExerciseCardState.NORMAL;
 
         return isUnselected;
+    }
+
+    private void makeAllExercisesSelected(boolean selected) {
+        selectedCounter = selected ? exerciseList.size() : 0;
+
+        ExerciseCardState newState = selected ? ExerciseCardState.SELECTED : ExerciseCardState.NORMAL;
+
+        for (Exercise exercise : exerciseList) {
+            exercise.cardState = newState;
+        }
+
+        updateCardList();
     }
     //endregion
 
