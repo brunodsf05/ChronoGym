@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
@@ -59,6 +60,12 @@ public class ExerciseTransition extends Identifiable implements Serializable, Ex
     @Override
     public String getCardExtra() {
         return "";
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardState getCardState() {
+        return ExerciseCardState.NORMAL;
     }
     //endregion
 }

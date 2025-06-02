@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.java.StringUtils;
@@ -103,6 +104,12 @@ public class ExerciseSetStatic extends ExerciseSet {
     @Override
     public String getCardExtra() {
         return "";
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardState getCardState() {
+        return ExerciseCardState.NORMAL;
     }
     //endregion
 }

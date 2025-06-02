@@ -10,6 +10,7 @@ import java.util.List;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
@@ -67,6 +68,12 @@ public class ExerciseTransitions extends Identifiable implements Serializable, E
     @Override
     public String getCardExtra() {
         return String.format("%d poses", list == null ? 0 : list.size());
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardState getCardState() {
+        return ExerciseCardState.NORMAL;
     }
     //endregion
 }

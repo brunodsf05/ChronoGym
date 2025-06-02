@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransitions;
 import bdisfer1410.gymapp.exercise.models.routine.sets.ExerciseRest;
@@ -310,6 +311,8 @@ public class Exercise implements ExerciseCard, Serializable {
     //endregion
 
     //region ExerciseCard
+    public ExerciseCardState cardState = ExerciseCardState.NORMAL;
+
     @Nullable
     @Override
     public Integer getCardIcon() {
@@ -340,6 +343,12 @@ public class Exercise implements ExerciseCard, Serializable {
     @Override
     public String getCardExtra() {
         return "";
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardState getCardState() {
+        return this.cardState;
     }
     //endregion
 }

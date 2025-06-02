@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
 import bdisfer1410.gymapp.util.java.StringUtils;
@@ -138,6 +139,12 @@ public class ExerciseSetDynamic extends ExerciseSet {
     @Override
     public String getCardExtra() {
         return StringUtils.formatMsIntoTime(msDuration);
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardState getCardState() {
+        return ExerciseCardState.NORMAL;
     }
     //endregion
 }

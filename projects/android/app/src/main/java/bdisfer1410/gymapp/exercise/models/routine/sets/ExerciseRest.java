@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.util.java.Identifiable;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.view.TimerFragment;
@@ -112,6 +113,12 @@ public class ExerciseRest extends Identifiable implements TimerAnimation, Serial
     @Override
     public String getCardExtra() {
         return "";
+    }
+
+    @NonNull
+    @Override
+    public ExerciseCardState getCardState() {
+        return ExerciseCardState.NORMAL;
     }
     //endregion
 }
