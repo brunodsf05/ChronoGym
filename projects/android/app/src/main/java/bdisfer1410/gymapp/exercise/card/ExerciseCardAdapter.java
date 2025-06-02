@@ -9,13 +9,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import bdisfer1410.gymapp.R;
-import bdisfer1410.gymapp.activity.editor.CardPage;
 
 /**
  * Adapter for displaying a list of ExerciseCard items.
@@ -26,6 +28,7 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
     private final Consumer<ExerciseCard> onClick;
     private final BiConsumer<View, Integer> onLongClick; // May be null if no long click needed
     private Consumer<Integer> retrieveLastPos = null;
+    private boolean canStyleBasedOfStyle = false;
 
     /**
      * Constructor.
@@ -39,6 +42,26 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
         this.onLongClick = onLongClick;
     }
 
+
+    /**
+     * Constructor.
+     * @param items List of ExerciseCard objects to display.
+     * @param onClick Callback for item click.
+     * @param canStyleBasedOfStyle If the card can change it's style based of {@link ExerciseCard#getCardState()}.
+     */
+    public ExerciseCardAdapter(List<ExerciseCard> items, Consumer<ExerciseCard> onClick, boolean canStyleBasedOfStyle) {
+        this.items = items;
+        this.onClick = onClick;
+        this.onLongClick = null;
+        this.canStyleBasedOfStyle = canStyleBasedOfStyle;
+    }
+
+    /**
+     * Constructor.
+     * @param items List of ExerciseCard objects to display.
+     * @param onClick Callback for item click.
+     * @param retrieveLastPos Callback for retrieving last clicked item position.
+     */
     public ExerciseCardAdapter(List<ExerciseCard> items, Consumer<ExerciseCard> onClick, BiConsumer<View, Integer> onLongClick, Consumer<Integer> retrieveLastPos) {
         this.items = items;
         this.onClick = onClick;
@@ -92,6 +115,11 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
         }
 
         public void bind(ExerciseCard card) {
+            // Style
+            if (canStyleBasedOfStyle)
+                card.getCardState().applyStyleToMaterialCardView((MaterialCardView) itemView);
+
+            // Functionality
             itemView.setOnClickListener(v -> {
                 onClick.accept(card);
                 if (retrieveLastPos != null)
@@ -107,7 +135,6 @@ public class ExerciseCardAdapter extends RecyclerView.Adapter<ExerciseCardAdapte
             else {
                 itemView.setOnLongClickListener(null);
             }
-            // TODO: Bind your views with card data here
             name.setText(card.getCardName());
             interval.setText(card.getCardInterval());
 
