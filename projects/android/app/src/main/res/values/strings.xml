@@ -195,8 +195,8 @@
     <string name="file_json_string_pull_ups">Dominadas</string>
 
     <!-- Utils: File -->
-    <string name="utils_file_dialog_error_file_not_found">utils_file_dialog_error_file_not_found</string>
-    <string name="utils_file_dialog_error_reading_file">utils_file_dialog_error_reading_file</string>
-    <string name="utils_file_dialog_error_saving_file">utils_file_dialog_error_saving_file</string>
-    <string name="utils_file_dialog_success_saving_file">utils_file_dialog_success_saving_file</string>
+    <string name="utils_file_dialog_error_file_not_found">El archivo no pudo ser encontrado</string>
+    <string name="utils_file_dialog_error_reading_file">No se pudo leer el archivo</string>
+    <string name="utils_file_dialog_error_saving_file">No se pudo guardar el archivo</string>
+    <string name="utils_file_dialog_success_saving_file">El archivo ha sido creado</string>
 </resources>
