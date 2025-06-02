@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Insets;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import java.util.List;
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCardAdapter;
+import bdisfer1410.gymapp.exercise.card.ExerciseCardState;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.java.ListTools;
@@ -90,6 +92,11 @@ public class ImportActivity extends AppCompatActivity {
                 .show();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateCardList() {
+        cardList = ListTools.cast(exerciseList, ExerciseCard.class);
+        adapter.notifyDataSetChanged();
+    }
     //endregion
 
     //region UI initializers
@@ -97,7 +104,7 @@ public class ImportActivity extends AppCompatActivity {
         RecyclerView exercisesList = findViewById(R.id.exercisesList);
         exercisesList.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ExerciseCardAdapter(cards, this::onCardClick, null);
+        adapter = new ExerciseCardAdapter(cards, this::onCardClick, true);
         exercisesList.setAdapter(adapter);
     }
 
@@ -113,7 +120,17 @@ public class ImportActivity extends AppCompatActivity {
     //region Card functions
     private void onCardClick(ExerciseCard card) {
         Log.d("ImportActivity", "Toggling enabled state of pressed card");
-        Toast.makeText(this, "onCardClick(ExerciseCard)", Toast.LENGTH_SHORT).show();
+        toggleExerciseSelection((Exercise) card);
+        updateCardList();
+    }
+
+    private void toggleExerciseSelection(Exercise exercise) {
+        if (exercise.cardState == ExerciseCardState.DISABLED)
+            return;
+
+        exercise.cardState = exercise.cardState == ExerciseCardState.NORMAL
+                ? ExerciseCardState.SELECTED
+                : ExerciseCardState.NORMAL;
     }
     //endregion
 
