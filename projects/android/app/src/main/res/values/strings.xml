@@ -21,6 +21,12 @@
     <string name="activity_main_error_cant_play_queue">No se puede iniciar la rutina</string>
     <string name="activity_main_delete_success">La rutina ha sido borrada</string>
 
+    <!-- UI: ImportActivity -->
+    <string name="activity_import_text_title">Importar</string>
+    <string name="activity_import_text_hint">Selecciona lo que quieras guardar</string>
+    <string name="activity_import_clickable_import">Guardar</string>
+    <string name="activity_import_clickable_select_all">Seleccionar todo</string>
+
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>
     <string name="activity_exercise_prompt_message_finished">Has terminado la rutina…</string>
