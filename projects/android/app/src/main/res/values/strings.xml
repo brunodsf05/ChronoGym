@@ -33,6 +33,11 @@
     <string name="activity_import_dialog_exit_button_confirm">Sí</string>
     <string name="activity_import_dialog_exit_button_deny">No, me gustaría quedarme</string>
 
+    <string name="activity_import_dialog_save_title">¿Seguro que quieres guardarlos?…</string>
+    <string name="activity_import_dialog_save_message">Lo que hayas seleccionado será guardado en tu lista de rutinas…</string>
+    <string name="activity_import_dialog_save_button_confirm">Sí</string>
+    <string name="activity_import_dialog_save_button_deny">No</string>
+
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>
     <string name="activity_exercise_prompt_message_finished">Has terminado la rutina…</string>

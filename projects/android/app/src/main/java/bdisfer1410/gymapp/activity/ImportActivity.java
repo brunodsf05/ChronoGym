@@ -92,6 +92,15 @@ public class ImportActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void handleSave() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.activity_import_dialog_save_title)
+                .setMessage(R.string.activity_import_dialog_save_message)
+                .setNegativeButton(R.string.activity_import_dialog_save_button_confirm, (dialog, which) -> saveExercises())
+                .setNeutralButton(R.string.activity_import_dialog_save_button_deny, null)
+                .show();
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private void updateCardList() {
         cardList = ListTools.cast(exerciseList, ExerciseCard.class);
@@ -125,7 +134,7 @@ public class ImportActivity extends AppCompatActivity {
         buttonClose = findViewById(R.id.buttonClose);
         checkboxSelectAll = findViewById(R.id.checkboxSelectAll);
 
-        buttonAdd.setOnClickListener(v -> saveExercises());
+        buttonAdd.setOnClickListener(v -> handleSave());
         buttonClose.setOnClickListener(v -> handleExit());
         checkboxSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> makeAllExercisesSelected(isChecked));
     }
