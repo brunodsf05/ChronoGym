@@ -95,13 +95,9 @@ public class MainActivity extends AppCompatActivity {
         Button fabMain = findViewById(R.id.fab_main);
 
         List<FabMenuBuilder.FabAction> fabActions = List.of(
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v ->
-                        Toast.makeText(this, "WIP: Explorar rutinas", Toast.LENGTH_SHORT).show()
-                ),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import), R.drawable.ic_ui_import, v -> importExercises()),
-                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create), R.drawable.ic_ui_add, v ->
-                        startEditorActivity(null, -1)
-                )
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v -> startExploreActivity()),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import) , R.drawable.ic_ui_import , v -> importExercises()),
+                new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create) , R.drawable.ic_ui_add    , v -> startEditorActivity(null, -1))
         );
 
         FabMenuBuilder.addFabButtons(this, fabLayout, fabMain, fabActions);
@@ -214,6 +210,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("exercises", (Serializable) exercises);
         startActivity(intent);
     }
+
+    private void startExploreActivity() {
+        Intent intent = new Intent(this, ExploreActivity.class);
+        startActivity(intent);
+    }
     //endregion
 
     //region Exercise storage
@@ -292,15 +293,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 startImportActivity(importedExercises.getValue());
-                /*
-                // Add it
-                Result<Void, Integer> addResult = ExerciseSerdeHelper.addMultiple(MainActivity.this, importedExercises.getValue());
-
-                if (addResult.isOk())
-                    reloadExercises();
-                else
-                    Toast.makeText(this, addResult.getError(), Toast.LENGTH_SHORT).show();
-                 */
             }
             else {
                 Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();

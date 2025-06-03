@@ -38,6 +38,38 @@
     <string name="activity_import_dialog_save_button_confirm">Sí</string>
     <string name="activity_import_dialog_save_button_deny">No</string>
 
+    <!-- UI: ImportActivity -->
+    <string name="activity_explore_text_title">Explorar</string>
+    <string name="activity_explore_text_hint">Encuentra la rutina perfecta</string>
+
+    <string name="activity_explore_clickable_search_all">Buscar todo</string>
+    <string name="activity_explore_clickable_search_filtered">Buscar selección</string>
+
+    <string name="activity_explore_text_filter_title_exclusive">Las rutinas deberán ser de</string>
+    <string name="activity_explore_text_filter_title_inclusive">…e incluir al menos una de estas características</string>
+    <string name="activity_explore_text_filter_hint_all">Añade etiquetas</string>
+
+    <string name="activity_explore_dialog_exit_title">¿Seguro que quieres salir?…</string>
+    <string name="activity_explore_dialog_exit_message">Tendrás que volver a elegir tus filtros…</string>
+    <string name="activity_explore_dialog_exit_button_confirm">Sí</string>
+    <string name="activity_explore_dialog_exit_button_deny">No, me gustaría quedarme</string>
+    <string name="activity_explore_dialog_help_title">¿Cómo funciona?</string>
+    <string name="activity_explore_dialog_help_message">
+        <b>BÚSQUEDA</b>\n
+        Puedes mostrar todas las rutinas disponibles, o afinar la búsqueda si es que añades alguna etiquetas.\n
+        <b>ETIQUETAS</b>\n
+        Hay dos tipos, las de búsqueda exclusiva e inclusiva. Las puedes añadir pulsando el botón
+        "añadir" de cada sección.\n\n
+        <b>ETIQUETAS EXCLUSIVAS</b>\n
+        Están en la primera sección. Hace que la búsqueda se limite a mostrar las rutinas con ese
+        grupo de etiquetas.\n
+        Ejemplo: Buscar rutinas de calistenia = etiqueta "calistenia".\n
+        <b>ETIQUETAS INCLUSIVAS</b>\n
+        Están en la segunda sección. Afina la búsqueda para que .\n
+        Ejemplo: De las rutinas de calistenia, quiero que sean en el suelo = etiqueta "suelo"\n
+    </string>
+    <string name="activity_explore_dialog_help_accept">Sí</string>
+
     <!-- UI: ExerciseActivity -->
     <string name="activity_exercise_prompt_title_finished">¡Bien hecho!</string>
     <string name="activity_exercise_prompt_message_finished">Has terminado la rutina…</string>

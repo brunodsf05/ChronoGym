@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="activity_padding">16dp</dimen>
+    <dimen name="tag_filter_card_margin">48dp</dimen>
     <dimen name="timer_information_lateral_width">64dp</dimen>
     <dimen name="timer_information_height">48dp</dimen>
     <dimen name="timer_information_textsize">24sp</dimen>
@@ -8,4 +9,6 @@
     <dimen name="timer_track_thickness">24dp</dimen>
     <dimen name="timer_information_padding">48dp</dimen>
     <dimen name="timer_counter_weight">3.0</dimen>
+    <dimen name="chip_height">32dp</dimen>
+    <dimen name="chip_icon_size">16dp</dimen>
 </resources>
