@@ -47,5 +47,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     // Others
     implementation(libs.circleindicator)
-
+    implementation(libs.flexbox)
 }
