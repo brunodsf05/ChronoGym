@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity;
 
+import android.content.Intent;
 import android.graphics.Insets;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.activity.explorer.ExplorerApi;
 import bdisfer1410.gymapp.exercise.data.Tags;
+import bdisfer1410.gymapp.exercise.models.Exercise;
+import bdisfer1410.gymapp.util.android.HttpTools;
 import bdisfer1410.gymapp.util.android.ResourceUtils;
 import bdisfer1410.gymapp.util.android.TagListFragment;
 import bdisfer1410.gymapp.util.android.TextDropdownDialog;
@@ -138,8 +143,23 @@ public class ExploreActivity extends AppCompatActivity {
     //endregion
 
     private void search() {
-        Toast.makeText(this, "buttonSearch.setOnClickListener", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, fragmentTagFilterExclusive.getTags().toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, fragmentTagFilterInclusive.getTags().toString(), Toast.LENGTH_SHORT).show();
+        buttonSearch.setEnabled(false);
+
+        ExplorerApi.fetch(
+                this,
+                fragmentTagFilterExclusive.getTags(),
+                fragmentTagFilterInclusive.getTags(),
+                result -> {
+                    if (result.isErr()) {
+                        Toast.makeText(this, result.getError(), Toast.LENGTH_SHORT).show();
+                        buttonSearch.setEnabled(true);
+                        return;
+                    }
+
+                    Intent intent = new Intent(this, ImportActivity.class);
+                    intent.putExtra("exercises", (Serializable) result.getValue());
+                    startActivity(intent);
+                }
+        );
     }
 }

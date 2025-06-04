@@ -252,4 +252,7 @@
     <string name="utils_file_dialog_error_reading_file">No se pudo leer el archivo</string>
     <string name="utils_file_dialog_error_saving_file">No se pudo guardar el archivo</string>
     <string name="utils_file_dialog_success_saving_file">El archivo ha sido creado</string>
+
+    <!-- Utils: ExplorerApi -->
+    <string name="utils_explorer_api_error">Error del servidor</string>
 </resources>
