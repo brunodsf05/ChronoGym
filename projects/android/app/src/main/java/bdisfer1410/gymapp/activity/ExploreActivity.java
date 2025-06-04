@@ -15,10 +15,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.data.Tags;
+import bdisfer1410.gymapp.util.android.ResourceUtils;
 import bdisfer1410.gymapp.util.android.TagListFragment;
+import bdisfer1410.gymapp.util.android.TextDropdownDialog;
 
 public class ExploreActivity extends AppCompatActivity {
     //region Views
@@ -62,8 +69,8 @@ public class ExploreActivity extends AppCompatActivity {
                 .findFragmentById(R.id.fragmentTagFilterInclusive);
 
         // Bind functionality
-        fragmentTagFilterExclusive.setOnAddTagClickListener(() -> addTag(fragmentTagFilterExclusive, List.of()));
-        fragmentTagFilterInclusive.setOnAddTagClickListener(() -> addTag(fragmentTagFilterInclusive, List.of()));
+        fragmentTagFilterExclusive.setOnAddTagClickListener(() -> addTag(fragmentTagFilterExclusive));
+        fragmentTagFilterInclusive.setOnAddTagClickListener(() -> addTag(fragmentTagFilterInclusive));
     }
 
     private void initSmallButtons() {
@@ -104,12 +111,35 @@ public class ExploreActivity extends AppCompatActivity {
      * @param allOptions A list containing all the options that can be added. Keep in mind that the
      *                   displayed list will not show the elements already added.
      */
-    private void addTag(TagListFragment fragmentTagList, List<String> allOptions) {
-        fragmentTagList.addTag("fragmentTagFilterExclusive");
+    private void addTag(TagListFragment fragmentTagList) {
+        Map<String, String> allOptionsMap = Tags.data.entrySet().stream()
+                .filter(entry -> entry.getValue() != null)
+                .filter(entry -> !fragmentTagList.getTags().contains(entry.getKey()))
+                .collect(Collectors.toMap(
+                        entry -> getString(entry.getValue()),
+                        Map.Entry::getKey
+                ));
+
+        int allOptionsSize = allOptionsMap.size();
+
+        if (allOptionsSize == 0) {
+            Toast.makeText(this, R.string.activity_explore_error_no_tags_to_add, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<String> allOptions = new ArrayList<>(allOptionsMap.keySet());
+
+        TextDropdownDialog.show(this, getString(R.string.activity_explore_dialog_add_title), allOptions, 0, false, (selectedItem, numberInput) -> {
+            fragmentTagList.addTranslatedTag(selectedItem, allOptionsMap.get(selectedItem));
+            buttonSearch.setText(R.string.activity_explore_clickable_search_filtered);
+            if (allOptionsSize == 1) fragmentTagList.hideAddButton();
+        });
     }
     //endregion
 
     private void search() {
         Toast.makeText(this, "buttonSearch.setOnClickListener", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, fragmentTagFilterExclusive.getTags().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, fragmentTagFilterInclusive.getTags().toString(), Toast.LENGTH_SHORT).show();
     }
 }

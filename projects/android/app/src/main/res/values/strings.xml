@@ -42,12 +42,16 @@
     <string name="activity_explore_text_title">Explorar</string>
     <string name="activity_explore_text_hint">Encuentra la rutina perfecta</string>
 
+    <string name="activity_explore_error_no_tags_to_add">No hay más etiquetas disponibles</string>
+
     <string name="activity_explore_clickable_search_all">Buscar todo</string>
     <string name="activity_explore_clickable_search_filtered">Buscar selección</string>
 
     <string name="activity_explore_text_filter_title_exclusive">Las rutinas deberán ser de</string>
     <string name="activity_explore_text_filter_title_inclusive">…e incluir al menos una de estas características</string>
     <string name="activity_explore_text_filter_hint_all">Añade etiquetas</string>
+
+    <string name="activity_explore_dialog_add_title">Añade una etiqueta</string>
 
     <string name="activity_explore_dialog_exit_title">¿Seguro que quieres salir?…</string>
     <string name="activity_explore_dialog_exit_message">Tendrás que volver a elegir tus filtros…</string>

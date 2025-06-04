@@ -20,7 +20,7 @@ import java.util.List;
 import bdisfer1410.gymapp.R;
 
 /**
- * Fragments that shows a container with tags and a button.
+ * Fragment that shows a container with tags and a button.
  * A {@link TagListFragment.OnAddTagClickListener} can be linked to the button on click action.
  */
 public class TagListFragment extends Fragment {
@@ -65,11 +65,25 @@ public class TagListFragment extends Fragment {
         }
     }
 
+    public void addTranslatedTag(String displayed, String stored) {
+        if (stored != null) {
+            String trimmed = stored.trim();
+            if (!trimmed.isEmpty() && !tags.contains(trimmed)) {
+                tags.add(trimmed); // store actual value
+                addTagChip(displayed, trimmed); // display translated value
+            }
+        }
+    }
+
     public List<String> getTags() {
         return new ArrayList<>(tags);
     }
 
     private void addTagChip(String tag) {
+        addTagChip(tag, tag);
+    }
+
+    private void addTagChip(String displayedText, String storedValue) {
         flexboxTags.removeView(addChip);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -78,11 +92,15 @@ public class TagListFragment extends Fragment {
         TextView textTag = tagView.findViewById(R.id.textTag);
         ImageView closeIcon = tagView.findViewById(R.id.closeIcon);
 
-        textTag.setText(tag);
+        textTag.setText(displayedText);
 
         closeIcon.setOnClickListener(v -> {
             flexboxTags.removeView(tagView);
-            tags.remove(tag);
+            int index = tags.indexOf(storedValue);
+            if (index != -1) {
+                tags.remove(index);
+                addChip.setVisibility(View.VISIBLE);
+            }
         });
 
         flexboxTags.addView(tagView);
@@ -91,6 +109,10 @@ public class TagListFragment extends Fragment {
 
     public void setOnAddTagClickListener(OnAddTagClickListener listener) {
         this.onAddTagClickListener = listener;
+    }
+
+    public void hideAddButton() {
+        addChip.setVisibility(View.GONE);
     }
 
     public interface OnAddTagClickListener {
