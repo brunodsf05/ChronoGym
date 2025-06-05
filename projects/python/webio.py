@@ -7,6 +7,12 @@ import json
 
 
 
+def split_line_into_words(line: str) -> list[str]:
+    """i.e. ``"red,green,blue"`` → `` ["red", "green", "blue"]``"""
+    return line.split(",")
+
+
+
 def serialize_json_into_string(data: list[dict]) -> str:
     text = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     return Response(text, content_type="application/json")
