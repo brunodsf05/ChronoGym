@@ -16,7 +16,7 @@ public class ExplorerApi {
 
     public static final int ERROR_HTTP = R.string.utils_explorer_api_error;
 
-    private static final String BASE_URL = "http://192.168.1.39:5000";
+    private static final String BASE_URL = "https://bdisfer1410.eu.pythonanywhere.com";
     private static final String TEMPLATE_URL = BASE_URL + "?exclusive=%s&inclusive=%s";
 
     public interface Listener {
