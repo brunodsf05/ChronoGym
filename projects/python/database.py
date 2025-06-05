@@ -1,0 +1,74 @@
+exercises = [
+  {
+    "name": "Demo",
+    "icon": "/generic/fullbody",
+    "tags": [ "@calisthenics", "@fullbody" ],
+    "exercise": {
+      "poses": [
+        { "id": "push_up"  , "name": "@push_up"  , "icon": "/pose/push_up_from_flat_floor"   },
+        { "id": "push_down", "name": "@push_down", "icon": "/pose/push_down_from_flat_floor" },
+        { "id": "pull_up"  , "name": "@pull_up"  , "icon": "/pose/pull_up_with_bar"          },
+        { "id": "pull_down", "name": "@pull_down", "icon": "/pose/pull_down_with_bar"        }
+      ],
+      "transitions": [
+        {
+          "id": "push_ups",
+          "name": "Flexión",
+          "poses": [
+            { "id": "push_up"  , "time": 1500 },
+            { "id": "push_down", "time": 1500 }
+          ]
+        },
+        {
+          "id": "pull_ups",
+          "name": "Dominada",
+          "poses": [
+            { "id": "pull_up"  , "time": 1500 },
+            { "id": "pull_down", "time": 1500 }
+          ]
+        }
+      ],
+      "sets": [
+        {
+          "id": "rest",
+          "type": "rest",
+          "data": {
+            "duration": 60000
+          }
+        },
+        {
+          "id": "plank",
+          "type": "set_static",
+          "data": {
+            "name": "@plank",
+            "pose": "push_up",
+            "duration": 60000
+          }
+        },
+        {
+          "id": "push_ups",
+          "type": "set_dynamic",
+          "data": {
+            "name": "@push_ups",
+            "transition": "push_ups",
+            "repetitions": 10
+          }
+        },
+        {
+          "id": "pull_ups",
+          "type": "set_dynamic",
+          "data": {
+            "name": "@pull_ups",
+            "transition": "pull_ups",
+            "repetitions": 10
+          }
+        }
+      ],
+      "queue": [
+        "push_ups", "rest", "pull_ups", "rest", "plank", "rest",
+        "push_ups", "rest", "pull_ups", "rest", "plank", "rest",
+        "push_ups", "rest", "pull_ups", "rest", "plank", "rest"
+      ]
+    }
+  }
+]
