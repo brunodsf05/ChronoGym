@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.models.Exercise;
@@ -31,13 +32,16 @@ public class ExplorerApi {
 
     private static String formatListToParam(List<String> list) {
         if (list == null || list.isEmpty()) return "";
-        return String.join(",", list);
+        return list.stream()
+                .map(tag -> "@" + tag)
+                .collect(Collectors.joining(","));
     }
 
     public static void fetch(Context context, List<String> exclusive, List<String> inclusive, Listener listener) {
         String url = buildUrl(exclusive, inclusive);
         HttpTools httpTools = new HttpTools();
 
+        Log.d("ExplorerApi", "Calling \""+url+"\"");
         httpTools.fetch(url, new HttpTools.Listener() {
             @Override
             public void onSuccess(String response) {
