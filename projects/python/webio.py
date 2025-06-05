@@ -9,7 +9,7 @@ import json
 
 def split_line_into_words(line: str) -> list[str]:
     """i.e. ``"red,green,blue"`` → `` ["red", "green", "blue"]``"""
-    return line.split(",")
+    return [word for raw in line.split(",") if (word := raw.strip())]
 
 
 
