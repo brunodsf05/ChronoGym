@@ -183,6 +183,7 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         updateCardList();
+        updateButtonsBySelectedCounter();
     }
     //endregion
 
