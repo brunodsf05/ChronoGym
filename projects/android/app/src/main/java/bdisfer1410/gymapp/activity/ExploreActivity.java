@@ -62,6 +62,12 @@ public class ExploreActivity extends AppCompatActivity {
         initSmallButtons();
         initSearchButton();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        buttonSearch.setEnabled(true);
+    }
     //endregion
 
     //region UI initializers
