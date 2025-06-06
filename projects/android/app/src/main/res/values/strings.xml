@@ -232,15 +232,95 @@
     <string name="file_json_deserialization_error_sets">Un ejercicio no tiene un elemento "sets" válido</string>
     <string name="file_json_deserialization_error_queue">Un ejercicio no tiene un elemento "queue" válido</string>
 
+    <!-- JSON: Strings: Titles -->
+    <string name="file_json_string_quick_burn">Quema rápida</string>
+    <string name="file_json_string_upper_body_focus">Enfoque parte superior</string>
+    <string name="file_json_string_barbell_power">Fuerza con barra</string>
+    <string name="file_json_string_dumbbell_strength">Fuerza con mancuernas</string>
+    <string name="file_json_string_core_blaster">Potenciador de core</string>
+    <string name="file_json_string_lower_body_strength">Fuerza parte inferior</string>
+    <string name="file_json_string_fullbody_circuit">Circuito fullbody</string>
+    <string name="file_json_string_flexibility_routine">Rutina de flexibilidad</string>
+    <string name="file_json_string_machine_strength">Fuerza en máquinas</string>
+    <string name="file_json_string_cable_training">Entrenamiento con polea</string>
+    <string name="file_json_string_kettlebell_power">Fuerza con kettlebell</string>
+    <string name="file_json_string_bodyweight_upper_body">Parte superior peso corporal</string>
+
     <!-- JSON: Strings: Tags -->
     <string name="file_json_string_calisthenics">Calistenia</string>
-    <string name="file_json_string_fullbody">Cuerpo completo</string>
+    <string name="file_json_string_gym">Gimnasio</string>
+    <string name="file_json_string_cardio">Cardio</string>
+    <string name="file_json_string_fullbody">Full cuerpo</string>
+    <string name="file_json_string_upperbody">Parte superior</string>
+    <string name="file_json_string_strength">Fuerza</string>
+    <string name="file_json_string_needs_bar">Necesita barra</string>
+    <string name="file_json_string_needs_dumbell">Necesita mancuernas</string>
+    <string name="file_json_string_safe_to_do_alone">Seguro para hacer solo</string>
+    <string name="file_json_string_better_acompanied">Mejor acompañado</string>
+    <string name="file_json_string_core">Core</string>
+    <string name="file_json_string_lowerbody">Parte inferior</string>
+    <string name="file_json_string_flexibility">Flexibilidad</string>
+    <string name="file_json_string_machine">Máquina</string>
+    <string name="file_json_string_cable">Polea</string>
+    <string name="file_json_string_kettlebell">Kettlebell</string>
+    <string name="file_json_string_needs_cable_machine">Necesita máquina de polea</string>
+    <string name="file_json_string_needs_kettlebell">Necesita kettlebell</string>
 
     <!-- JSON: Strings: Poses -->
     <string name="file_json_string_push_up">Extensión de tríceps en el suelo</string>
     <string name="file_json_string_push_down">Flexión de tríceps en el suelo</string>
     <string name="file_json_string_pull_up">Dominada</string>
     <string name="file_json_string_pull_down">Colgado de la barra</string>
+    <string name="file_json_string_jumping_jack_start">Inicio jumping jack</string>
+    <string name="file_json_string_jumping_jack_end">Fin jumping jack</string>
+    <string name="file_json_string_high_knees_left">Rodilla alta izquierda</string>
+    <string name="file_json_string_high_knees_right">Rodilla alta derecha</string>
+    <string name="file_json_string_pull_up_top">Dominada arriba</string>
+    <string name="file_json_string_pull_down_bottom">Dominada abajo</string>
+    <string name="file_json_string_push_up_top">Flexión arriba</string>
+    <string name="file_json_string_push_down_bottom">Flexión abajo</string>
+    <string name="file_json_string_barbell_squat_down">Sentadilla barra abajo</string>
+    <string name="file_json_string_barbell_squat_up">Sentadilla barra arriba</string>
+    <string name="file_json_string_barbell_bench_press_down">Press banca abajo</string>
+    <string name="file_json_string_barbell_bench_press_up">Press banca arriba</string>
+    <string name="file_json_string_barbell_deadlift_down">Peso muerto abajo</string>
+    <string name="file_json_string_barbell_deadlift_up">Peso muerto arriba</string>
+    <string name="file_json_string_dumbbell_curl_up">Curl mancuerna arriba</string>
+    <string name="file_json_string_dumbbell_curl_down">Curl mancuerna abajo</string>
+    <string name="file_json_string_dumbbell_press_up">Press mancuerna arriba</string>
+    <string name="file_json_string_dumbbell_press_down">Press mancuerna abajo</string>
+    <string name="file_json_string_goblet_squat_down">Sentadilla goblet abajo</string>
+    <string name="file_json_string_goblet_squat_up">Sentadilla goblet arriba</string>
+    <string name="file_json_string_plank_start">Inicio plancha</string>
+    <string name="file_json_string_plank_hold">Plancha estática</string>
+    <string name="file_json_string_leg_raise_up">Elevación pierna arriba</string>
+    <string name="file_json_string_leg_raise_down">Elevación pierna abajo</string>
+    <string name="file_json_string_bodyweight_squat_down">Sentadilla sin peso abajo</string>
+    <string name="file_json_string_bodyweight_squat_up">Sentadilla sin peso arriba</string>
+    <string name="file_json_string_lunge_left_down">Zancada izquierda abajo</string>
+    <string name="file_json_string_lunge_left_up">Zancada izquierda arriba</string>
+    <string name="file_json_string_lunge_right_down">Zancada derecha abajo</string>
+    <string name="file_json_string_lunge_right_up">Zancada derecha arriba</string>
+    <string name="file_json_string_mountain_climber_left">Mountain climber izquierda</string>
+    <string name="file_json_string_mountain_climber_right">Mountain climber derecha</string>
+    <string name="file_json_string_burpee_start">Inicio burpee</string>
+    <string name="file_json_string_burpee_jump">Salto burpee</string>
+    <string name="file_json_string_forward_fold_start">Inicio flexión adelante</string>
+    <string name="file_json_string_forward_fold_hold">Flexión adelante estática</string>
+    <string name="file_json_string_cat_cow_start">Inicio gato-vaca</string>
+    <string name="file_json_string_cat_cow_end">Fin gato-vaca</string>
+    <string name="file_json_string_leg_press_down">Prensa de piernas abajo</string>
+    <string name="file_json_string_leg_press_up">Prensa de piernas arriba</string>
+    <string name="file_json_string_chest_press_down">Press pecho máquina abajo</string>
+    <string name="file_json_string_chest_press_up">Press pecho máquina arriba</string>
+    <string name="file_json_string_cable_row_start">Inicio remo polea</string>
+    <string name="file_json_string_cable_row_end">Fin remo polea</string>
+    <string name="file_json_string_cable_triceps_pushdown_start">Inicio press triceps polea</string>
+    <string name="file_json_string_cable_triceps_pushdown_end">Fin press triceps polea</string>
+    <string name="file_json_string_kettlebell_swing_back">Balanceo kettlebell atrás</string>
+    <string name="file_json_string_kettlebell_swing_forward">Balanceo kettlebell adelante</string>
+    <string name="file_json_string_kettlebell_squat_down">Sentadilla kettlebell abajo</string>
+    <string name="file_json_string_kettlebell_squat_up">Sentadilla kettlebell arriba</string>
 
     <!-- JSON: Strings: Sets -->
     <string name="file_json_string_plank">Plancha</string>
