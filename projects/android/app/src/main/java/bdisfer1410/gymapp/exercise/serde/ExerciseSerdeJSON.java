@@ -50,7 +50,7 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         ICONS.put("/pose/pull_up_with_bar", R.drawable.ic_exercise_pose_pull_up);
         ICONS.put("/pose/pull_down_with_bar", R.drawable.ic_exercise_pose_pull_down);
 
-        ICONS.put("/pose/jumping_jack_start", R.drawable.ic_exercise_pose_jumping_jack_start);
+        ICONS.put("/pose/jumping_jack_start", R.drawable.ic_exercise_pose_idle);
         ICONS.put("/pose/jumping_jack_end", R.drawable.ic_exercise_pose_jumping_jack_end);
         ICONS.put("/pose/high_knees_left", R.drawable.ic_exercise_pose_high_knees_left);
         ICONS.put("/pose/high_knees_right", R.drawable.ic_exercise_pose_high_knees_right);
