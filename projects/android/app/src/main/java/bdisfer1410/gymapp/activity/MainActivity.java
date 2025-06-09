@@ -40,10 +40,16 @@ import bdisfer1410.gymapp.util.java.ListTools;
 import bdisfer1410.gymapp.util.java.StringUtils;
 
 public class MainActivity extends AppCompatActivity {
+    //region Vars: FabMenu
+    private List<FabMenuBuilder.FabAction> fabActions;
+    private Button fabMain;
+    //endregion
+    //region Vars: Exercise
     private List<ExerciseCard> cardList;
     private List<Exercise> exerciseList;
     private ExerciseCardAdapter adapter;
     private boolean canStartExercise = false;
+    //endregion
 
     //region Android
     @Override
@@ -75,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        openFabMenu(true);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FileDialog.handleActivityResult(this, requestCode, resultCode, data);
@@ -92,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initFabMenu() {
         ConstraintLayout fabLayout = findViewById(R.id.fabLayout);
-        Button fabMain = findViewById(R.id.fab_main);
+        fabMain = findViewById(R.id.fab_main);
 
-        List<FabMenuBuilder.FabAction> fabActions = List.of(
+        fabActions = List.of(
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_explore), R.drawable.ic_ui_explore, v -> startExploreActivity()),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_import) , R.drawable.ic_ui_import , v -> importExercises()),
                 new FabMenuBuilder.FabAction(getString(R.string.activity_main_menu_create) , R.drawable.ic_ui_add    , v -> startEditorActivity(null, -1))
@@ -102,21 +114,21 @@ public class MainActivity extends AppCompatActivity {
 
         FabMenuBuilder.addFabButtons(this, fabLayout, fabMain, fabActions);
 
-        fabMain.setOnClickListener(view -> {
-            boolean isOpen = fabActions.get(0).generatedButton.getVisibility() == View.VISIBLE;
+        fabMain.setOnClickListener(view -> openFabMenu(fabActions.get(0).generatedButton.getVisibility() == View.VISIBLE));
+    }
 
-            fabMain.animate().rotation(isOpen ? 0f : 45f).setDuration(200).start();
-            for (FabMenuBuilder.FabAction action : fabActions) {
-                if (!isOpen) action.generatedButton.setVisibility(View.VISIBLE);
-                action.generatedButton.setOnClickListener(action.onClickListener);
-                action.generatedButton.setAlpha(isOpen ? 1f : 0f);
-                action.generatedButton.animate().alpha(isOpen ? 0f : 1f).setDuration(200).withEndAction(
-                        () -> {
-                            if (isOpen) action.generatedButton.setVisibility(View.GONE);
-                        }
-                ).start();
-            }
-        });
+    private void openFabMenu(boolean isOpen) {
+        fabMain.animate().rotation(isOpen ? 0f : 45f).setDuration(200).start();
+        for (FabMenuBuilder.FabAction action : fabActions) {
+            if (!isOpen) action.generatedButton.setVisibility(View.VISIBLE);
+            action.generatedButton.setOnClickListener(action.onClickListener);
+            action.generatedButton.setAlpha(isOpen ? 1f : 0f);
+            action.generatedButton.animate().alpha(isOpen ? 0f : 1f).setDuration(200).withEndAction(
+                    () -> {
+                        if (isOpen) action.generatedButton.setVisibility(View.GONE);
+                    }
+            ).start();
+        }
     }
     //endregion
 
