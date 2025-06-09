@@ -39,14 +39,60 @@ import bdisfer1410.gymapp.util.java.ListTools;
 public class ExerciseSerdeJSON implements ExerciseSerde {
     public final static String ICON_MISSING_PATH = "/generic/unknown";
 
-    public final static Map<String, Integer> ICONS = Map.of(
-            ICON_MISSING_PATH, R.drawable.ic_missing,
-            "/generic/fullbody", R.drawable.ic_exercise_generic_full_body,
-            "/pose/push_up_from_flat_floor", R.drawable.ic_exercise_pose_push_up,
-            "/pose/push_down_from_flat_floor", R.drawable.ic_exercise_pose_push_down,
-            "/pose/pull_up_with_bar", R.drawable.ic_exercise_pose_pull_up,
-            "/pose/pull_down_with_bar", R.drawable.ic_exercise_pose_pull_down
-    );
+    public final static Map<String, Integer> ICONS;
+
+    static {
+        ICONS = new HashMap<>();
+        ICONS.put(ICON_MISSING_PATH, R.drawable.ic_missing);
+        ICONS.put("/generic/fullbody", R.drawable.ic_exercise_generic_full_body);
+        ICONS.put("/pose/push_up_from_flat_floor", R.drawable.ic_exercise_pose_push_up);
+        ICONS.put("/pose/push_down_from_flat_floor", R.drawable.ic_exercise_pose_push_down);
+        ICONS.put("/pose/pull_up_with_bar", R.drawable.ic_exercise_pose_pull_up);
+        ICONS.put("/pose/pull_down_with_bar", R.drawable.ic_exercise_pose_pull_down);
+
+        ICONS.put("/pose/jumping_jack_start", R.drawable.ic_exercise_pose_jumping_jack_start);
+        ICONS.put("/pose/jumping_jack_end", R.drawable.ic_exercise_pose_jumping_jack_end);
+        ICONS.put("/pose/high_knees_left", R.drawable.ic_exercise_pose_high_knees_left);
+        ICONS.put("/pose/high_knees_right", R.drawable.ic_exercise_pose_high_knees_right);
+        ICONS.put("/pose/barbell_squat_down", R.drawable.ic_exercise_pose_barbell_squat_down);
+        ICONS.put("/pose/barbell_squat_up", R.drawable.ic_exercise_pose_barbell_squat_up);
+        ICONS.put("/pose/barbell_bench_press_down", R.drawable.ic_exercise_pose_barbell_bench_press_down);
+        ICONS.put("/pose/barbell_bench_press_up", R.drawable.ic_exercise_pose_barbell_bench_press_up);
+        ICONS.put("/pose/barbell_deadlift_down", R.drawable.ic_exercise_pose_barbell_deadlift_down);
+        ICONS.put("/pose/barbell_deadlift_up", R.drawable.ic_exercise_pose_barbell_deadlift_up);
+        ICONS.put("/pose/dumbbell_curl_up", R.drawable.ic_exercise_pose_dumbbell_curl_up);
+        ICONS.put("/pose/dumbbell_curl_down", R.drawable.ic_exercise_pose_dumbbell_curl_down);
+        ICONS.put("/pose/dumbbell_press_up", R.drawable.ic_exercise_pose_dumbbell_press_up);
+        ICONS.put("/pose/dumbbell_press_down", R.drawable.ic_exercise_pose_dumbbell_press_down);
+        ICONS.put("/pose/goblet_squat_down", R.drawable.ic_exercise_pose_goblet_squat_down);
+        ICONS.put("/pose/goblet_squat_up", R.drawable.ic_exercise_pose_goblet_squat_up);
+        ICONS.put("/pose/plank_start", R.drawable.ic_exercise_pose_plank_start);
+        ICONS.put("/pose/plank_hold", R.drawable.ic_exercise_pose_plank_hold);
+        ICONS.put("/pose/leg_raise_up", R.drawable.ic_exercise_pose_leg_raise_up);
+        ICONS.put("/pose/leg_raise_down", R.drawable.ic_exercise_pose_leg_raise_down);
+        ICONS.put("/pose/bodyweight_squat_down", R.drawable.ic_exercise_pose_bodyweight_squat_down);
+        ICONS.put("/pose/bodyweight_squat_up", R.drawable.ic_exercise_pose_bodyweight_squat_up);
+        ICONS.put("/pose/lunge_left_down", R.drawable.ic_exercise_pose_lunge_left_down);
+        ICONS.put("/pose/lunge_left_up", R.drawable.ic_exercise_pose_lunge_left_up);
+        ICONS.put("/pose/lunge_right_down", R.drawable.ic_exercise_pose_lunge_right_down);
+        ICONS.put("/pose/lunge_right_up", R.drawable.ic_exercise_pose_lunge_right_up);
+        ICONS.put("/pose/mountain_climber_left", R.drawable.ic_exercise_pose_mountain_climber_left);
+        ICONS.put("/pose/mountain_climber_right", R.drawable.ic_exercise_pose_mountain_climber_right);
+        ICONS.put("/pose/burpee_start", R.drawable.ic_missing);
+        ICONS.put("/pose/burpee_jump", R.drawable.ic_missing);
+        ICONS.put("/pose/leg_press_down", R.drawable.ic_exercise_pose_leg_press_down);
+        ICONS.put("/pose/leg_press_up", R.drawable.ic_exercise_pose_leg_press_up);
+        ICONS.put("/pose/chest_press_down", R.drawable.ic_exercise_pose_chest_press_down);
+        ICONS.put("/pose/chest_press_up", R.drawable.ic_exercise_pose_chest_press_up);
+        ICONS.put("/pose/cable_row_start", R.drawable.ic_exercise_pose_cable_row_start);
+        ICONS.put("/pose/cable_row_end", R.drawable.ic_exercise_pose_cable_row_end);
+        ICONS.put("/pose/cable_triceps_pushdown_start", R.drawable.ic_exercise_pose_cable_triceps_pushdown_start);
+        ICONS.put("/pose/cable_triceps_pushdown_end", R.drawable.ic_exercise_pose_cable_triceps_pushdown_end);
+        ICONS.put("/pose/kettlebell_swing_back", R.drawable.ic_exercise_pose_kettlebell_swing_back);
+        ICONS.put("/pose/kettlebell_swing_forward", R.drawable.ic_exercise_pose_kettlebell_swing_forward);
+        ICONS.put("/pose/kettlebell_squat_down", R.drawable.ic_exercise_pose_kettlebell_squat_down);
+        ICONS.put("/pose/kettlebell_squat_up", R.drawable.ic_exercise_pose_kettlebell_squat_up);
+    }
 
     private final static String NAME_RESOURCE_KEY_PREFIX = "file_json_string_";
 
