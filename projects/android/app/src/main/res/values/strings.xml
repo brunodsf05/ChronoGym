@@ -253,8 +253,8 @@
     <string name="file_json_string_fullbody">Full cuerpo</string>
     <string name="file_json_string_upperbody">Parte superior</string>
     <string name="file_json_string_strength">Fuerza</string>
-    <string name="file_json_string_needs_bar">Necesita barra</string>
-    <string name="file_json_string_needs_dumbell">Necesita mancuernas</string>
+    <string name="file_json_string_needs_bar">Barra de dominadas</string>
+    <string name="file_json_string_needs_dumbell">Mancuernas</string>
     <string name="file_json_string_safe_to_do_alone">Seguro para hacer solo</string>
     <string name="file_json_string_better_acompanied">Mejor acompañado</string>
     <string name="file_json_string_core">Core</string>
@@ -265,6 +265,8 @@
     <string name="file_json_string_kettlebell">Kettlebell</string>
     <string name="file_json_string_needs_cable_machine">Necesita máquina de polea</string>
     <string name="file_json_string_needs_kettlebell">Necesita kettlebell</string>
+    <string name="file_json_string_barbell">Barra</string>
+    <string name="file_json_string_dumbbels">Mancuernas</string>
 
     <!-- JSON: Strings: Poses -->
     <string name="file_json_string_push_up">Extensión de tríceps en el suelo</string>
@@ -321,11 +323,29 @@
     <string name="file_json_string_kettlebell_swing_forward">Balanceo kettlebell adelante</string>
     <string name="file_json_string_kettlebell_squat_down">Sentadilla kettlebell abajo</string>
     <string name="file_json_string_kettlebell_squat_up">Sentadilla kettlebell arriba</string>
+    <string name="file_json_string_pull_down_bar">Colgado de la barra</string>
 
     <!-- JSON: Strings: Sets -->
     <string name="file_json_string_plank">Plancha</string>
     <string name="file_json_string_push_ups">Flexiones</string>
     <string name="file_json_string_pull_ups">Dominadas</string>
+    <string name="file_json_string_high_knees">Elevaciones de rodillas</string>
+    <string name="file_json_string_barbell_deadlift">Peso muerto</string>
+    <string name="file_json_string_barbell_squats">Sentadilla con barra</string>
+    <string name="file_json_string_barbell_bench_press">Press de banca con barra</string>
+    <string name="file_json_string_dumbell_press">Press con mancuernas</string>
+    <string name="file_json_string_goblet_squat">Sentadilla goblet</string>
+    <string name="file_json_string_dumbell_curls">Curl con mancuernas</string>
+    <string name="file_json_string_leg_raises">Elevaciones de piernas</string>
+    <string name="file_json_string_mountain_climbers">Mountain climber</string>
+    <string name="file_json_string_burpees">Burpees</string>
+    <string name="file_json_string_leg_press">Press de pierna</string>
+    <string name="file_json_string_chest_press">Press de pecho</string>
+    <string name="file_json_string_cable_triceps_pushdown">Extensión de tríceps en polea</string>
+    <string name="file_json_string_cable_rows">Remo en polea</string>
+    <string name="file_json_string_kettlebell_squats">Sentadillas con kettlebell</string>
+    <string name="file_json_string_kettlebell_swings">Balanceos con kettlebell</string>
+    <string name="file_json_string_barbell_deadlifts">Peso muerto con barra</string>
 
     <!-- Utils: File -->
     <string name="utils_file_dialog_error_file_not_found">El archivo no pudo ser encontrado</string>

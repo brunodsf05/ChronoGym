@@ -29,7 +29,7 @@ exercises = [
             "transitions": [
                 {
                     "id": "jumping_jacks",
-                    "name": "Jumping Jacks",
+                    "name": "Jumping Jack",
                     "poses": [
                         {"id": "jumping_jack_start", "time": 500},
                         {"id": "jumping_jack_end", "time": 500},
@@ -37,7 +37,7 @@ exercises = [
                 },
                 {
                     "id": "high_knees",
-                    "name": "High Knees",
+                    "name": "Elevación de rodilla",
                     "poses": [
                         {"id": "high_knees_left", "time": 500},
                         {"id": "high_knees_right", "time": 500},
@@ -50,7 +50,7 @@ exercises = [
                     "id": "jumping_jacks",
                     "type": "set_dynamic",
                     "data": {
-                        "name": "@jumping_jacks",
+                        "name": "Jumping Jacks",
                         "transition": "jumping_jacks",
                         "repetitions": 20,
                     },
@@ -89,22 +89,22 @@ exercises = [
                 {
                     "id": "pull_up_top",
                     "name": "@pull_up_top",
-                    "icon": "/pose/pull_up_top_bar",
+                    "icon": "/pose/pull_up_with_bar",
                 },
                 {
                     "id": "pull_down_bottom",
                     "name": "@pull_down_bottom",
-                    "icon": "/pose/pull_down_bar",
+                    "icon": "/pose/pull_down_with_bar",
                 },
                 {
                     "id": "push_up_top",
                     "name": "@push_up_top",
-                    "icon": "/pose/push_up_from_floor",
+                    "icon": "/pose/push_up_from_flat_floor",
                 },
                 {
                     "id": "push_down_bottom",
                     "name": "@push_down_bottom",
-                    "icon": "/pose/push_down_from_floor",
+                    "icon": "/pose/push_down_from_flat_floor",
                 },
             ],
             "transitions": [
@@ -587,82 +587,6 @@ exercises = [
         },
     },
     {
-        "name": "@flexibility_routine",
-        "icon": "/generic/stretch",
-        "tags": ["@calisthenics", "@flexibility", "@safe_to_do_alone"],
-        "exercise": {
-            "poses": [
-                {
-                    "id": "forward_fold_start",
-                    "name": "@forward_fold_start",
-                    "icon": "/pose/forward_fold_start",
-                },
-                {
-                    "id": "forward_fold_hold",
-                    "name": "@forward_fold_hold",
-                    "icon": "/pose/forward_fold_hold",
-                },
-                {
-                    "id": "cat_cow_start",
-                    "name": "@cat_cow_start",
-                    "icon": "/pose/cat_cow_start",
-                },
-                {
-                    "id": "cat_cow_end",
-                    "name": "@cat_cow_end",
-                    "icon": "/pose/cat_cow_end",
-                },
-            ],
-            "transitions": [
-                {
-                    "id": "forward_fold",
-                    "name": "Flexión hacia delante",
-                    "poses": [
-                        {"id": "forward_fold_start", "time": 1000},
-                        {"id": "forward_fold_hold", "time": 30000},
-                    ],
-                },
-                {
-                    "id": "cat_cow",
-                    "name": "Gato-vaca",
-                    "poses": [
-                        {"id": "cat_cow_start", "time": 1500},
-                        {"id": "cat_cow_end", "time": 1500},
-                    ],
-                },
-            ],
-            "sets": [
-                {"id": "rest_short", "type": "rest", "data": {"duration": 20000}},
-                {
-                    "id": "forward_fold",
-                    "type": "set_static",
-                    "data": {
-                        "name": "@forward_fold",
-                        "transition": "forward_fold",
-                        "duration": 30000,
-                    },
-                },
-                {
-                    "id": "cat_cow",
-                    "type": "set_dynamic",
-                    "data": {
-                        "name": "@cat_cow",
-                        "transition": "cat_cow",
-                        "repetitions": 10,
-                    },
-                },
-            ],
-            "queue": [
-                "forward_fold",
-                "rest_short",
-                "cat_cow",
-                "rest_short",
-                "forward_fold",
-            ],
-        },
-    },
-    # Gimnasio adicionales
-    {
         "name": "@machine_strength",
         "icon": "/generic/machine",
         "tags": ["@gym", "@machine", "@strength", "@better_acompanied"],
@@ -983,22 +907,22 @@ exercises = [
                 {
                     "id": "pull_up_top_bar",
                     "name": "@pull_up_top",
-                    "icon": "/pose/pull_up_top_bar",
+                    "icon": "/pose/pull_up_with_bar",
                 },
                 {
                     "id": "pull_down_bar",
-                    "name": "@pull_down_bar",
-                    "icon": "/pose/pull_down_bar",
+                    "name": "@pull_down",
+                    "icon": "/pose/pull_down_with_bar",
                 },
                 {
                     "id": "push_up_from_floor",
                     "name": "@push_up_top",
-                    "icon": "/pose/push_up_from_floor",
+                    "icon": "/pose/push_up_from_flat_floor",
                 },
                 {
                     "id": "push_down_from_floor",
                     "name": "@push_down_bottom",
-                    "icon": "/pose/push_down_from_floor",
+                    "icon": "/pose/push_down_from_flat_floor",
                 },
             ],
             "transitions": [
