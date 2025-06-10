@@ -48,7 +48,7 @@ public class FileDialog {
         writeCallback = callback;
         contentToSave = content;
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.setType("text/plain");
+        intent.setType("application/json");
         intent.putExtra(Intent.EXTRA_TITLE, filename);
         activity.startActivityForResult(intent, WRITE_REQUEST_CODE);
     }
