@@ -680,6 +680,11 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddSetStatic() {
+        if (exercise.repoPoses.isEmpty()) {
+            Toast.makeText(this, R.string.activity_editor_error_poses_is_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         EditorDialogBuilder.setStatic(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
             TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_static_title), exercise.getRepoPosesIds(), R.string.activity_editor_dialog_set_static_number_hint, true, (selectedItem, numberInput) -> {
                 // Search ExercisePose
@@ -708,6 +713,11 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void handleButtonAddSetDynamic() {
+        if (exercise.repoTransitions.isEmpty()) {
+            Toast.makeText(this, R.string.activity_editor_error_transitions_is_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         EditorDialogBuilder.setDynamic(this, exercise.getRepoSetsIds(), ((id, name, iconResId, number) -> {
             TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_set_dynamic_title), exercise.getRepoTransitionsIds(), R.string.activity_editor_dialog_set_dynamic_number_hint, true, (selectedItem, numberInput) -> {
                 // Search ExercisePose
