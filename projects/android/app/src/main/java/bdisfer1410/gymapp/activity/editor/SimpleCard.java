@@ -38,6 +38,10 @@ public class SimpleCard extends Identifiable implements ExerciseCard {
         this.icon = icon;
     }
 
+    public void setSubtext(@Nullable String subtext) {
+        this.subtext = subtext;
+    }
+
     //region ExerciseCard
     @Nullable
     @Override

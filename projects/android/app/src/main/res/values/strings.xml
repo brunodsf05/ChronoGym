@@ -165,6 +165,8 @@
     <string name="activity_editor_action_desc_rename_exercise">Pulsa para cambiar el nombre de la rutina</string>
     <string name="activity_editor_action_title_reiconify_exercise">Ícono</string>
     <string name="activity_editor_action_desc_reiconify_exercise">Pulsa para cambiar el icono de la rutina</string>
+    <string name="activity_editor_action_title_tags_exercise">Etiquetas</string>
+    <string name="activity_editor_action_desc_tags_exercise">Presiona una etiqueta para añadirla/quitarla de la rutina</string>
 
     <string name="activity_editor_error_invalid_intent">El editor no pudo abrir el entrenamiento</string>
     <string name="activity_editor_error_invalid_section">No estás en una sección válida</string>

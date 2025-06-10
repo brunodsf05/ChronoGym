@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.activity.editor.CardPage;
@@ -33,6 +34,7 @@ import bdisfer1410.gymapp.activity.editor.EditorDialogBuilder;
 import bdisfer1410.gymapp.activity.editor.PagerEditorCardsAdapter;
 import bdisfer1410.gymapp.activity.editor.SimpleCard;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
+import bdisfer1410.gymapp.exercise.data.Tags;
 import bdisfer1410.gymapp.exercise.models.Exercise;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExercisePose;
 import bdisfer1410.gymapp.exercise.models.routine.movement.ExerciseTransition;
@@ -46,6 +48,7 @@ import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.state.TimerAnimationQueue;
 import bdisfer1410.gymapp.util.Result;
 import bdisfer1410.gymapp.util.android.IconPickerDialog;
+import bdisfer1410.gymapp.util.android.TagListFragment;
 import bdisfer1410.gymapp.util.android.TextDropdownDialog;
 import bdisfer1410.gymapp.util.android.TextInputDialog;
 import bdisfer1410.gymapp.util.java.Identifiable;
@@ -156,7 +159,8 @@ public class EditorActivity extends AppCompatActivity {
         // Exercise
         pageExerciseInfo = new CardPage(getString(R.string.activity_editor_page_exercise_info), List.of(
                 new SimpleCard("name", R.drawable.ic_editor_name, "???", getString(R.string.activity_editor_action_desc_rename_exercise)),
-                new SimpleCard("icon", R.drawable.ic_missing, getString(R.string.activity_editor_action_title_reiconify_exercise), getString(R.string.activity_editor_action_desc_reiconify_exercise))
+                new SimpleCard("icon", R.drawable.ic_missing, getString(R.string.activity_editor_action_title_reiconify_exercise), getString(R.string.activity_editor_action_desc_reiconify_exercise)),
+                new SimpleCard("tags", R.drawable.ic_editor_tags, getString(R.string.activity_editor_action_title_tags_exercise), exercise.getCardTags())
         ));
         pageExerciseQueue = new CardPage(getString(R.string.activity_editor_page_exercise_queue), List.of(), true);
 
@@ -294,6 +298,47 @@ public class EditorActivity extends AppCompatActivity {
             case 2: handleButtonAddSet(); break;
         }
     }
+
+    /**
+     * Shows a dialog to select a string and add it as a tag.
+     */
+    private void handleTagAdd() {
+        // Translate
+        Map<String, String> allOptionsMap = Tags.data.entrySet().stream()
+                .filter(entry -> entry.getValue() != null)
+                .collect(Collectors.toMap(
+                        entry -> getString(entry.getValue()),
+                        Map.Entry::getKey
+                ));
+
+        // Add ticks
+        Map<String, String> tickedOptionsMap = allOptionsMap.entrySet().stream()
+                .filter(entry -> entry.getValue() != null)
+                .collect(Collectors.toMap(
+                        entry -> {
+                            boolean exerciseHasTag = exercise.getTags().contains(entry.getKey());
+                            return (exerciseHasTag ? "✅" : "❌") + " " + entry.getKey();
+                        },
+                        Map.Entry::getKey
+                ));
+
+        List<String> tickedOptions = new ArrayList<>(tickedOptionsMap.keySet());
+
+        TextDropdownDialog.show(this, getString(R.string.activity_editor_action_desc_tags_exercise), tickedOptions, 0, false, (selectedItem, numberInput) -> {
+            boolean isAdding = selectedItem.charAt(0) == '❌';
+            String originalTranslation = selectedItem.substring(2);
+
+            if (isAdding) {
+                exercise.getTags().add(originalTranslation);
+            }
+            else {
+                exercise.getTags().remove(originalTranslation);
+            }
+
+            updateCardExerciseInformation();
+            handleTagAdd();
+        });
+    }
     //endregion
 
     //region Handlers: ExerciseCard
@@ -352,6 +397,10 @@ public class EditorActivity extends AppCompatActivity {
                     exercise.setIcon(iconResId);
                     updateCardExerciseInformation();
                 });
+                break;
+
+            case "tags":
+                handleTagAdd();
                 break;
 
             default:
@@ -754,6 +803,7 @@ public class EditorActivity extends AppCompatActivity {
     private void updateCardExerciseInformation() {
         ((SimpleCard)pageExerciseInfo.getCards().get(0)).setText(exercise.getName());
         ((SimpleCard)pageExerciseInfo.getCards().get(1)).setIcon(exercise.getIcon());
+        ((SimpleCard)pageExerciseInfo.getCards().get(2)).setSubtext(exercise.getCardTags());
         pagerAdapter.notifyDataSetChanged();
     }
     //endregion
