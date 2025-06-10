@@ -340,7 +340,7 @@ public class EditorActivity extends AppCompatActivity {
                 break;
 
             case "name":
-                TextInputDialog.show(this, getString(R.string.activity_editor_action_title_rename_exercise), exercise.getName(), text -> {
+                TextInputDialog.show(this, getString(R.string.activity_editor_action_title_rename_exercise), getString(R.string.activity_editor_action_hint_rename_exercise), exercise.getName(), text -> {
                     exercise.setName(text);
                     updateCardExerciseInformation();
                 });
