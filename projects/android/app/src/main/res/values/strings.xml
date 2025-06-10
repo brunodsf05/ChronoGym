@@ -271,7 +271,7 @@
     <string name="file_json_string_needs_cable_machine">Necesita máquina de polea</string>
     <string name="file_json_string_needs_kettlebell">Necesita kettlebell</string>
     <string name="file_json_string_barbell">Barra</string>
-    <string name="file_json_string_dumbbels">Mancuernas</string>
+    <string name="file_json_string_dumbbells">Mancuernas</string>
 
     <!-- JSON: Strings: Poses -->
     <string name="file_json_string_push_up">Extensión de tríceps en el suelo</string>
