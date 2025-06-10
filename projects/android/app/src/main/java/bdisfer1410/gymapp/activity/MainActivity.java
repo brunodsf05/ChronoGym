@@ -178,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        openFabMenu(true);
+
         String[] options = {
                 getString(R.string.activity_main_menu_edit),
                 getString(R.string.activity_main_menu_export),
