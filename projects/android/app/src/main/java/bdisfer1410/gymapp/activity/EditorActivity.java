@@ -257,6 +257,11 @@ public class EditorActivity extends AppCompatActivity {
     @SuppressLint("NotifyDataSetChanged")
     private void handleButtonAddClick() {
         if (openedSection == Sections.EXERCISE) {
+            if (exercise.repoSets.isEmpty()) {
+                Toast.makeText(this, R.string.activity_editor_error_sets_is_empty, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             TextDropdownDialog.show(this, getString(R.string.activity_editor_dialog_queue), exercise.getRepoSetsIds(), 0, false, (selectedItem, numberInput) -> {
                 // Load transition list
                 Optional<TimerAnimation> searchedTimerAnimation = exercise.repoSets.stream()
