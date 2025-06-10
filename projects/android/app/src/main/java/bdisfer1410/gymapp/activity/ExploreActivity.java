@@ -144,6 +144,7 @@ public class ExploreActivity extends AppCompatActivity {
             fragmentTagList.addTranslatedTag(selectedItem, allOptionsMap.get(selectedItem));
             buttonSearch.setText(R.string.activity_explore_clickable_search_filtered);
             if (allOptionsSize == 1) fragmentTagList.hideAddButton();
+            addTag(fragmentTagList);
         });
     }
     //endregion
