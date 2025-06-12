@@ -142,7 +142,7 @@ public class ExerciseActivity extends AppCompatActivity {
             public void onAnimationEnd(TimerAnimation animation) {
                 Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
                 updatePauseButtonStyle();
-                buttonToggleReproduction.setEnabled(true); // TODO: Fix pausing logic & math
+                // TODO: Fix pausing logic & math
             }
 
             @Override
@@ -162,7 +162,7 @@ public class ExerciseActivity extends AppCompatActivity {
             }
             else {
                 player.play();
-                buttonToggleReproduction.setEnabled(false); // TODO: Fix pausing logic & math
+                // TODO: Fix pausing logic & math
             }
 
             isPlaying = !isPlaying;
@@ -175,7 +175,6 @@ public class ExerciseActivity extends AppCompatActivity {
             // Unpause
             isPlaying = true;
             updatePauseButtonStyle();
-            buttonToggleReproduction.setEnabled(true);
 
             // Skip to previous animation
             TimerAnimation oldAnimation = state.animationCurrent;
@@ -202,7 +201,7 @@ public class ExerciseActivity extends AppCompatActivity {
         buttonForwardReproduction.setOnClickListener(v -> {
             // Unpause
             isPlaying = true;
-            buttonToggleReproduction.setEnabled(true);
+            updatePauseButtonStyle();
 
             // Play next
             player.playNext();
@@ -216,23 +215,17 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // TODO: Fix pausing logic & math
-                if (buttonToggleReproduction.isEnabled()) {
+                if (isPlaying) {
                     player.stop();
                     isPlaying = false;
+                    updatePauseButtonStyle();
                 }
 
                 new MaterialAlertDialogBuilder(ExerciseActivity.this)
                         .setTitle(R.string.activity_exercise_prompt_title_exit)
                         .setMessage(R.string.activity_exercise_prompt_message_exit)
                         .setPositiveButton(R.string.activity_exercise_prompt_action_exit_accept, (dialog, which) -> finish())
-                        .setNegativeButton(R.string.activity_exercise_prompt_action_exit_deny, (dialog, which) -> {
-                            // TODO: Fix pausing logic & math
-                            if (buttonToggleReproduction.isEnabled()) {
-                                player.play();
-                                isPlaying = true;
-                                buttonToggleReproduction.setEnabled(false);
-                            }
-                        })
+                        .setNegativeButton(R.string.activity_exercise_prompt_action_exit_deny, null)
                         .show();
             }
         });
