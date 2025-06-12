@@ -42,23 +42,19 @@ public class TimerAnimationPlayer {
 
     //region LifeCycle
     public void stop() {
-        long msElapsed;
-
         if (loopUpdate != null && loopUpdate.isRunning()) {
-            msElapsed = loopUpdate.getCurrentPlayTime();
-            state.msElapsedUpdateLoop = (int)msElapsed;
+            long msElapsed = loopUpdate.getCurrentPlayTime();
+            state.msElapsedUpdateLoop += (int)msElapsed;
             loopUpdate.cancel();
             loopUpdate = null;
 
-            Log.d(LOG_TAG_LOOP_UPDATE, "Stopped.");
+            Log.d(LOG_TAG_LOOP_UPDATE, String.format("Stopped. msElapsed = %d", msElapsed));
         }
 
         if (loopTick != null) {
-            msElapsed = Math.max(0, System.currentTimeMillis() - (loopTickNextTime - state.msElapsedTickLoop));
-            state.msElapsedTickLoop = (int)(msElapsed);
+            state.msElapsedTickLoop = (int)Math.max(0, System.currentTimeMillis() - (loopTickNextTime - state.msElapsedTickLoop));
             loopTick.removeCallbacksAndMessages(null);
             loopTick = null;
-            Log.d(LOG_TAG_LOOP_TICK, "Stopped.");
         }
     }
     //endregion
