@@ -216,7 +216,13 @@ public class ExerciseActivity extends AppCompatActivity {
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                buttonToggleReproduction.setVisibility(View.GONE);
+                List.of(
+                        buttonBackwardReproduction,
+                        buttonToggleReproduction,
+                        buttonForwardReproduction
+                ).forEach(
+                        button -> button.setVisibility(View.GONE)
+                );
             }
 
             @Override
