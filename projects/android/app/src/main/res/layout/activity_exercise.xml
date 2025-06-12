@@ -33,6 +33,30 @@
         app:layout_constraintStart_toStartOf="@+id/fragmentContainer"
         app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />
 
+    <Button
+        android:id="@+id/buttonBackwardReproduction"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/activity_exercise_button_prev"
+        app:icon="@drawable/ic_ui_skip_previous"
+        app:layout_constraintEnd_toStartOf="@+id/buttonToggleReproduction"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />
+
+    <Button
+        android:id="@+id/buttonForwardReproduction"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/activity_exercise_button_next"
+        app:icon="@drawable/ic_ui_skip_next"
+        app:layout_constraintStart_toEndOf="@+id/buttonToggleReproduction"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />
+
     <TextView
         android:id="@+id/textTitleFinished"
         android:layout_width="wrap_content"

@@ -84,6 +84,8 @@
     <string name="activity_exercise_prompt_action_exit_deny">No</string>
 
     <string name="activity_exercise_button_pause">Pausa</string>
+    <string name="activity_exercise_button_prev">Retrasar</string>
+    <string name="activity_exercise_button_next">Adelantar</string>
     <string name="activity_exercise_button_return">Volver</string>
 
     <string name="activity_exercise_error_invalid_intent">El entrenamiento no pudo ser cargado</string>
