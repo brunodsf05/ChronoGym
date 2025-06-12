@@ -36,7 +36,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private TimerAnimationPlayerState state;
     //endregion
     //region UI
-    private Button buttonToggleReproduction, buttonReturn;
+    private Button buttonToggleReproduction, buttonBackwardReproduction, buttonForwardReproduction, buttonReturn;
     //endregion
     //region State
     private boolean isPlaying = true;
@@ -164,6 +164,12 @@ public class ExerciseActivity extends AppCompatActivity {
 
             isPlaying = !isPlaying;
         });
+
+        buttonBackwardReproduction = findViewById(R.id.buttonBackwardReproduction);
+        buttonBackwardReproduction.setOnClickListener(v -> player.playPrev());
+
+        buttonForwardReproduction = findViewById(R.id.buttonForwardReproduction);
+        buttonForwardReproduction.setOnClickListener(v -> player.playNext());
 
         buttonReturn = findViewById(R.id.buttonReturn);
         buttonReturn.setOnClickListener(v -> {

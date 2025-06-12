@@ -133,14 +133,17 @@ public class TimerAnimationPlayer {
             playNext();
     }
 
-    private void playNext() {
+    /**
+     * @return If the animation is played or not.
+     */
+    public boolean playNext() {
         // Decide if we play the next animation or execute the finalization
         boolean animationQueueIsEmpty = !state.hasNext();
 
         if (animationQueueIsEmpty) {
             Log.d(LOG_TAG_QUEUE, "There are no more animations left to play.");
             listener.onQueueEnd();
-            return;
+            return false;
         }
 
         // Play next
@@ -149,6 +152,15 @@ public class TimerAnimationPlayer {
         listener.onAnimationEnd(state.animationCurrent);
         state.next();
         play();
+        return true;
+    }
+
+    /**
+     * @return If the animation is played or not.
+     */
+    public boolean playPrev() {
+        Log.d(LOG_TAG_QUEUE, "There are no more animations left to play.");
+        return false;
     }
     //endregion
 
