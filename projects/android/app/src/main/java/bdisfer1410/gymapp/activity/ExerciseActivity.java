@@ -170,6 +170,7 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         buttonBackwardReproduction = findViewById(R.id.buttonBackwardReproduction);
+        buttonBackwardReproduction.setEnabled(false);
         buttonBackwardReproduction.setOnClickListener(v -> {
             // Unpause
             isPlaying = true;
@@ -192,6 +193,9 @@ public class ExerciseActivity extends AppCompatActivity {
             if (newAnimationCounter == null) return;
             newAnimationCounter.value--;
             displayCounter(newAnimationCounter);
+
+            // Toggle usability of skip to prev button for better L~O~O~K~S
+            buttonBackwardReproduction.setEnabled(state.hasPrev());
         });
 
         buttonForwardReproduction = findViewById(R.id.buttonForwardReproduction);
@@ -202,6 +206,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
             // Play next
             player.playNext();
+            buttonBackwardReproduction.setEnabled(true);
         });
 
         buttonReturn = findViewById(R.id.buttonReturn);
