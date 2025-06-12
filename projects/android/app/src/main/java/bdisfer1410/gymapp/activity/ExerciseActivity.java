@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -234,8 +235,11 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void showFinalDialog() {
+        TextView textTitleFinished = findViewById(R.id.textTitleFinished);
+        Voice.get().say(textTitleFinished.getText().toString());
+
         View timerFragmentContainer = findViewById(R.id.fragmentContainer);
-        List<View> invisibleText = List.of(findViewById(R.id.textTitleFinished), findViewById(R.id.textMessageFinished));
+        List<View> invisibleText = List.of(textTitleFinished, findViewById(R.id.textMessageFinished));
 
         Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         Animation fadeIn1 = AnimationUtils.loadAnimation(this, R.anim.fade_in);
