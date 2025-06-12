@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class IconPickerDialog {
-    private static final Integer COLUMNS = 6;
+    private static final Integer COLUMNS = 4;
 
     public interface IconPickCallback {
         void onIconPicked(String key, int iconResId);
