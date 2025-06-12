@@ -132,9 +132,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 if (animationCounter == null) return;
 
                 animationCounter.value += 1;
-                timer.setSetCounterText(
-                        String.valueOf(state.animationQueue.counter.get(animation))
-                );
+                displayCounter(state.animationQueue.counter.get(animation));
             }
 
             @Override
@@ -166,7 +164,12 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         buttonBackwardReproduction = findViewById(R.id.buttonBackwardReproduction);
-        buttonBackwardReproduction.setOnClickListener(v -> player.playPrev());
+        buttonBackwardReproduction.setOnClickListener(v -> {
+            boolean hasSkippedToPrev = player.playPrev();
+            if (!hasSkippedToPrev) return;
+
+
+        });
 
         buttonForwardReproduction = findViewById(R.id.buttonForwardReproduction);
         buttonForwardReproduction.setOnClickListener(v -> player.playNext());
@@ -254,5 +257,9 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         timerFragmentContainer.startAnimation(fadeOut);
+    }
+
+    private void displayCounter(Counter counter) {
+        timer.setSetCounterText(String.valueOf(counter));
     }
 }
