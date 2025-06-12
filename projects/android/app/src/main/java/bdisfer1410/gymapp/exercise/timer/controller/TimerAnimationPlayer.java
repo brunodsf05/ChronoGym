@@ -26,12 +26,12 @@ public class TimerAnimationPlayer {
     //region State
     private final TimerFragment timer;
     private TimerAnimationPlayerListener listener;
-    private TimerAnimationPlayerState state;
+    private final TimerAnimationPlayerState state;
     //endregion
     //region Loops
     private ValueAnimator loopUpdate;
     private Handler loopTick;
-    private long loopTickNextTime = 0;
+    private long loopTickStartTime = 0;
     //endregion
     //endregion
 
@@ -52,7 +52,8 @@ public class TimerAnimationPlayer {
         }
 
         if (loopTick != null) {
-            state.msElapsedTickLoop = (int)Math.max(0, System.currentTimeMillis() - (loopTickNextTime - state.msElapsedTickLoop));
+            long loopTickElapsedTime = System.currentTimeMillis() - loopTickStartTime;
+            state.msDurationTickLoop = (int)Math.max(0, state.msDurationTickLoop - loopTickElapsedTime);
             loopTick.removeCallbacksAndMessages(null);
             loopTick = null;
         }
@@ -65,6 +66,7 @@ public class TimerAnimationPlayer {
         if (state.hasAnimationStarted) {
             Log.d(LOG_TAG_QUEUE, "Starting a new animation...");
             state.msDurationUpdateLoop = state.animationCurrent.onStart(timer);
+            state.msDurationTickLoop = 0;
             state.msElapsedUpdateLoop = 0;
             listener.onAnimationStart(state.animationCurrent);
             state.hasUpdateLoopFinished = false;
@@ -105,12 +107,12 @@ public class TimerAnimationPlayer {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                int delayMs = state.animationCurrent.onTick(timer);
+                state.msDurationTickLoop = state.animationCurrent.onTick(timer);
+                loopTickStartTime = System.currentTimeMillis();
 
-                if (delayMs > 0) {
-                    loopTickNextTime = System.currentTimeMillis() + delayMs;
-                    loopTick.postDelayed(this, delayMs);
-                    Log.d(LOG_TAG_LOOP_TICK, String.format("animation.onTick() was called! It will be called again in %dms...", delayMs));
+                if (state.msDurationTickLoop > 0) {
+                    loopTick.postDelayed(this, state.msDurationTickLoop);
+                    Log.d(LOG_TAG_LOOP_TICK, String.format("animation.onTick() was called! It will be called again in %dms...", state.msDurationTickLoop));
                 }
                 else {
                     Log.d(LOG_TAG_LOOP_TICK, "animation.onTick() was called! There will be no more calls.");
@@ -119,7 +121,8 @@ public class TimerAnimationPlayer {
                 }
             }
         };
-        loopTick.post(runnable);
+        Log.d(LOG_TAG_LOOP_TICK, String.format("Time until starting again loop tick %d", state.msDurationTickLoop));
+        loopTick.postDelayed(runnable, state.msDurationTickLoop);
     }
 
     private void tryToStartNextAnimation() {

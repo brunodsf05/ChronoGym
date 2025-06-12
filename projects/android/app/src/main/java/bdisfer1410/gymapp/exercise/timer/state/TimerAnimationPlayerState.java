@@ -21,6 +21,7 @@ public class TimerAnimationPlayerState extends ViewModel implements Iterator<Tim
     public boolean hasTickLoopFinished = false;
     public boolean hasAnimationStarted = true;
     public int msDurationUpdateLoop = 0;
+    public int msDurationTickLoop = 0;
     public int msElapsedUpdateLoop = 0;
     public int msElapsedTickLoop = 0;
 
@@ -44,6 +45,7 @@ public class TimerAnimationPlayerState extends ViewModel implements Iterator<Tim
         hasTickLoopFinished = false;
         hasAnimationStarted = true;
         msDurationUpdateLoop = 0;
+        msDurationTickLoop = 0;
         msElapsedUpdateLoop = 0;
         msElapsedTickLoop = 0;
 
