@@ -172,6 +172,12 @@ public class TimerAnimationPlayer {
         play();
         return true;
     }
+
+    public void playCurrentFromStart() {
+        stop();
+        state.hasAnimationStarted = true;
+        play();
+    }
     //endregion
 
     //region Setters

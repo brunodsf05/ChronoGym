@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,6 +43,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private MaterialButton buttonToggleReproduction, buttonBackwardReproduction, buttonForwardReproduction, buttonReturn;
     //endregion
     //region State
+    private TimerFragment.TimerFragmentSerializable timerPrevData = null;
     private boolean isPlaying = true;
     //endregion
 
@@ -49,11 +51,13 @@ public class ExerciseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("ExerciseActivity.lifecycle", "onCreate");
         setContentView(R.layout.activity_exercise);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         // State
         state = new ViewModelProvider(this).get(TimerAnimationPlayerState.class);
+        timerPrevData = null;
 
         if (savedInstanceState == null) {
             Object obj = getIntent().getSerializableExtra("queue");
@@ -67,22 +71,35 @@ public class ExerciseActivity extends AppCompatActivity {
 
             state.animationQueue = (TimerAnimationQueue) obj;
         }
+        else {
+            timerPrevData = (TimerFragment.TimerFragmentSerializable)(savedInstanceState.get("timer_data"));
+            isPlaying = savedInstanceState.getBoolean("is_playing");
+        }
 
         initializeGUI();
 
         state.initialize();
-        initializeTimer();
+        initializeTimer(timerPrevData);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("ExerciseActivity.lifecycle", "onStart");
 
+        // Avoid crashing
         if (player == null) {
             Log.e("ExerciseActivity", "onStart() didn't receive nonNull player, exiting...");
             return;
         }
 
+        // Recover previous timer data
+        if (timerPrevData != null) {
+            Log.e("ExerciseActivity", "onStart() didn't receive nonNull player, exiting...");
+            timer.setDisplayedFromSerializable(timerPrevData);
+        }
+
+        // Play current set
         Log.d("ExerciseActivity", "TimerFragment is ready to be used");
         Log.d("ExerciseActivity", "Starting a TimerAnimationQueue");
         Log.d("TimerAnimationQueue", String.format(
@@ -95,19 +112,29 @@ public class ExerciseActivity extends AppCompatActivity {
                 ))
         );
 
-        player.play();
+        if (isPlaying) player.play();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
+        Log.d("ExerciseActivity.lifecycle", "onStop");
         if (player != null)
             player.stop();
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("ExerciseActivity.lifecycle", "onSaveInstanceState");
+        TimerFragment.TimerFragmentSerializable data = timer.toSerializable();
+        outState.putSerializable("timer_data", data);
+        outState.putBoolean("is_playing", isPlaying);
+    }
+
     //endregion
 
-    private void initializeTimer() {
+    private void initializeTimer(TimerFragment.TimerFragmentSerializable timerPrevData) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
 
         // Add timer fragment
@@ -142,7 +169,6 @@ public class ExerciseActivity extends AppCompatActivity {
             public void onAnimationEnd(TimerAnimation animation) {
                 Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
                 updatePauseButtonStyle();
-                // TODO: Fix pausing logic & math
             }
 
             @Override
@@ -157,13 +183,8 @@ public class ExerciseActivity extends AppCompatActivity {
     private void initializeGUI() {
         buttonToggleReproduction = findViewById(R.id.buttonToggleReproduction);
         buttonToggleReproduction.setOnClickListener(v -> {
-            if (isPlaying) {
-                player.stop();
-            }
-            else {
-                player.play();
-                // TODO: Fix pausing logic & math
-            }
+            if (isPlaying) player.stop();
+            else player.play();
 
             isPlaying = !isPlaying;
             updatePauseButtonStyle();
@@ -211,10 +232,11 @@ public class ExerciseActivity extends AppCompatActivity {
         buttonReturn = findViewById(R.id.buttonReturn);
         buttonReturn.setOnClickListener(v -> finish());
 
+        updatePauseButtonStyle();
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // TODO: Fix pausing logic & math
                 if (isPlaying) {
                     player.stop();
                     isPlaying = false;

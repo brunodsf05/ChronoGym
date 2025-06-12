@@ -1,6 +1,5 @@
 package bdisfer1410.gymapp.exercise.timer.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +14,15 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
+import java.io.Serializable;
+
 import bdisfer1410.gymapp.R;
 
 public class TimerFragment extends Fragment {
     //region Views
     private CircularProgressIndicator exerciseProgress;
     private ImageView exerciseIcon;
+    private int exerciseIconResId = 0;
     private TextView exerciseCounter, exerciseName, setCounter;
     //endregion
 
@@ -47,12 +49,10 @@ public class TimerFragment extends Fragment {
 
         View containerView = view.findViewById(R.id.timerFragmentContainer);
 
-        // Adjust the size dynamically when this view is ready
         containerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 containerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
                 int size = Math.min(containerView.getWidth(), containerView.getHeight());
                 exerciseProgress.setIndicatorSize(size);
             }
@@ -60,7 +60,7 @@ public class TimerFragment extends Fragment {
     }
     //endregion
 
-    //region Visual API: Getters
+    //region Visual API: Setters
     public void setExerciseProgressMax(int max) {
         exerciseProgress.setMax(max);
     }
@@ -70,6 +70,7 @@ public class TimerFragment extends Fragment {
     }
 
     public void setExerciseIconImage(int resId) {
+        exerciseIconResId = resId;
         exerciseIcon.setImageResource(resId);
     }
 
@@ -101,6 +102,38 @@ public class TimerFragment extends Fragment {
     //region Visual API: Getters
     public String getExerciseNameText() {
         return this.exerciseName.getText().toString();
+    }
+    //endregion
+
+    //region Serializable
+    public TimerFragmentSerializable toSerializable() {
+        TimerFragmentSerializable data = new TimerFragmentSerializable();
+        data.exerciseProgressValue = exerciseProgress.getProgress();
+        data.exerciseProgressMax = exerciseProgress.getMax();
+        data.exerciseCounterText = exerciseCounter.getText().toString();
+        data.exerciseNameText = exerciseName.getText().toString();
+        data.setCounterText = setCounter.getText().toString();
+        data.exerciseIconResId = exerciseIconResId;
+        return data;
+    }
+
+    public void setDisplayedFromSerializable(TimerFragmentSerializable data) {
+        if (data == null) return;
+        exerciseProgress.setProgress(data.exerciseProgressValue);
+        exerciseProgress.setMax(data.exerciseProgressMax);
+        exerciseCounter.setText(data.exerciseCounterText);
+        exerciseName.setText(data.exerciseNameText);
+        setCounter.setText(data.setCounterText);
+        setExerciseIconImage(data.exerciseIconResId);
+    }
+
+    public static class TimerFragmentSerializable implements Serializable {
+        public int exerciseProgressValue;
+        public int exerciseProgressMax;
+        public int exerciseIconResId;
+        public String exerciseCounterText;
+        public String exerciseNameText;
+        public String setCounterText;
     }
     //endregion
 }
