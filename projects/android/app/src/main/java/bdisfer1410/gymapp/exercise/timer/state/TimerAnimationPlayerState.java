@@ -79,4 +79,19 @@ public class TimerAnimationPlayerState extends ViewModel implements Iterator<Tim
         return animationCurrent;
     }
     //endregion
+
+    //region Reverse iterator
+    public boolean hasPrev() {
+        return animationIndex >= 1;
+    }
+
+    public TimerAnimation prev() {
+        if (!hasPrev()) return null;
+
+        animationIndex--;
+        animationCurrent = animationQueue.list.get(animationIndex);
+        return animationCurrent;
+    }
+    //endregion
+
 }

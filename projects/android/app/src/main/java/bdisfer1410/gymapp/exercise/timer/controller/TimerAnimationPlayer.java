@@ -147,6 +147,7 @@ public class TimerAnimationPlayer {
         }
 
         // Play next
+        stop();
         state.hasAnimationStarted = true;
         state.animationCurrent.onEnd(timer);
         listener.onAnimationEnd(state.animationCurrent);
@@ -159,8 +160,18 @@ public class TimerAnimationPlayer {
      * @return If the animation is played or not.
      */
     public boolean playPrev() {
-        Log.d(LOG_TAG_QUEUE, "There are no more animations left to play.");
-        return false;
+        // Decide if we play the prev animation or avoid null pointer
+        if (!state.hasPrev()) {
+            Log.d(LOG_TAG_QUEUE, "There are no more animations left to play.");
+            return false;
+        }
+
+        stop();
+        state.hasAnimationStarted = true;
+        listener.onAnimationEnd(state.animationCurrent);
+        state.prev();
+        play();
+        return true;
     }
     //endregion
 
