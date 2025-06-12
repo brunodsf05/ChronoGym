@@ -198,9 +198,7 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         buttonReturn = findViewById(R.id.buttonReturn);
-        buttonReturn.setOnClickListener(v -> {
-            finish();
-        });
+        buttonReturn.setOnClickListener(v -> finish());
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -214,9 +212,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 new MaterialAlertDialogBuilder(ExerciseActivity.this)
                         .setTitle(R.string.activity_exercise_prompt_title_exit)
                         .setMessage(R.string.activity_exercise_prompt_message_exit)
-                        .setPositiveButton(R.string.activity_exercise_prompt_action_exit_accept, (dialog, which) -> {
-                            finish();
-                         })
+                        .setPositiveButton(R.string.activity_exercise_prompt_action_exit_accept, (dialog, which) -> finish())
                         .setNegativeButton(R.string.activity_exercise_prompt_action_exit_deny, (dialog, which) -> {
                             // TODO: Fix pausing logic & math
                             if (buttonToggleReproduction.isEnabled()) {
