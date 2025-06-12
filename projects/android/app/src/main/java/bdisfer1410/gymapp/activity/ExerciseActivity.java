@@ -1,5 +1,6 @@
 package bdisfer1410.gymapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private TimerAnimationPlayerState state;
     //endregion
     //region UI
-    private Button buttonToggleReproduction, buttonBackwardReproduction, buttonForwardReproduction, buttonReturn;
+    private MaterialButton buttonToggleReproduction, buttonBackwardReproduction, buttonForwardReproduction, buttonReturn;
     //endregion
     //region State
     private boolean isPlaying = true;
@@ -138,12 +140,14 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(TimerAnimation animation) {
                 Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
+                updatePauseButtonStyle();
                 buttonToggleReproduction.setEnabled(true); // TODO: Fix pausing logic & math
             }
 
             @Override
             public void onQueueEnd() {
                 Log.d("TimerAnimationPlayerListener", "onQueueEnd() was called!");
+                player.stop();
                 showFinalDialog();
             }
         });
@@ -161,12 +165,14 @@ public class ExerciseActivity extends AppCompatActivity {
             }
 
             isPlaying = !isPlaying;
+            updatePauseButtonStyle();
         });
 
         buttonBackwardReproduction = findViewById(R.id.buttonBackwardReproduction);
         buttonBackwardReproduction.setOnClickListener(v -> {
             // Unpause
             isPlaying = true;
+            updatePauseButtonStyle();
             buttonToggleReproduction.setEnabled(true);
 
             // Skip to previous animation
@@ -278,7 +284,16 @@ public class ExerciseActivity extends AppCompatActivity {
         timerFragmentContainer.startAnimation(fadeOut);
     }
 
+    //region UI
     private void displayCounter(Counter counter) {
         timer.setSetCounterText(String.valueOf(counter));
     }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void updatePauseButtonStyle() {
+        buttonToggleReproduction.setIcon(
+                getDrawable(isPlaying ? R.drawable.ic_ui_pause : R.drawable.ic_ui_play)
+        );
+    }
+    //endregion
 }
