@@ -165,10 +165,22 @@ public class ExerciseActivity extends AppCompatActivity {
 
         buttonBackwardReproduction = findViewById(R.id.buttonBackwardReproduction);
         buttonBackwardReproduction.setOnClickListener(v -> {
+            // Skip to previous animation
+            TimerAnimation oldAnimation = state.animationCurrent;
             boolean hasSkippedToPrev = player.playPrev();
             if (!hasSkippedToPrev) return;
 
+            // Get the new animation to play
+            TimerAnimation newAnimation = state.animationCurrent;
 
+            // Decrement counters for consistency
+            Counter oldAnimationCounter = state.animationQueue.counter.get(oldAnimation);
+            if (oldAnimationCounter != null) oldAnimationCounter.value--;
+
+            Counter newAnimationCounter = state.animationQueue.counter.get(newAnimation);
+            if (newAnimationCounter == null) return;
+            newAnimationCounter.value--;
+            displayCounter(newAnimationCounter);
         });
 
         buttonForwardReproduction = findViewById(R.id.buttonForwardReproduction);
