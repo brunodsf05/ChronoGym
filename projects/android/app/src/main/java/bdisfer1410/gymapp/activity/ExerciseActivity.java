@@ -165,6 +165,10 @@ public class ExerciseActivity extends AppCompatActivity {
 
         buttonBackwardReproduction = findViewById(R.id.buttonBackwardReproduction);
         buttonBackwardReproduction.setOnClickListener(v -> {
+            // Unpause
+            isPlaying = true;
+            buttonToggleReproduction.setEnabled(true);
+
             // Skip to previous animation
             TimerAnimation oldAnimation = state.animationCurrent;
             boolean hasSkippedToPrev = player.playPrev();
@@ -184,7 +188,14 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
         buttonForwardReproduction = findViewById(R.id.buttonForwardReproduction);
-        buttonForwardReproduction.setOnClickListener(v -> player.playNext());
+        buttonForwardReproduction.setOnClickListener(v -> {
+            // Unpause
+            isPlaying = true;
+            buttonToggleReproduction.setEnabled(true);
+
+            // Play next
+            player.playNext();
+        });
 
         buttonReturn = findViewById(R.id.buttonReturn);
         buttonReturn.setOnClickListener(v -> {
