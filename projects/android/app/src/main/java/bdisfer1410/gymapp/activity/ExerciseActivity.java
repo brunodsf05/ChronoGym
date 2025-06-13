@@ -169,6 +169,7 @@ public class ExerciseActivity extends AppCompatActivity {
             public void onAnimationEnd(TimerAnimation animation) {
                 Log.d("TimerAnimationPlayerListener", "onAnimationEnd() was called!");
                 updatePauseButtonStyle();
+                buttonBackwardReproduction.setEnabled(true);
             }
 
             @Override
