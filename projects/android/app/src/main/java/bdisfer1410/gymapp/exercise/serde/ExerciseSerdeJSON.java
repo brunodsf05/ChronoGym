@@ -88,10 +88,6 @@ public class ExerciseSerdeJSON implements ExerciseSerde {
         ICONS.put("/pose/cable_row_end", R.drawable.ic_exercise_pose_cable_row_end);
         ICONS.put("/pose/cable_triceps_pushdown_start", R.drawable.ic_exercise_pose_cable_triceps_pushdown_start);
         ICONS.put("/pose/cable_triceps_pushdown_end", R.drawable.ic_exercise_pose_cable_triceps_pushdown_end);
-        ICONS.put("/pose/kettlebell_swing_back", R.drawable.ic_exercise_pose_kettlebell_swing_back);
-        ICONS.put("/pose/kettlebell_swing_forward", R.drawable.ic_exercise_pose_kettlebell_swing_forward);
-        ICONS.put("/pose/kettlebell_squat_down", R.drawable.ic_exercise_pose_kettlebell_squat_down);
-        ICONS.put("/pose/kettlebell_squat_up", R.drawable.ic_exercise_pose_kettlebell_squat_up);
     }
 
     private final static String NAME_RESOURCE_KEY_PREFIX = "file_json_string_";

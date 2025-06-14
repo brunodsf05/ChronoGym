@@ -21,8 +21,6 @@ public class Tags {
             Map.entry("flexibility", R.string.file_json_string_flexibility),
             Map.entry("machine", R.string.file_json_string_machine),
             Map.entry("cable", R.string.file_json_string_cable),
-            Map.entry("kettlebell", R.string.file_json_string_kettlebell),
             Map.entry("needs_cable_machine", R.string.file_json_string_needs_cable_machine),
-            Map.entry("needs_kettlebell", R.string.file_json_string_needs_kettlebell)
     );
 }
