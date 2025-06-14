@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                         .setMessage(R.string.activity_main_deleteall_hint)
                                         .setNegativeButton(R.string.activity_any_deny, null)
                                         .setPositiveButton(R.string.activity_any_accept, (dialog1, which1) -> {
-                                            Toast.makeText(this, "TODO: deleteAll", Toast.LENGTH_SHORT).show();
+                                            reloadExercises(true);
                                         })
                                         .show();
                                 break;
@@ -261,10 +261,14 @@ public class MainActivity extends AppCompatActivity {
     //endregion
 
     //region Exercise storage
-    @SuppressLint("NotifyDataSetChanged")
     private void reloadExercises() {
+        reloadExercises(false);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void reloadExercises(boolean forceDeleteAll) {
         // Load JSON from file
-        String jsonString = QuickFileManager
+        String jsonString = forceDeleteAll ? null : QuickFileManager
                 .with(MainActivity.this)
                 .file(ExerciseSerdeHelper.FILENAME)
                 .read();
