@@ -23,6 +23,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import bdisfer1410.gymapp.R;
 import bdisfer1410.gymapp.exercise.card.ExerciseCard;
@@ -190,7 +191,11 @@ public class ImportActivity extends AppCompatActivity {
     //region Exercise storage
     private void saveExercises() {
         Log.d("ImportActivity", "Saving selected exercises into storage");
-        Result<Void, Integer> addResult = ExerciseSerdeHelper.addMultiple(this, exerciseList);
+        List<Exercise> selectedExercises = exerciseList.stream()
+                .filter(exercise -> exercise.cardState == ExerciseCardState.SELECTED)
+                .collect(Collectors.toList());
+
+        Result<Void, Integer> addResult = ExerciseSerdeHelper.addMultiple(this, selectedExercises);
 
         if (addResult.isOk())
             finish();
