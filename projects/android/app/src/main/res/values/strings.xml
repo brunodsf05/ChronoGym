@@ -340,19 +340,21 @@
     <string name="file_json_string_barbell_deadlift">Peso muerto</string>
     <string name="file_json_string_barbell_squats">Sentadilla con barra</string>
     <string name="file_json_string_barbell_bench_press">Press de banca con barra</string>
-    <string name="file_json_string_dumbell_press">Press con mancuernas</string>
+    <string name="file_json_string_dumbbell_press">Press con mancuernas</string>
     <string name="file_json_string_goblet_squat">Sentadilla goblet</string>
-    <string name="file_json_string_dumbell_curls">Curl con mancuernas</string>
+    <string name="file_json_string_dumbbell_curls">Curl con mancuernas</string>
     <string name="file_json_string_leg_raises">Elevaciones de piernas</string>
     <string name="file_json_string_mountain_climbers">Mountain climber</string>
     <string name="file_json_string_burpees">Burpees</string>
     <string name="file_json_string_leg_press">Press de pierna</string>
     <string name="file_json_string_chest_press">Press de pecho</string>
-    <string name="file_json_string_cable_triceps_pushdown">Extensión de tríceps en polea</string>
+    <string name="file_json_string_cable_triceps_pushdowns">Extensión de tríceps en polea</string>
     <string name="file_json_string_cable_rows">Remo en polea</string>
     <string name="file_json_string_kettlebell_squats">Sentadillas con kettlebell</string>
     <string name="file_json_string_kettlebell_swings">Balanceos con kettlebell</string>
     <string name="file_json_string_barbell_deadlifts">Peso muerto con barra</string>
+    <string name="file_json_string_bodyweight_squats">Sentadilla</string>
+    <string name="file_json_string_lunges">Zancadas</string>
 
     <!-- Utils: File -->
     <string name="utils_file_dialog_error_file_not_found">El archivo no pudo ser encontrado</string>
