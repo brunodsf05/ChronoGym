@@ -45,13 +45,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="-16dp"
                 android:contentDescription="@string/activity_main_settings"
-                android:visibility="gone"
                 app:icon="@drawable/ic_ui_settings"
                 app:iconSize="24dp"
                 app:iconTint="?attr/colorOnSurfaceVariant"
                 app:layout_constraintBottom_toTopOf="@+id/title"
-                app:layout_constraintStart_toEndOf="@+id/title"
-                tools:visibility="visible" />
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView

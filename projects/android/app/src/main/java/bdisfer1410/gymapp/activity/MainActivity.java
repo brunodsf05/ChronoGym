@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         // Init views
         initExercisesListRecyclerView(cardList);
         initFabMenu();
+        initSettings();
     }
 
     @Override
@@ -115,6 +116,34 @@ public class MainActivity extends AppCompatActivity {
         FabMenuBuilder.addFabButtons(this, fabLayout, fabMain, fabActions);
 
         fabMain.setOnClickListener(view -> openFabMenu(fabActions.get(0).generatedButton.getVisibility() == View.VISIBLE));
+    }
+
+    private void initSettings() {
+        findViewById(R.id.buttonSettings).setOnClickListener(v -> {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.activity_main_settings_hint)
+                    .setItems(new String[]{
+                            getString(R.string.activity_main_settings_export),
+                            getString(R.string.activity_main_settings_delete),
+                    }, (dialog, which) -> {
+                        switch (which) {
+                            case 0:
+                                exportExercises(exerciseList);
+                                break;
+                            case 1:
+                                new MaterialAlertDialogBuilder(this)
+                                        .setTitle(R.string.activity_main_deleteall_title)
+                                        .setMessage(R.string.activity_main_deleteall_hint)
+                                        .setNegativeButton(R.string.activity_any_deny, null)
+                                        .setPositiveButton(R.string.activity_any_accept, (dialog1, which1) -> {
+                                            Toast.makeText(this, "TODO: deleteAll", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .show();
+                                break;
+                        }
+                    })
+                    .show();
+        });
     }
 
     private void openFabMenu(boolean isOpen) {
