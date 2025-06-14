@@ -419,7 +419,7 @@ exercises = [
                     },
                 },
             ],
-            "queue": ["leg_raises", "rest_short", "rest_short", "plank"],
+            "queue": ["leg_raises", "rest_short", "plank"],
         },
     },
     {
