@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.List;
 
 import bdisfer1410.gymapp.R;
+import bdisfer1410.gymapp.exercise.models.routine.sets.ExercisePrepare;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimation;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayer;
 import bdisfer1410.gymapp.exercise.timer.controller.TimerAnimationPlayerListener;
@@ -70,6 +71,7 @@ public class ExerciseActivity extends AppCompatActivity {
             }
 
             state.animationQueue = (TimerAnimationQueue) obj;
+            state.animationQueue.list.add(0, new ExercisePrepare());
         }
         else {
             timerPrevData = (TimerFragment.TimerFragmentSerializable)(savedInstanceState.get("timer_data"));
@@ -211,9 +213,10 @@ public class ExerciseActivity extends AppCompatActivity {
             if (oldAnimationCounter != null) oldAnimationCounter.value--;
 
             Counter newAnimationCounter = state.animationQueue.counter.get(newAnimation);
-            if (newAnimationCounter == null) return;
-            newAnimationCounter.value--;
-            displayCounter(newAnimationCounter);
+            if (newAnimationCounter != null) {
+                newAnimationCounter.value--;
+                displayCounter(newAnimationCounter);
+            }
 
             // Toggle usability of skip to prev button for better L~O~O~K~S
             buttonBackwardReproduction.setEnabled(state.hasPrev());

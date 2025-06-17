@@ -2,6 +2,7 @@
     <string name="app_name">ChronoGym</string>
 
     <string name="model_exercise_rest">Descanso</string>
+    <string name="model_exercise_prepare">Prepárate</string>
 
     <!-- UI: Any -->
     <string name="activity_any_accept">Aceptar</string>
