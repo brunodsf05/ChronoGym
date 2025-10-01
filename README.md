@@ -1,5 +1,6 @@
 # ![](/app.png) ChronoGym
 ![Capturas de la aplicación](/docs/hero.png)
+
 [![Platform-Android](https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white)](https://www.android.com/)
 [![Python](https://img.shields.io/badge/Made%20with-Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![GNU AGPL v3.0](https://img.shields.io/badge/license-AGPL--3.0-orange)]()
